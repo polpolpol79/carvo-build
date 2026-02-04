@@ -504,11 +504,11 @@ export const App: React.FC = () => {
               {/* DESKTOP ONLY: Horizontal Scroll Rail */}
               <div className="hidden md:block relative group/rail">
                 <button onClick={() => {
-                  if (showroomScrollRef.current) showroomScrollRef.current.scrollBy({ left: 400, behavior: 'smooth' });
+                  if (showroomScrollRef.current) showroomScrollRef.current.scrollBy({ left: -400, behavior: 'smooth' });
                 }} className="absolute -left-12 top-1/2 -translate-y-1/2 z-30 w-16 h-16 bg-black/50 backdrop-blur-xl border border-white/10 rounded-full text-white flex items-center justify-center hover:bg-orange-600 hover:text-black hover:scale-110 active:scale-90 transition-all shadow-2xl opacity-0 group-hover/rail:opacity-100 translate-x-4 group-hover/rail:translate-x-0"><ChevronLeft size={32} /></button>
 
                 <button onClick={() => {
-                  if (showroomScrollRef.current) showroomScrollRef.current.scrollBy({ left: -400, behavior: 'smooth' });
+                  if (showroomScrollRef.current) showroomScrollRef.current.scrollBy({ left: 400, behavior: 'smooth' });
                 }} className="absolute -right-12 top-1/2 -translate-y-1/2 z-30 w-16 h-16 bg-black/50 backdrop-blur-xl border border-white/10 rounded-full text-white flex items-center justify-center hover:bg-orange-600 hover:text-black hover:scale-110 active:scale-90 transition-all shadow-2xl opacity-0 group-hover/rail:opacity-100 -translate-x-4 group-hover/rail:translate-x-0"><ChevronRight size={32} /></button>
 
                 <div ref={showroomScrollRef} className="flex flex-nowrap gap-8 overflow-x-auto pb-12 w-full p-4 px-12 relative z-10 snap-x snap-mandatory no-scrollbar scroll-smooth" dir="rtl">
@@ -611,7 +611,7 @@ export const App: React.FC = () => {
           <h2 className="text-3xl md:text-6xl font-black italic uppercase tracking-tighter mb-8">שאלות נפוצות <span className="text-orange-600">.FAQ</span></h2>
           <div className="space-y-4">
             {[
-              { q: "1. למה לבחור ב-CARVO?", a: "אנחנו כאן כדי לשדרג את תרבות הנהיגה בישראל ולמנוע אסונות בעזרת מוצרים חכמים." },
+              { q: "1. למה לבחור ב-CARVO?", a: "אנחנו כאן כדי לשדרג את תרבות הנהיגה בישראל ולמנוע אסונות בעזרת מוצרים חכמים. להנגיש לקהל הרחב את הידע הפשוט בתפעול הרכב ויציאה ממצבי מצוקה כי אי אפשר לדעת איפה נהיה מחר" },
               { q: "2. האם השימוש במוצרים מצריך ידע טכני?", a: "בכלל לא. כל הכלים באתר נבחרו כדי לספק פתרון מקצועי במינימום מאמץ. ובמיוחד לשאלה כזאת בנינו את carvo ai הבוט החכם שאומן לכל שאלה ובעיה שנתקלם בה בדרך לנסיעה הוא אומן לתת פתרון מהיר ולמנוע ממכם הוצאות נוספות מיותרת" },
               { q: "3. מהם זמני ועלויות המשלוח?", a: "משלוח חינם לכל ההזמנות. זמן אספקה: 5–12 ימי עסקים. ייתכנו עיכובים חריגים עקב מצב ביטחוני או תנאי מזג אוויר חריגים, אנו פועלים עם חברת משלוחים מהירה ועושים כל מאמץ לספק את ההזמנה בזמן הקצר ביותר." },
               { q: "4. מה זה Carvo AI ואיך הוא עובד?", a: "Carvo AI הוא בוט חכם הזמין 24/7, שנועד לתת הכוונה מיידית במצבי חירום ברכב. הוא אומן במיוחד למקרים שכיחים של תקיעות או תקלות, מכיר את כל כלי החירום של Carvo, ומדריך את המשתמש בצורה ברורה ובטוחה כיצד להשתמש בהם בהתאם לסוג הרכב ולבעיה." },
