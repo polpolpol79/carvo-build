@@ -498,39 +498,19 @@ export const App: React.FC = () => {
               <div className="hidden md:flex flex-nowrap gap-8 overflow-x-auto pb-12 w-full p-4 relative z-10 snap-x snap-mandatory no-scrollbar">
                 {products.map((p) => (
                   <div key={p.id} onClick={() => setSelectedProduct(p)} className={`relative group shrink-0 w-[400px] h-[650px] flex flex-col rounded-[3rem] overflow-hidden cursor-pointer transition-all hover:-translate-y-2 duration-500 border-2 snap-center ${darkMode ? 'border-white/5 bg-white/[0.03] hover:border-orange-600/30' : 'border-black/5 bg-white shadow-xl hover:shadow-2xl'}`}>
-                    {/* Upper Half: Image - 70% Height */}
-                    <div className="h-[70%] relative overflow-hidden bg-black/50 border-b border-white/5">
+                    {/* Upper Half: Image - 88% Height (Massive Image) */}
+                    <div className="h-[88%] relative overflow-hidden bg-black/50 border-b border-white/5">
                       <img src={p.img} alt={p.name} className="w-full h-full object-cover opacity-80 group-hover:scale-105 group-hover:opacity-100 transition-all duration-700" />
                       {!p.available && <div className="absolute inset-0 bg-black/60 flex items-center justify-center font-black italic text-4xl text-red-500 tracking-widest border-4 border-red-600 m-12 rounded-xl rotate-[-12deg]">SOLD OUT</div>}
-                      <div className="absolute top-8 left-8 bg-black/60 backdrop-blur-md border border-white/10 px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest text-white/60">
-                        CARVO_GEAR_V2
+                      <div className="absolute top-8 left-8 bg-black/60 backdrop-blur-md border border-white/10 px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest text-white/60 group-hover:bg-orange-600 group-hover:text-black group-hover:border-transparent transition-colors">
+                        CARVO_GEAR
                       </div>
                     </div>
 
-                    {/* Lower Half: Detailed Technical Layout */}
-                    <div className="flex-1 p-10 flex flex-col justify-between bg-gradient-to-b from-transparent to-black/20">
-                      <div>
-                        <div className="flex justify-between items-start mb-8 pb-8 border-b border-dashed border-white/10">
-                          <h3 className="text-4xl font-black italic uppercase leading-[0.9] text-right tracking-tight">{p.name}</h3>
-                          <div className="text-4xl font-black italic text-orange-600 tracking-tighter">₪{p.price}</div>
-                        </div>
-                        <div className="space-y-4">
-                          {p.specs.slice(0, 3).map((spec, i) => (
-                            <div key={i} className="flex items-center gap-4 text-lg font-bold italic opacity-60">
-                              <div className="w-2 h-2 bg-orange-600 rounded-full" />
-                              {spec}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-6 mt-10 pt-6 border-t border-white/5">
-                        <button disabled={!p.available} onClick={(e) => { e.stopPropagation(); addToCart(p); }} className={`flex-1 py-6 rounded-2xl font-black italic uppercase text-2xl tracking-widest transition-all ${p.available ? 'bg-orange-600 text-black hover:bg-orange-500 hover:scale-[1.02] shadow-xl shadow-orange-600/10' : 'bg-white/5 text-white/20'}`}>
-                          {p.available ? 'הוסף ציוד +' : 'לא זמין'}
-                        </button>
-                        <div className="w-20 h-20 rounded-2xl border border-white/10 flex items-center justify-center opacity-40 group-hover:opacity-100 group-hover:border-orange-600/50 group-hover:text-orange-600 transition-all">
-                          <ArrowDownIcon size={36} className="-rotate-45" />
-                        </div>
-                      </div>
+                    {/* Lower Half: Minimalist Gallery Title - 12% Height */}
+                    <div className="flex-1 px-8 flex items-center justify-between bg-gradient-to-b from-transparent to-black/20">
+                      <h3 className="text-2xl font-black italic uppercase leading-none tracking-tight truncate max-w-[70%]">{p.name}</h3>
+                      <div className="text-2xl font-black italic text-orange-600 tracking-tighter">₪{p.price}</div>
                     </div>
                   </div>
                 ))}
@@ -588,90 +568,72 @@ export const App: React.FC = () => {
               <div className="hidden md:flex flex-nowrap gap-8 overflow-x-auto pb-12 w-full relative z-10 snap-x snap-mandatory no-scrollbar">
                 {bundleProducts.map((bundle) => (
                   <div key={bundle.id} onClick={() => setSelectedProduct(bundle)} className={`relative group shrink-0 w-[400px] h-[650px] flex flex-col rounded-[3rem] overflow-hidden cursor-pointer transition-all hover:-translate-y-2 duration-500 border-2 snap-center ${bundle.featured ? 'border-orange-600 shadow-[0_0_50px_rgba(234,88,12,0.15)] hover:shadow-[0_0_80px_rgba(234,88,12,0.25)]' : (darkMode ? 'border-white/10 bg-white/5 hover:bg-white/10' : 'border-black/5 bg-white shadow-xl hover:shadow-2xl')}`}>
-                    {/* Upper Half: Image - 70% Height */}
-                    <div className="h-[70%] relative overflow-hidden bg-black/50 border-b border-white/5">
+                    {/* Upper Half: Image - 88% Height */}
+                    <div className="h-[88%] relative overflow-hidden bg-black/50 border-b border-white/5">
                       <img src={bundle.img} alt={bundle.name} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700" />
                       <div className="absolute top-8 left-8 bg-orange-600/90 backdrop-blur-md px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest text-black flex items-center gap-2">
-                        <Layers size={14} className="fill-black" /> ELITE_BUNDLE_V1
+                        <Layers size={14} className="fill-black" /> ELITE_BUNDLE
                       </div>
                     </div>
                     {/* Lower Half: Detailed Technical Layout */}
-                    <div className="flex-1 p-10 flex flex-col justify-between bg-gradient-to-b from-transparent to-black/20">
-                      <div>
-                        <div className="flex justify-between items-start mb-8 pb-8 border-b border-dashed border-white/10">
-                          <h3 className="text-4xl font-black italic uppercase leading-[0.9] text-right tracking-tight">{bundle.name.split(' ').map((w, i) => <span key={i} className="block">{w}</span>)}</h3>
-                          <div className="text-4xl font-black italic text-orange-600 tracking-tighter">₪{bundle.price}</div>
-                        </div>
-                        <div className="space-y-4">
-                          {bundle.specs.slice(0, 3).map((spec, i) => (
-                            <div key={i} className="flex items-center gap-4 text-lg font-bold italic opacity-60"><Check size={20} className="text-orange-600" /> {spec}</div>
-                          ))}
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-6 mt-10 pt-6 border-t border-white/5">
-                        <button disabled={!bundle.available} onClick={(e) => { e.stopPropagation(); addToCart(bundle); }} className={`flex-1 py-6 rounded-2xl font-black italic uppercase tracking-widest text-2xl transition-all border-2 border-orange-600 ${bundle.available ? 'bg-orange-600 text-black hover:bg-transparent hover:text-white' : 'bg-white/10'}`}>הוסף_</button>
-                        <div className="w-20 h-20 rounded-2xl border border-white/10 flex items-center justify-center opacity-40 group-hover:opacity-100 group-hover:border-orange-600/50 group-hover:text-orange-600 transition-all">
-                          <Layers size={36} />
-                        </div>
-                      </div>
+                    {/* Lower Half: Minimalist Gallery Title - 12% Height */}
+                    <div className="flex-1 px-8 flex items-center justify-between bg-gradient-to-b from-transparent to-black/20">
+                      <h3 className="text-2xl font-black italic uppercase leading-none tracking-tight truncate max-w-[70%]">{bundle.name}</h3>
+                      <div className="text-2xl font-black italic text-orange-600 tracking-tighter">₪{bundle.price}</div>
                     </div>
                   </div>
-                ))}
-              </div>
+            </section>
+
+              <TestimonialsSection />
+
+              <section id="faq" className="relative z-10 py-8 md:py-12 px-6 max-w-5xl mx-auto text-right">
+                <h2 className="text-3xl md:text-6xl font-black italic uppercase tracking-tighter mb-8">שאלות נפוצות <span className="text-orange-600">.FAQ</span></h2>
+                <div className="space-y-4">
+                  {[
+                    { q: "1. למה לבחור ב-CARVO?", a: "אנחנו כאן כדי לשדרג את תרבות הנהיגה בישראל ולמנוע אסונות בעזרת מוצרים חכמים." },
+                    { q: "2. האם השימוש במוצרים מצריך ידע טכני?", a: "בכלל לא. כל הכלים באתר נבחרו כדי לספק פתרון מקצועי במינימום מאמץ." },
+                    { q: "3. מהם זמני ועלויות המשלוח?", a: "משלוח חינם לכל ההזמנות. זמן אספקה: 5–12 ימי עסקים. ייתכנו עיכובים חריגים עקב מצב ביטחוני או תנאי מזג אוויר חריגים, אנו פועלים עם חברת משלוחים מהירה ועושים כל מאמץ לספק את ההזמנה בזמן הקצר ביותר." },
+                    { q: "4. מה זה Carvo AI ואיך הוא עובד?", a: "Carvo AI הוא בוט חכם הזמין 24/7, שנועד לתת הכוונה מיידית במצבי חירום ברכב. הוא אומן במיוחד למקרים שכיחים של תקיעות או תקלות, מכיר את כל כלי החירום של Carvo, ומדריך את המשתמש בצורה ברורה ובטוחה כיצד להשתמש בהם בהתאם לסוג הרכב ולבעיה." },
+                    { q: "5. האם הערכה באמת עוזרת במצבי חירום?", a: "ברור. אם מעולם לא השתמשתם בכלים כאלה, עכשיו זה הזמן להשקיע בביטחון שלכם ולשפר את איכות החוויה שלכם בכביש." }
+                  ].map((faq, i) => (
+                    <div key={i} className={`rounded-[1.5rem] border-2 overflow-hidden transition-all ${darkMode ? 'hyper-glass border-white/10' : 'bg-white border-black/10 shadow-md'}`}>
+                      <details className="group">
+                        <summary className="w-full p-6 flex items-center justify-between text-right cursor-pointer list-none"><ChevronDown className="shrink-0 text-orange-600 transition-transform group-open:rotate-180" size={24} /><span className="text-lg md:text-xl font-black italic tracking-tighter">{faq.q}</span></summary>
+                        <div className="p-6 pt-0"><p className={`font-bold italic leading-relaxed text-base opacity-70 ${darkMode ? 'text-white' : 'text-black'}`}>{faq.a}</p></div>
+                      </details>
+                    </div>
+                  ))}
+                </div>
+              </section>
+
+              <FloatingBottomBar darkMode={darkMode} onOpenInfo={setInfoModalType} />
+            </main>
+
+            <footer className={`py-12 md:py-16 px-10 text-center border-t-2 ${darkMode ? 'border-white/10 bg-[#404040]' : 'border-black/15 bg-[#cccccc]'}`}>
+              <div className="mb-8 opacity-20 flex justify-center scale-75 md:scale-100"><CarvoLogo size="massive" /></div>
+              <PaymentIconsFooter darkMode={darkMode} />
+            </footer>
+
+            <SafetyAssistant darkMode={darkMode} />
+            <div className="z-[200] relative">
+              <MenuDrawer
+                isOpen={isMenuOpen}
+                onClose={() => setIsMenuOpen(false)}
+                darkMode={darkMode}
+                categories={categories}
+                activeCategoryHandle={activeCategoryHandle}
+                onCategorySelect={setActiveCategoryHandle}
+              />
+              <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} items={cart} onUpdateQuantity={(id, delta) => setCart(prev => prev.map(i => i.productId === id ? { ...i, quantity: Math.max(1, i.quantity + delta) } : i))} onRemove={id => setCart(prev => prev.filter(i => i.productId !== id))} darkMode={darkMode} />
+              <ProductModal product={selectedProduct} isOpen={!!selectedProduct} onClose={() => setSelectedProduct(null)} onAddToCart={addToCart} darkMode={darkMode} />
+              <InfoModal type={infoModalType} isOpen={!!infoModalType} onClose={() => setInfoModalType(null)} darkMode={darkMode} />
+              <CookieBanner darkMode={darkMode} onOpenPrivacy={() => setInfoModalType('privacy')} />
             </div>
-          </div>
-        </section>
-
-        <TestimonialsSection />
-
-        <section id="faq" className="relative z-10 py-8 md:py-12 px-6 max-w-5xl mx-auto text-right">
-          <h2 className="text-3xl md:text-6xl font-black italic uppercase tracking-tighter mb-8">שאלות נפוצות <span className="text-orange-600">.FAQ</span></h2>
-          <div className="space-y-4">
-            {[
-              { q: "1. למה לבחור ב-CARVO?", a: "אנחנו כאן כדי לשדרג את תרבות הנהיגה בישראל ולמנוע אסונות בעזרת מוצרים חכמים." },
-              { q: "2. האם השימוש במוצרים מצריך ידע טכני?", a: "בכלל לא. כל הכלים באתר נבחרו כדי לספק פתרון מקצועי במינימום מאמץ." },
-              { q: "3. מהם זמני ועלויות המשלוח?", a: "משלוח חינם לכל ההזמנות. זמן אספקה: 5–12 ימי עסקים. ייתכנו עיכובים חריגים עקב מצב ביטחוני או תנאי מזג אוויר חריגים, אנו פועלים עם חברת משלוחים מהירה ועושים כל מאמץ לספק את ההזמנה בזמן הקצר ביותר." },
-              { q: "4. מה זה Carvo AI ואיך הוא עובד?", a: "Carvo AI הוא בוט חכם הזמין 24/7, שנועד לתת הכוונה מיידית במצבי חירום ברכב. הוא אומן במיוחד למקרים שכיחים של תקיעות או תקלות, מכיר את כל כלי החירום של Carvo, ומדריך את המשתמש בצורה ברורה ובטוחה כיצד להשתמש בהם בהתאם לסוג הרכב ולבעיה." },
-              { q: "5. האם הערכה באמת עוזרת במצבי חירום?", a: "ברור. אם מעולם לא השתמשתם בכלים כאלה, עכשיו זה הזמן להשקיע בביטחון שלכם ולשפר את איכות החוויה שלכם בכביש." }
-            ].map((faq, i) => (
-              <div key={i} className={`rounded-[1.5rem] border-2 overflow-hidden transition-all ${darkMode ? 'hyper-glass border-white/10' : 'bg-white border-black/10 shadow-md'}`}>
-                <details className="group">
-                  <summary className="w-full p-6 flex items-center justify-between text-right cursor-pointer list-none"><ChevronDown className="shrink-0 text-orange-600 transition-transform group-open:rotate-180" size={24} /><span className="text-lg md:text-xl font-black italic tracking-tighter">{faq.q}</span></summary>
-                  <div className="p-6 pt-0"><p className={`font-bold italic leading-relaxed text-base opacity-70 ${darkMode ? 'text-white' : 'text-black'}`}>{faq.a}</p></div>
-                </details>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <FloatingBottomBar darkMode={darkMode} onOpenInfo={setInfoModalType} />
-      </main>
-
-      <footer className={`py-12 md:py-16 px-10 text-center border-t-2 ${darkMode ? 'border-white/10 bg-[#404040]' : 'border-black/15 bg-[#cccccc]'}`}>
-        <div className="mb-8 opacity-20 flex justify-center scale-75 md:scale-100"><CarvoLogo size="massive" /></div>
-        <PaymentIconsFooter darkMode={darkMode} />
-      </footer>
-
-      <SafetyAssistant darkMode={darkMode} />
-      <div className="z-[200] relative">
-        <MenuDrawer
-          isOpen={isMenuOpen}
-          onClose={() => setIsMenuOpen(false)}
-          darkMode={darkMode}
-          categories={categories}
-          activeCategoryHandle={activeCategoryHandle}
-          onCategorySelect={setActiveCategoryHandle}
-        />
-        <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} items={cart} onUpdateQuantity={(id, delta) => setCart(prev => prev.map(i => i.productId === id ? { ...i, quantity: Math.max(1, i.quantity + delta) } : i))} onRemove={id => setCart(prev => prev.filter(i => i.productId !== id))} darkMode={darkMode} />
-        <ProductModal product={selectedProduct} isOpen={!!selectedProduct} onClose={() => setSelectedProduct(null)} onAddToCart={addToCart} darkMode={darkMode} />
-        <InfoModal type={infoModalType} isOpen={!!infoModalType} onClose={() => setInfoModalType(null)} darkMode={darkMode} />
-        <CookieBanner darkMode={darkMode} onOpenPrivacy={() => setInfoModalType('privacy')} />
-      </div>
-      <style dangerouslySetInnerHTML={{
-        __html: `
+            <style dangerouslySetInnerHTML={{
+              __html: `
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(50%); } }
         .animate-[marquee_30s_linear_infinite] { animation: marquee 30s linear infinite; width: fit-content; }
       `}} />
-    </div>
-  );
+          </div>
+          );
 };
