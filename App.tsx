@@ -238,8 +238,8 @@ export const App: React.FC = () => {
             <span>לקטלוג המלא</span>
             <ChevronLeft size={24} className="group-hover:-translate-x-2 transition-transform duration-300" />
           </button>
-          <button onClick={() => document.getElementById('crisis-protocol')?.scrollIntoView({ behavior: 'smooth' })} className={`flex items-center gap-6 px-10 md:px-12 py-5 md:py-6 hyper-glass border border-orange-600/30 text-orange-600 font-black italic uppercase tracking-widest text-lg md:text-xl rounded-full shadow-[0_0_40px_rgba(234,88,12,0.1)] active:scale-95 hover:shadow-[0_0_60px_rgba(234,88,12,0.2)] hover:border-orange-600 transition-all group`}>
-            <span>פרוטוקול המשבר</span>
+          <button onClick={() => document.getElementById('ralbad-stats')?.scrollIntoView({ behavior: 'smooth' })} className={`flex items-center gap-6 px-10 md:px-12 py-5 md:py-6 hyper-glass border border-red-600/30 text-red-600 font-black italic uppercase tracking-widest text-lg md:text-xl rounded-full shadow-[0_0_40px_rgba(220,38,38,0.1)] active:scale-95 hover:shadow-[0_0_60px_rgba(220,38,38,0.2)] hover:border-red-600 transition-all group`}>
+            <span>הסטטיסטיקה המדממת</span>
             <ArrowDown size={24} className="group-hover:translate-y-2 transition-transform duration-500 ease-out" />
           </button>
         </div>
@@ -279,7 +279,7 @@ export const App: React.FC = () => {
     ];
 
     return (
-      <section ref={sectionRef} className="relative z-10 py-8 md:py-20 px-6 max-w-7xl mx-auto text-right">
+      <section id="ralbad-stats" ref={sectionRef} className="relative z-10 py-8 md:py-20 px-6 max-w-7xl mx-auto text-right">
         <ThinMotion>
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 border-r-4 border-red-600 pr-6">
             <div className="flex-1">
@@ -289,7 +289,7 @@ export const App: React.FC = () => {
                 </div>
                 <a href="https://www.gov.il/BlobFolder/reports/2025_summary_ralbad/he/summry_ralbad_25.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-red-600/30 text-red-600 font-black italic uppercase tracking-tighter text-[10px] hover:bg-red-600 hover:text-white transition-all"><Download size={14} /><span>הורדת הדוח</span></a>
               </div>
-              <h2 className="text-3xl md:text-8xl font-black italic uppercase leading-none tracking-tighter">דוח רלב"ד <span className="text-red-600 opacity-80">קריטי</span></h2>
+              <h2 className="text-3xl md:text-8xl font-black italic uppercase leading-none tracking-tighter">הסטטיסטיקה <span className="text-red-600">המדממת</span></h2>
             </div>
           </div>
         </ThinMotion>
