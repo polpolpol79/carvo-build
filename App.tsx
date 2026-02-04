@@ -1,8 +1,8 @@
 
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { 
-  ShoppingBag, Zap, Wind, Sun, Moon, 
-  Wrench, Star, StarHalf, Mail, Loader2, ArrowDown, ChevronRight, ChevronLeft, 
+import {
+  ShoppingBag, Zap, Wind, Sun, Moon,
+  Wrench, Star, StarHalf, Mail, Loader2, ArrowDown, ChevronRight, ChevronLeft,
   AlertTriangle, Users, Wallet, Activity, Menu, X, ChevronDown, UserCircle,
   FileText, BarChart3, ShieldAlert, Download, Layers, Car, Bike, Truck, Clock, Skull, Footprints,
   Briefcase, CheckCircle2, TrendingUp, TrendingDown, ShieldCheck, XCircle, Terminal, Cpu, ArrowDownIcon, Check, RefreshCcw
@@ -42,7 +42,7 @@ const CarvoLogo: React.FC<{ size?: 'sm' | 'md' | 'lg' | 'massive' | 'hero' }> = 
     <div dir="ltr" className={`massive-logo ${sizes[size]} flex items-center leading-none tracking-[-0.05em] select-none inline-flex hero-stabilizer`}>
       <span className="block">CARV</span>
       <div className={`relative ${oSizes[size]} rounded-full border-orange-600 flex items-center justify-center ml-[0.05em]`}>
-         <div className="w-[0.2em] h-[0.2em] bg-orange-600 rounded-full" />
+        <div className="w-[0.2em] h-[0.2em] bg-orange-600 rounded-full" />
       </div>
     </div>
   );
@@ -74,7 +74,7 @@ export const App: React.FC = () => {
   const [isProductsLoading, setIsProductsLoading] = useState(false);
   const [isBundlesLoading, setIsBundlesLoading] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
-  
+
   const [cart, setCart] = useState<CartItem[]>(() => {
     const saved = localStorage.getItem('carvo_cart');
     return saved ? JSON.parse(saved) : [];
@@ -85,7 +85,7 @@ export const App: React.FC = () => {
   const [infoModalType, setInfoModalType] = useState<string | null>(null);
   const [activeProdIdx, setActiveProdIdx] = useState(0);
   const [activeBundleIdx, setActiveBundleIdx] = useState(0);
-  
+
   const touchStartRef = useRef<number | null>(null);
   const [isSwiping, setIsSwiping] = useState(false);
 
@@ -99,13 +99,13 @@ export const App: React.FC = () => {
     const shortDescLines = fullDesc.split('\n').map(line => line.trim()).filter(line => line.length > 0).slice(0, 4);
 
     return {
-      id: node.variants.edges[0].node.id, 
+      id: node.variants.edges[0].node.id,
       collectionHandle,
-      handle: node.handle, 
-      name: node.title, 
+      handle: node.handle,
+      name: node.title,
       price: Math.round(parseFloat(node.priceRange.minVariantPrice.amount)),
-      currency: "₪", 
-      description: fullDesc, 
+      currency: "₪",
+      description: fullDesc,
       specs: shortDescLines,
       img: allImages[0] || "https://images.unsplash.com/photo-1621905252507-b35482cd34b4?w=800",
       images: allImages.length > 0 ? allImages : ["https://images.unsplash.com/photo-1621905252507-b35482cd34b4?w=800"],
@@ -119,7 +119,10 @@ export const App: React.FC = () => {
     try {
       const response = await shopifyFetch({ query: GET_COLLECTIONS_QUERY, variables: { first: 50 } });
       if (response.error) {
-        setApiError('חלה שגיאה בחיבור לחנות. אנא וודא חיבור לאינטרנט.');
+        setApiError(response.details ?
+          (typeof response.details === 'string' ? response.details : JSON.stringify(response.details))
+          : response.error
+        );
         return;
       }
 
@@ -221,7 +224,7 @@ export const App: React.FC = () => {
         <div className={`text-[10px] md:text-[8px] font-black uppercase tracking-[1.2em] md:tracking-[2em] mb-6 md:mb-8 opacity-30 select-none ${darkMode ? 'text-white' : 'text-black'}`}>[AUTHENTIC_BRAND_CORE]</div>
         <div className="mb-6 md:mb-8 opacity-90 hover:opacity-100 transition-opacity duration-700"><CarvoLogo size="hero" /></div>
         <h1 className="text-4xl md:text-[5.5rem] font-black italic uppercase leading-[0.9] tracking-[-0.04em] mb-10 md:mb-14 max-w-4xl mx-auto px-4">
-          מתקדמים ל-CARVO לעתיד <br/>
+          מתקדמים ל-CARVO לעתיד <br />
           <span className="opacity-40 text-3xl md:text-[4rem]">חסכוני ובטוח יותר</span>
         </h1>
         <button onClick={() => document.getElementById('crisis-protocol')?.scrollIntoView({ behavior: 'smooth' })} className={`flex items-center gap-6 px-10 md:px-14 py-5 md:py-7 hyper-glass border border-orange-600/30 text-orange-600 font-black italic uppercase tracking-widest text-lg md:text-xl rounded-2xl shadow-[0_0_40px_rgba(234,88,12,0.1)] active:scale-95 hover:shadow-[0_0_60px_rgba(234,88,12,0.2)] hover:border-orange-600 transition-all group`}><span>פרוטוקול המשבר</span><ArrowDown size={24} className="group-hover:translate-y-2 transition-transform duration-500 ease-out" /></button>
@@ -240,10 +243,10 @@ export const App: React.FC = () => {
     }, []);
 
     const vehicleData = [
-      { type: "רכבים פרטיים", count: 12450, icon: <Car size={18}/>, color: "bg-red-600" },
-      { type: "אופנועים וקטנועים", count: 3820, icon: <Bike size={18}/>, color: "bg-red-500" },
-      { type: "הולכי רגל (נפגעים)", count: 2480, icon: <Footprints size={18}/>, color: "bg-red-700" },
-      { type: "אופניים וקורקינטים", count: 2120, icon: <Zap size={18}/>, color: "bg-red-400" }
+      { type: "רכבים פרטיים", count: 12450, icon: <Car size={18} />, color: "bg-red-600" },
+      { type: "אופנועים וקטנועים", count: 3820, icon: <Bike size={18} />, color: "bg-red-500" },
+      { type: "הולכי רגל (נפגעים)", count: 2480, icon: <Footprints size={18} />, color: "bg-red-700" },
+      { type: "אופניים וקורקינטים", count: 2120, icon: <Zap size={18} />, color: "bg-red-400" }
     ];
 
     const criticalStats = [
@@ -283,13 +286,13 @@ export const App: React.FC = () => {
           ))}
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-4">
-            {criticalStats.map((stat, i) => (
-              <div key={i} className={`p-4 md:p-5 rounded-2xl border transition-all ${darkMode ? 'hyper-glass border-white/10' : 'bg-white border-black/5 shadow-md'}`}>
-                <div className="text-red-600 mb-3 opacity-80">{stat.icon}</div>
-                <div className="text-[9px] font-black uppercase tracking-widest opacity-40 mb-1">{stat.label}</div>
-                <div className="text-xl md:text-2xl font-black italic text-red-600 leading-none">{stat.val}</div>
-              </div>
-            ))}
+          {criticalStats.map((stat, i) => (
+            <div key={i} className={`p-4 md:p-5 rounded-2xl border transition-all ${darkMode ? 'hyper-glass border-white/10' : 'bg-white border-black/5 shadow-md'}`}>
+              <div className="text-red-600 mb-3 opacity-80">{stat.icon}</div>
+              <div className="text-[9px] font-black uppercase tracking-widest opacity-40 mb-1">{stat.label}</div>
+              <div className="text-xl md:text-2xl font-black italic text-red-600 leading-none">{stat.val}</div>
+            </div>
+          ))}
         </div>
         <p className="text-[10px] md:text-[11px] font-bold italic opacity-40 text-right pr-2">* (נתונים מאומתים: כ-25% מהתאונות הקטלניות בדרכים בין-עירוניות מתרחשות בשולי הכביש עקב עצירה לא בטוחה)</p>
       </section>
@@ -305,24 +308,24 @@ export const App: React.FC = () => {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
           <div className={`p-6 md:p-10 rounded-[2.5rem] border transition-all ${darkMode ? 'bg-red-950/20 border-red-900/40' : 'bg-red-50 border-red-200 shadow-xl'}`}>
-            <div className="flex items-center gap-3 mb-6"><div className="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center text-black"><AlertTriangle size={18}/></div><h3 className="text-xl md:text-3xl font-black italic uppercase tracking-tighter">כשנתקעים... (הסיוט)</h3></div>
+            <div className="flex items-center gap-3 mb-6"><div className="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center text-black"><AlertTriangle size={18} /></div><h3 className="text-xl md:text-3xl font-black italic uppercase tracking-tighter">כשנתקעים... (הסיוט)</h3></div>
             <ul className="space-y-4 mb-8">
-              {[ { label: "3.5 שעות המתנה", detail: "סיכון MAX!", icon: <Clock size={16}/> }, { label: "₪500", detail: "אובדן יום עבודה", icon: <Briefcase size={16}/> }, { label: "₪500", detail: "עלות גרירה ממוצעת", icon: <Truck size={16}/> }, { label: "₪500 - ₪4,000", detail: "עלויות תיקון במוסך", icon: <Wrench size={16}/> } ].map((item, i) => (
+              {[{ label: "3.5 שעות המתנה", detail: "סיכון MAX!", icon: <Clock size={16} /> }, { label: "₪500", detail: "אובדן יום עבודה", icon: <Briefcase size={16} /> }, { label: "₪500", detail: "עלות גרירה ממוצעת", icon: <Truck size={16} /> }, { label: "₪500 - ₪4,000", detail: "עלויות תיקון במוסך", icon: <Wrench size={16} /> }].map((item, i) => (
                 <li key={i} className="flex items-center justify-between border-b border-red-600/10 pb-3"><div className="flex items-center gap-3"><span className="text-red-600 opacity-60">{item.icon}</span><span className="text-sm md:text-base font-black italic uppercase">{item.label}</span></div><span className="text-[11px] font-black uppercase opacity-40">{item.detail}</span></li>
               ))}
             </ul>
             <div className="pt-6 border-t border-red-600/20 flex justify-between items-end"><div className="text-[10px] font-black uppercase opacity-40 italic">COST_PER_EVENT</div><div className="text-2xl md:text-4xl font-black italic text-red-600 tracking-tighter">₪1,500 - ₪5,000</div></div>
           </div>
           <div className={`p-6 md:p-10 rounded-[2.5rem] border transition-all ${darkMode ? 'hyper-glass border-orange-600/30' : 'bg-white border-orange-200 shadow-2xl'}`}>
-            <div className="flex items-center gap-3 mb-6"><div className="w-8 h-8 bg-orange-600 rounded-full flex items-center justify-center text-black"><Zap size={18}/></div><h3 className="text-xl md:text-3xl font-black italic uppercase tracking-tighter">פרוטוקול CARVO</h3></div>
+            <div className="flex items-center gap-3 mb-6"><div className="w-8 h-8 bg-orange-600 rounded-full flex items-center justify-center text-black"><Zap size={18} /></div><h3 className="text-xl md:text-3xl font-black italic uppercase tracking-tighter">פרוטוקול CARVO</h3></div>
             <ul className="space-y-4 mb-8">
-              {[ { label: "4 דקות", detail: "וחזרת לכביש בבטחה", icon: <Zap size={16}/> }, { label: "אין זמן אבוד", detail: "המשך יום כרגיל", icon: <Sun size={16}/> }, { label: "עצמאות מלאה", detail: "הפתרון תמיד בבגאז'", icon: <ShieldCheck size={16}/> }, { label: "אפס הפתעות", detail: "מערכת מוכנה לכל תרחיש", icon: <CheckCircle2 size={16}/> } ].map((item, i) => (
+              {[{ label: "4 דקות", detail: "וחזרת לכביש בבטחה", icon: <Zap size={16} /> }, { label: "אין זמן אבוד", detail: "המשך יום כרגיל", icon: <Sun size={16} /> }, { label: "עצמאות מלאה", detail: "הפתרון תמיד בבגאז'", icon: <ShieldCheck size={16} /> }, { label: "אפס הפתעות", detail: "מערכת מוכנה לכל תרחיש", icon: <CheckCircle2 size={16} /> }].map((item, i) => (
                 <li key={i} className="flex items-center justify-between border-b border-orange-600/10 pb-3"><div className="flex items-center gap-3"><span className="text-orange-600 opacity-60">{item.icon}</span><span className="text-sm md:text-base font-black italic uppercase">{item.label}</span></div><span className="text-[11px] font-black uppercase opacity-40">{item.detail}</span></li>
               ))}
             </ul>
           </div>
         </div>
-        <div className="mt-8 flex justify-center"><button onClick={() => document.getElementById('bundles')?.scrollIntoView({behavior:'smooth'})} className="flex items-center gap-4 px-12 py-5 bg-orange-600 text-black rounded-2xl font-black italic uppercase tracking-widest text-sm hover:scale-105 active:scale-95 shadow-2xl shadow-orange-600/20 transition-all"><span>גש לחבילה משתלמת</span><ChevronLeft size={20}/></button></div>
+        <div className="mt-8 flex justify-center"><button onClick={() => document.getElementById('bundles')?.scrollIntoView({ behavior: 'smooth' })} className="flex items-center gap-4 px-12 py-5 bg-orange-600 text-black rounded-2xl font-black italic uppercase tracking-widest text-sm hover:scale-105 active:scale-95 shadow-2xl shadow-orange-600/20 transition-all"><span>גש לחבילה משתלמת</span><ChevronLeft size={20} /></button></div>
       </ThinMotion>
     </section>
   );
@@ -332,7 +335,7 @@ export const App: React.FC = () => {
       <ThinMotion>
         <div className="mb-8">
           <div className="text-[11px] font-black uppercase text-orange-600 tracking-[0.4em] mb-1 italic flex items-center justify-start gap-2">
-             <Users size={18} /> COMMUNITY_VOICE
+            <Users size={18} /> COMMUNITY_VOICE
           </div>
           <h2 className="text-3xl md:text-6xl font-black italic uppercase tracking-tighter leading-none">תגובות מהשטח</h2>
         </div>
@@ -357,7 +360,7 @@ export const App: React.FC = () => {
                         <div key={starI} className="relative">
                           <Star size={14} className="text-orange-600 opacity-20" />
                           <div className="absolute inset-0 overflow-hidden w-[50%] pointer-events-none">
-                             <Star size={14} className="fill-orange-600 text-orange-600" />
+                            <Star size={14} className="fill-orange-600 text-orange-600" />
                           </div>
                         </div>
                       );
@@ -379,25 +382,25 @@ export const App: React.FC = () => {
   return (
     <div className={`min-h-screen transition-all duration-1000 relative overflow-x-hidden pb-8 md:pb-12 ${darkMode ? 'text-white' : 'text-black'}`} dir="rtl">
       <BlueprintBackground darkMode={darkMode} />
-      
+
       <nav className="fixed top-0 left-0 right-0 z-[200] p-4 md:p-6 flex justify-between items-start pointer-events-none gap-2">
         <div className="flex items-center gap-2 md:gap-4 p-2 md:p-3 px-4 md:px-8 rounded-full hyper-glass border-white/20 shadow-2xl pointer-events-auto max-w-[48%] md:max-w-none">
-            <button onClick={() => setIsMenuOpen(true)} className="p-2 md:p-3 rounded-full hover:bg-white/10 group transition-all shrink-0"><Menu size={18} className="md:w-6 md:h-6 group-hover:text-orange-600" /></button>
-            <div className="w-px h-6 md:h-8 mx-1 md:mx-2 bg-white/20 shrink-0" />
-            <button onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})} className="shrink-0 overflow-hidden"><div className="scale-75 md:scale-100 origin-right"><CarvoLogo size="md" /></div></button>
+          <button onClick={() => setIsMenuOpen(true)} className="p-2 md:p-3 rounded-full hover:bg-white/10 group transition-all shrink-0"><Menu size={18} className="md:w-6 md:h-6 group-hover:text-orange-600" /></button>
+          <div className="w-px h-6 md:h-8 mx-1 md:mx-2 bg-white/20 shrink-0" />
+          <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="shrink-0 overflow-hidden"><div className="scale-75 md:scale-100 origin-right"><CarvoLogo size="md" /></div></button>
         </div>
         <div className="flex items-center gap-2 md:gap-4 p-2 md:p-3 px-4 md:px-8 rounded-full hyper-glass border-white/20 shadow-2xl pointer-events-auto max-w-[48%] md:max-w-none">
-            <button onClick={() => setDarkMode(!darkMode)} className="p-2 md:p-3 opacity-90 hover:opacity-100 transition-all shrink-0">{darkMode ? <Sun size={18} className="md:w-6 md:h-6" /> : <Moon size={18} className="md:w-6 md:h-6" />}</button>
-            <div className="w-px h-6 md:h-8 mx-1 md:mx-2 bg-white/20 shrink-0" />
-            <button onClick={() => setIsCartOpen(true)} className="p-2 md:p-3 group relative transition-all shrink-0">
-                <ShoppingBag size={18} className="md:w-6 md:h-6 group-hover:text-orange-600" />
-                {cart.length > 0 && <div className="absolute top-2 left-2 md:top-3 md:left-3 w-2.5 h-2.5 bg-orange-600 rounded-full border-2 border-black" />}
-            </button>
+          <button onClick={() => setDarkMode(!darkMode)} className="p-2 md:p-3 opacity-90 hover:opacity-100 transition-all shrink-0">{darkMode ? <Sun size={18} className="md:w-6 md:h-6" /> : <Moon size={18} className="md:w-6 md:h-6" />}</button>
+          <div className="w-px h-6 md:h-8 mx-1 md:mx-2 bg-white/20 shrink-0" />
+          <button onClick={() => setIsCartOpen(true)} className="p-2 md:p-3 group relative transition-all shrink-0">
+            <ShoppingBag size={18} className="md:w-6 md:h-6 group-hover:text-orange-600" />
+            {cart.length > 0 && <div className="absolute top-2 left-2 md:top-3 md:left-3 w-2.5 h-2.5 bg-orange-600 rounded-full border-2 border-black" />}
+          </button>
         </div>
       </nav>
 
       <HeroSection />
-      
+
       <main className="relative z-10">
         <div className={`relative z-20 w-full py-3 overflow-hidden border-y-2 ${darkMode ? 'border-white/10 bg-black/40' : 'border-black/5 bg-white/40'}`}>
           <div className="flex items-center whitespace-nowrap animate-[marquee_30s_linear_infinite]">{[...Array(10)].map((_, i) => (<div key={i} className="flex items-center"><span className="text-lg md:text-3xl font-black italic uppercase tracking-tighter text-orange-600 px-6">משלוחים חינם לכל הארץ</span><span className="text-orange-600/30 text-xl md:text-4xl">•</span></div>))}</div>
@@ -412,7 +415,7 @@ export const App: React.FC = () => {
               <h3 className="text-2xl font-black italic uppercase">תקלה בחיבור למערכת_</h3>
               <p className="text-sm font-bold opacity-60">{apiError}</p>
             </div>
-            <button 
+            <button
               onClick={initShopify}
               className="px-8 py-3 bg-white/10 border border-white/20 rounded-xl font-black italic uppercase flex items-center gap-3 mx-auto hover:bg-white/20 transition-all"
             >
@@ -437,9 +440,9 @@ export const App: React.FC = () => {
                       <div onClick={() => !isSwiping && setSelectedProduct(p)} className={`h-full w-full flex flex-col overflow-hidden rounded-[35px] cursor-pointer group transition-all ${darkMode ? 'hyper-glass bg-white/[0.04] border-white/10' : 'bg-white border border-black/15 shadow-2xl'}`}>
                         <div className="aspect-[16/9] bg-black relative shrink-0 overflow-hidden"><img src={p.img} alt={p.name} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-transform duration-1000 group-hover:scale-110" />{!p.available && <div className="absolute inset-0 bg-black/60 flex items-center justify-center font-black italic text-xl text-red-500">אזל מהמלאי_</div>}</div>
                         <div className="flex-1 p-6 md:p-8 flex flex-col justify-between">
-                            <div className="flex justify-between items-start gap-4 mb-2"><h3 className="text-xl md:text-2xl font-black italic uppercase leading-tight flex-1 truncate">{p.name}</h3><div className="text-xl md:text-2xl font-black italic text-orange-600 shrink-0">₪{p.price}</div></div>
-                            <div className="h-[68px] md:h-[76px] mb-4 overflow-hidden"><p className="text-[11px] font-bold italic opacity-60 leading-relaxed line-clamp-4 uppercase">{p.specs.join('\n')}</p></div>
-                            <button disabled={!p.available} onClick={(e) => { e.stopPropagation(); addToCart(p); }} className={`w-full py-4 rounded-xl font-black italic uppercase text-sm tracking-widest shadow-xl active:scale-95 transition-all ${p.available ? 'bg-orange-600 text-black hover:bg-orange-500' : 'bg-white/10 text-white/40 cursor-not-allowed'}`}>{p.available ? 'הוסף לעגלה_' : 'זמנית לא במלאי'}</button>
+                          <div className="flex justify-between items-start gap-4 mb-2"><h3 className="text-xl md:text-2xl font-black italic uppercase leading-tight flex-1 truncate">{p.name}</h3><div className="text-xl md:text-2xl font-black italic text-orange-600 shrink-0">₪{p.price}</div></div>
+                          <div className="h-[68px] md:h-[76px] mb-4 overflow-hidden"><p className="text-[11px] font-bold italic opacity-60 leading-relaxed line-clamp-4 uppercase">{p.specs.join('\n')}</p></div>
+                          <button disabled={!p.available} onClick={(e) => { e.stopPropagation(); addToCart(p); }} className={`w-full py-4 rounded-xl font-black italic uppercase text-sm tracking-widest shadow-xl active:scale-95 transition-all ${p.available ? 'bg-orange-600 text-black hover:bg-orange-500' : 'bg-white/10 text-white/40 cursor-not-allowed'}`}>{p.available ? 'הוסף לעגלה_' : 'זמנית לא במלאי'}</button>
                         </div>
                       </div>
                     </div>
@@ -448,8 +451,8 @@ export const App: React.FC = () => {
               </div>
               {products.length > 1 && (
                 <>
-                  <button onClick={() => activeProdIdx > 0 && setActiveProdIdx(p => p - 1)} className="absolute -right-4 md:-right-14 top-1/2 -translate-y-1/2 z-30 w-10 h-10 md:w-14 md:h-14 bg-black text-white rounded-xl border border-orange-600/40 flex items-center justify-center hover:bg-orange-600 hover:text-black transition-all active:scale-90"><ChevronRight size={20}/></button>
-                  <button onClick={() => activeProdIdx < products.length - 1 && setActiveProdIdx(p => p + 1)} className="absolute -left-4 md:-left-14 top-1/2 -translate-y-1/2 z-30 w-10 h-10 md:w-14 md:h-14 bg-black text-white rounded-xl border border-orange-600/40 flex items-center justify-center hover:bg-orange-600 hover:text-black transition-all active:scale-90"><ChevronLeft size={20}/></button>
+                  <button onClick={() => activeProdIdx > 0 && setActiveProdIdx(p => p - 1)} className="absolute -right-4 md:-right-14 top-1/2 -translate-y-1/2 z-30 w-10 h-10 md:w-14 md:h-14 bg-black text-white rounded-xl border border-orange-600/40 flex items-center justify-center hover:bg-orange-600 hover:text-black transition-all active:scale-90"><ChevronRight size={20} /></button>
+                  <button onClick={() => activeProdIdx < products.length - 1 && setActiveProdIdx(p => p + 1)} className="absolute -left-4 md:-left-14 top-1/2 -translate-y-1/2 z-30 w-10 h-10 md:w-14 md:h-14 bg-black text-white rounded-xl border border-orange-600/40 flex items-center justify-center hover:bg-orange-600 hover:text-black transition-all active:scale-90"><ChevronLeft size={20} /></button>
                 </>
               )}
             </div>
@@ -491,8 +494,8 @@ export const App: React.FC = () => {
             </div>
             {bundleProducts.length > 1 && (
               <>
-                <button onClick={() => activeBundleIdx > 0 && setActiveBundleIdx(p => p - 1)} className="absolute -right-4 md:-right-14 top-1/2 -translate-y-1/2 z-30 w-10 h-10 md:w-14 md:h-14 bg-black text-white rounded-xl border border-orange-600/40 flex items-center justify-center hover:bg-orange-600 hover:text-black transition-all active:scale-90"><ChevronRight size={20}/></button>
-                <button onClick={() => activeBundleIdx < bundleProducts.length - 1 && setActiveBundleIdx(p => p + 1)} className="absolute -left-4 md:-left-14 top-1/2 -translate-y-1/2 z-30 w-10 h-10 md:w-14 md:h-14 bg-black text-white rounded-xl border border-orange-600/40 flex items-center justify-center hover:bg-orange-600 hover:text-black transition-all active:scale-90"><ChevronLeft size={20}/></button>
+                <button onClick={() => activeBundleIdx > 0 && setActiveBundleIdx(p => p - 1)} className="absolute -right-4 md:-right-14 top-1/2 -translate-y-1/2 z-30 w-10 h-10 md:w-14 md:h-14 bg-black text-white rounded-xl border border-orange-600/40 flex items-center justify-center hover:bg-orange-600 hover:text-black transition-all active:scale-90"><ChevronRight size={20} /></button>
+                <button onClick={() => activeBundleIdx < bundleProducts.length - 1 && setActiveBundleIdx(p => p + 1)} className="absolute -left-4 md:-left-14 top-1/2 -translate-y-1/2 z-30 w-10 h-10 md:w-14 md:h-14 bg-black text-white rounded-xl border border-orange-600/40 flex items-center justify-center hover:bg-orange-600 hover:text-black transition-all active:scale-90"><ChevronLeft size={20} /></button>
               </>
             )}
           </div>
@@ -527,12 +530,12 @@ export const App: React.FC = () => {
         <div className="mb-8 opacity-20 flex justify-center scale-75 md:scale-100"><CarvoLogo size="massive" /></div>
         <PaymentIconsFooter darkMode={darkMode} />
       </footer>
-      
+
       <SafetyAssistant darkMode={darkMode} />
       <div className="z-[200] relative">
-        <MenuDrawer 
-          isOpen={isMenuOpen} 
-          onClose={() => setIsMenuOpen(false)} 
+        <MenuDrawer
+          isOpen={isMenuOpen}
+          onClose={() => setIsMenuOpen(false)}
           darkMode={darkMode}
           categories={categories}
           activeCategoryHandle={activeCategoryHandle}
@@ -543,7 +546,8 @@ export const App: React.FC = () => {
         <InfoModal type={infoModalType} isOpen={!!infoModalType} onClose={() => setInfoModalType(null)} darkMode={darkMode} />
         <CookieBanner darkMode={darkMode} onOpenPrivacy={() => setInfoModalType('privacy')} />
       </div>
-      <style dangerouslySetInnerHTML={{ __html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(50%); } }
         .animate-[marquee_30s_linear_infinite] { animation: marquee 30s linear infinite; width: fit-content; }
       `}} />
