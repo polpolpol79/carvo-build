@@ -60,38 +60,38 @@ export const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
 
     return (
         <header
-            className={`hidden md:flex fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ease-out px-10 py-6 items-center justify-between pointer-events-none
-        ${scrolled ? 'py-4 bg-black/80 backdrop-blur-xl border-b border-white/5' : 'bg-transparent'}`}
+            className={`hidden md:flex fixed top-0 left-0 right-0 z-[100] transition-all duration-700 ease-out px-12 py-8 items-center justify-between pointer-events-none
+        ${scrolled ? 'py-6 backdrop-blur-xl' : 'bg-transparent'}`}
         >
             {/* Left: Logo */}
             <div className="flex items-center pointer-events-auto cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-                <CarvoLogo size="md" />
+                <CarvoLogo size="lg" />
             </div>
 
-            {/* Center: Navigation Links */}
-            <nav className={`pointer-events-auto flex items-center gap-10 px-8 py-3 rounded-full transition-all duration-500 ${scrolled ? '' : 'hyper-glass border border-white/10 shadow-2xl'}`}>
+            {/* Center: Navigation Links - Larger & Cleaner */}
+            <nav className={`pointer-events-auto flex items-center gap-16 px-12 py-5 rounded-full transition-all duration-500 ${scrolled ? 'bg-white/5 border border-white/10 shadow-2xl' : ''}`}>
                 {navLinks.map((link) => (
                     <button
                         key={link.id}
                         onClick={() => handleScrollTo(link.id)}
-                        className="text-sm font-black italic uppercase tracking-widest opacity-60 hover:opacity-100 hover:text-orange-600 transition-all relative group"
+                        className="text-xl font-black italic uppercase tracking-widest opacity-60 hover:opacity-100 hover:text-orange-600 transition-all relative group"
                     >
                         {link.label}
-                        <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-orange-600 transition-all duration-300 group-hover:w-full" />
+                        <span className="absolute -bottom-2 left-0 w-0 h-[3px] bg-orange-600 transition-all duration-300 group-hover:w-full" />
                     </button>
                 ))}
             </nav>
 
-            {/* Right: Actions */}
-            <div className="pointer-events-auto flex items-center gap-6">
+            {/* Right: Actions - Scaled Up */}
+            <div className="pointer-events-auto flex items-center gap-8">
                 <button onClick={toggleDarkMode} className="opacity-60 hover:opacity-100 transition-all hover:text-orange-600">
-                    {darkMode ? <Sun size={20} /> : <Moon size={20} />}
+                    {darkMode ? <Sun size={28} /> : <Moon size={28} />}
                 </button>
-                <div className="h-6 w-px bg-current opacity-20" />
+                <div className="h-8 w-px bg-current opacity-20" />
                 <button onClick={openCart} className="relative opacity-60 hover:opacity-100 transition-all hover:text-orange-600 group">
-                    <ShoppingBag size={20} />
+                    <ShoppingBag size={28} />
                     {cartCount > 0 && (
-                        <span className="absolute -top-2 -right-2 w-4 h-4 bg-orange-600 text-black text-[9px] font-bold flex items-center justify-center rounded-full border border-black">
+                        <span className="absolute -top-2 -right-2 w-6 h-6 bg-orange-600 text-black text-xs font-bold flex items-center justify-center rounded-full border-2 border-black">
                             {cartCount}
                         </span>
                     )}
