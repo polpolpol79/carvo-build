@@ -1,0 +1,29 @@
+{
+  "name": "carvo-ecommerce",
+  "version": "1.0.0",
+  "private": true,
+  "description": "CARVO E-Commerce Infrastructure",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "lucide-react": "^0.344.0",
+    "@google/genai": "^1.39.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.18",
+    "globals": "^15.14.0",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.1",
+    "typescript": "~5.6.2",
+    "vite": "^5.1.4"
+  }
+}

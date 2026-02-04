@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Primary Meta Tags -->
+    <title>CARVO | פתרונות חילוץ ובטיחות בדרכים 2050</title>
+    <meta name="description" content="CARVO מציגה את מערך הבטיחות המתקדם ביותר בישראל. בוסטרים, משאבות אוויר חכמות וערכות חילוץ טקטיות למניעת סכנת חיים בשולי הדרך." />
+
+    <!-- Open Graph / Facebook / WhatsApp -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://carvo.co.il/" />
+    <meta property="og:title" content="CARVO | פתרונות חילוץ ובטיחות בדרכים 2050" />
+    <meta property="og:description" content="מערך הבטיחות המתקדם ביותר בישראל. בוסטרים, משאבות אוויר חכמות וערכות חילוץ טקטיות למניעת סכנת חיים בשולי הדרך." />
+    <meta property="og:image" content="https://carvo.co.il/og-image.jpg" />
+    <meta property="og:site_name" content="CARVO" />
+    <meta property="og:locale" content="he_IL" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://carvo.co.il/" />
+    <meta property="twitter:title" content="CARVO | פתרונות חילוץ ובטיחות בדרכים 2050" />
+    <meta property="twitter:description" content="מערך הבטיחות המתקדם ביותר בישראל. בוסטרים, משאבות אוויר חכמות וערכות חילוץ טקטיות למניעת סכנת חיים בשולי הדרך." />
+    <meta property="twitter:image" content="https://carvo.co.il/og-image.jpg" />
+    
+    <!-- Favicon & Brand Icons -->
+    <link rel="icon" type="image/png" href="https://carvo.co.il/favicon.png">
+    <link rel="apple-touch-icon" href="https://carvo.co.il/apple-touch-icon.png">
+    
+    <!-- Google Analytics (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0358XW1S9H"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-0358XW1S9H', { 
+        send_page_view: true,
+        cookie_flags: 'SameSite=None;Secure'
+      });
+    </script>
+
+    <!-- Global Schema (JSON-LD) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "CARVO",
+        "url": "https://carvo.co.il",
+        "logo": "https://carvo.co.il/logo.png",
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+972-55-308-7708",
+          "contactType": "customer service",
+          "email": "support@carvo.co.il"
+        },
+        "sameAs": [
+          "https://www.facebook.com/carvo",
+          "https://www.instagram.com/carvo"
+        ]
+      }
+    </script>
+    
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@900&family=Space+Grotesk:wght@300;400;500;600;700;900&family=Noto+Sans+Hebrew:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --orange-accent: #ff5f22;
+        --concrete-bg: #cccccc;
+        --matte-glass: rgba(160, 160, 160, 0.2);
+        --dark-panel: #353535;
+        --dark-bg: #404040;
+      }
+
+      body {
+        font-family: 'Inter', 'Space Grotesk', 'Noto Sans Hebrew', sans-serif;
+        overflow-x: hidden;
+        background-color: var(--concrete-bg);
+        color: #000;
+        transition: background-color 0.5s ease;
+      }
+
+      body.dark {
+        background-color: var(--dark-bg);
+        color: #fff;
+      }
+      
+      .grainy-overlay {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 999; opacity: 0.04;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      }
+
+      .massive-logo { font-family: 'Inter', sans-serif; font-weight: 900; letter-spacing: -0.05em; text-transform: uppercase; display: inline-flex; align-items: center; }
+
+      .hyper-glass {
+        background: var(--matte-glass);
+        backdrop-filter: blur(12px) saturate(140%);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .dark .hyper-glass { background: rgba(64, 64, 64, 0.75); border: 1px solid rgba(255, 255, 255, 0.1); }
+      
+      .skeleton {
+        background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
+        background-size: 200% 100%;
+        animation: skeleton-loading 1.5s infinite;
+      }
+      
+      @keyframes skeleton-loading {
+        0% { background-position: 200% 0; }
+        100% { background-position: -200% 0; }
+      }
+    </style>
+
+  <link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div class="grainy-overlay"></div>
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
