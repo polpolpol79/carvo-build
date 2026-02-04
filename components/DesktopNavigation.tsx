@@ -46,16 +46,22 @@ export const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    const navLinks = [
-        { label: 'השואורום', id: 'showroom' },
-        { label: 'נתוני בטיחות', id: 'safety-data' },
-        { label: 'חבילות עלית', id: 'bundles' },
-        { label: 'שאלות נפוצות', id: 'faq' }
+    // Combine static links with dynamic categories
+    const allLinks = [
+        { label: 'השואורום |', id: 'showroom', type: 'scroll' },
+        ...categories.map(c => ({ label: c.label, id: c.id, type: 'category' })),
+        { label: '| נתונים', id: 'crisis-protocol', type: 'scroll' },
     ];
 
-    const handleScrollTo = (id: string) => {
-        const el = document.getElementById(id);
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
+    const handleInteraction = (link: { label: string, id: string, type: string }) => {
+        if (link.type === 'scroll') {
+            const el = document.getElementById(link.id);
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+        } else {
+            onCategorySelect(link.id);
+            const el = document.getElementById('showroom');
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }
     };
 
     return (
@@ -68,16 +74,16 @@ export const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
                 <CarvoLogo size="lg" />
             </div>
 
-            {/* Center: Navigation Links - Larger & Cleaner */}
-            <nav className={`pointer-events-auto flex items-center gap-16 px-12 py-5 rounded-full transition-all duration-500 ${scrolled ? 'bg-white/5 border border-white/10 shadow-2xl' : ''}`}>
-                {navLinks.map((link) => (
+            {/* Center: Navigation Links - Dynamic from Shopify */}
+            <nav className={`pointer-events-auto flex items-center gap-10 px-12 py-5 rounded-full transition-all duration-500 ${scrolled ? 'bg-white/5 border border-white/10 shadow-2xl' : ''}`}>
+                {allLinks.map((link) => (
                     <button
                         key={link.id}
-                        onClick={() => handleScrollTo(link.id)}
-                        className="text-xl font-black italic uppercase tracking-widest opacity-60 hover:opacity-100 hover:text-orange-600 transition-all relative group"
+                        onClick={() => handleInteraction(link)}
+                        className={`text-xl font-black italic uppercase tracking-widest hover:text-orange-600 transition-all relative group ${activeCategory === link.id ? 'text-orange-600 opacity-100' : 'opacity-60 hover:opacity-100'}`}
                     >
                         {link.label}
-                        <span className="absolute -bottom-2 left-0 w-0 h-[3px] bg-orange-600 transition-all duration-300 group-hover:w-full" />
+                        <span className={`absolute -bottom-2 left-0 h-[3px] bg-orange-600 transition-all duration-300 ${activeCategory === link.id ? 'w-full' : 'w-0 group-hover:w-full'}`} />
                     </button>
                 ))}
             </nav>
