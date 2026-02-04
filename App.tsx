@@ -75,6 +75,7 @@ export const App: React.FC = () => {
   const [isProductsLoading, setIsProductsLoading] = useState(false);
   const [isBundlesLoading, setIsBundlesLoading] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
+  const showroomScrollRef = useRef<HTMLDivElement>(null);
 
   const [cart, setCart] = useState<CartItem[]>(() => {
     const saved = localStorage.getItem('carvo_cart');
@@ -498,26 +499,36 @@ export const App: React.FC = () => {
                 )}
               </div>
 
-              {/* DESKTOP ONLY: Horizontal Scroll Rail - Single Row Only */}
-              <div className="hidden md:flex flex-nowrap gap-8 overflow-x-auto pb-12 w-full p-4 relative z-10 snap-x snap-mandatory no-scrollbar">
-                {products.map((p) => (
-                  <div key={p.id} onClick={() => setSelectedProduct(p)} className={`relative group shrink-0 w-[400px] h-[650px] flex flex-col rounded-[3rem] overflow-hidden cursor-pointer transition-all hover:-translate-y-2 duration-500 border-2 snap-center ${darkMode ? 'border-white/5 bg-white/[0.03] hover:border-orange-600/30' : 'border-black/5 bg-white shadow-xl hover:shadow-2xl'}`}>
-                    {/* Upper Half: Image - 88% Height (Massive Image) */}
-                    <div className="h-[88%] relative overflow-hidden bg-black/50 border-b border-white/5">
-                      <img src={p.img} alt={p.name} className="w-full h-full object-cover opacity-80 group-hover:scale-105 group-hover:opacity-100 transition-all duration-700" />
-                      {!p.available && <div className="absolute inset-0 bg-black/60 flex items-center justify-center font-black italic text-4xl text-red-500 tracking-widest border-4 border-red-600 m-12 rounded-xl rotate-[-12deg]">SOLD OUT</div>}
-                      <div className="absolute top-8 left-8 bg-black/60 backdrop-blur-md border border-white/10 px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest text-white/60 group-hover:bg-orange-600 group-hover:text-black group-hover:border-transparent transition-colors">
-                        CARVO_GEAR
+              {/* DESKTOP ONLY: Horizontal Scroll Rail */}
+              <div className="hidden md:block relative group/rail">
+                <button onClick={() => {
+                  if (showroomScrollRef.current) showroomScrollRef.current.scrollBy({ left: 400, behavior: 'smooth' });
+                }} className="absolute -left-12 top-1/2 -translate-y-1/2 z-30 w-16 h-16 bg-black/50 backdrop-blur-xl border border-white/10 rounded-full text-white flex items-center justify-center hover:bg-orange-600 hover:text-black hover:scale-110 active:scale-90 transition-all shadow-2xl opacity-0 group-hover/rail:opacity-100 translate-x-4 group-hover/rail:translate-x-0"><ChevronLeft size={32} /></button>
+
+                <button onClick={() => {
+                  if (showroomScrollRef.current) showroomScrollRef.current.scrollBy({ left: -400, behavior: 'smooth' });
+                }} className="absolute -right-12 top-1/2 -translate-y-1/2 z-30 w-16 h-16 bg-black/50 backdrop-blur-xl border border-white/10 rounded-full text-white flex items-center justify-center hover:bg-orange-600 hover:text-black hover:scale-110 active:scale-90 transition-all shadow-2xl opacity-0 group-hover/rail:opacity-100 -translate-x-4 group-hover/rail:translate-x-0"><ChevronRight size={32} /></button>
+
+                <div ref={showroomScrollRef} className="flex flex-nowrap gap-8 overflow-x-auto pb-12 w-full p-4 px-12 relative z-10 snap-x snap-mandatory no-scrollbar scroll-smooth" dir="rtl">
+                  {products.map((p) => (
+                    <div key={p.id} onClick={() => setSelectedProduct(p)} className={`relative group shrink-0 w-[400px] h-[650px] flex flex-col rounded-[3rem] overflow-hidden cursor-pointer transition-all hover:-translate-y-2 duration-500 border-2 snap-center ${darkMode ? 'border-white/5 bg-white/[0.03] hover:border-orange-600/30' : 'border-black/5 bg-white shadow-xl hover:shadow-2xl'}`}>
+                      {/* Upper Half: Image - 88% Height (Massive Image) */}
+                      <div className="h-[88%] relative overflow-hidden bg-black/50 border-b border-white/5">
+                        <img src={p.img} alt={p.name} className="w-full h-full object-cover opacity-80 group-hover:scale-105 group-hover:opacity-100 transition-all duration-700" />
+                        {!p.available && <div className="absolute inset-0 bg-black/60 flex items-center justify-center font-black italic text-4xl text-red-500 tracking-widest border-4 border-red-600 m-12 rounded-xl rotate-[-12deg]">SOLD OUT</div>}
+                        <div className="absolute top-8 left-8 bg-black/60 backdrop-blur-md border border-white/10 px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest text-white/60 group-hover:bg-orange-600 group-hover:text-black group-hover:border-transparent transition-colors">
+                          CARVO_GEAR
+                        </div>
+                      </div>
+
+                      {/* Lower Half: Minimalist Gallery Title - 12% Height */}
+                      <div className="flex-1 px-8 flex items-center justify-between bg-gradient-to-b from-transparent to-black/20">
+                        <h3 className="text-2xl font-black italic uppercase leading-none tracking-tight truncate max-w-[70%]">{p.name}</h3>
+                        <div className="text-2xl font-black italic text-orange-600 tracking-tighter">₪{p.price}</div>
                       </div>
                     </div>
-
-                    {/* Lower Half: Minimalist Gallery Title - 12% Height */}
-                    <div className="flex-1 px-8 flex items-center justify-between bg-gradient-to-b from-transparent to-black/20">
-                      <h3 className="text-2xl font-black italic uppercase leading-none tracking-tight truncate max-w-[70%]">{p.name}</h3>
-                      <div className="text-2xl font-black italic text-orange-600 tracking-tighter">₪{p.price}</div>
-                    </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
           </section>
