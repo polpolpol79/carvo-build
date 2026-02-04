@@ -584,58 +584,60 @@ export const App: React.FC = () => {
                   </div>
                 ))}
               </div>
-            </section>
-
-            <TestimonialsSection />
-
-            <section id="faq" className="relative z-10 py-8 md:py-12 px-6 max-w-5xl mx-auto text-right">
-              <h2 className="text-3xl md:text-6xl font-black italic uppercase tracking-tighter mb-8">שאלות נפוצות <span className="text-orange-600">.FAQ</span></h2>
-              <div className="space-y-4">
-                {[
-                  { q: "1. למה לבחור ב-CARVO?", a: "אנחנו כאן כדי לשדרג את תרבות הנהיגה בישראל ולמנוע אסונות בעזרת מוצרים חכמים." },
-                  { q: "2. האם השימוש במוצרים מצריך ידע טכני?", a: "בכלל לא. כל הכלים באתר נבחרו כדי לספק פתרון מקצועי במינימום מאמץ." },
-                  { q: "3. מהם זמני ועלויות המשלוח?", a: "משלוח חינם לכל ההזמנות. זמן אספקה: 5–12 ימי עסקים. ייתכנו עיכובים חריגים עקב מצב ביטחוני או תנאי מזג אוויר חריגים, אנו פועלים עם חברת משלוחים מהירה ועושים כל מאמץ לספק את ההזמנה בזמן הקצר ביותר." },
-                  { q: "4. מה זה Carvo AI ואיך הוא עובד?", a: "Carvo AI הוא בוט חכם הזמין 24/7, שנועד לתת הכוונה מיידית במצבי חירום ברכב. הוא אומן במיוחד למקרים שכיחים של תקיעות או תקלות, מכיר את כל כלי החירום של Carvo, ומדריך את המשתמש בצורה ברורה ובטוחה כיצד להשתמש בהם בהתאם לסוג הרכב ולבעיה." },
-                  { q: "5. האם הערכה באמת עוזרת במצבי חירום?", a: "ברור. אם מעולם לא השתמשתם בכלים כאלה, עכשיו זה הזמן להשקיע בביטחון שלכם ולשפר את איכות החוויה שלכם בכביש." }
-                ].map((faq, i) => (
-                  <div key={i} className={`rounded-[1.5rem] border-2 overflow-hidden transition-all ${darkMode ? 'hyper-glass border-white/10' : 'bg-white border-black/10 shadow-md'}`}>
-                    <details className="group">
-                      <summary className="w-full p-6 flex items-center justify-between text-right cursor-pointer list-none"><ChevronDown className="shrink-0 text-orange-600 transition-transform group-open:rotate-180" size={24} /><span className="text-lg md:text-xl font-black italic tracking-tighter">{faq.q}</span></summary>
-                      <div className="p-6 pt-0"><p className={`font-bold italic leading-relaxed text-base opacity-70 ${darkMode ? 'text-white' : 'text-black'}`}>{faq.a}</p></div>
-                    </details>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            <FloatingBottomBar darkMode={darkMode} onOpenInfo={setInfoModalType} />
-          </main>
-
-          <footer className={`py-12 md:py-16 px-10 text-center border-t-2 ${darkMode ? 'border-white/10 bg-[#404040]' : 'border-black/15 bg-[#cccccc]'}`}>
-            <div className="mb-8 opacity-20 flex justify-center scale-75 md:scale-100"><CarvoLogo size="massive" /></div>
-            <PaymentIconsFooter darkMode={darkMode} />
-          </footer>
-
-          <SafetyAssistant darkMode={darkMode} />
-          <div className="z-[200] relative">
-            <MenuDrawer
-              isOpen={isMenuOpen}
-              onClose={() => setIsMenuOpen(false)}
-              darkMode={darkMode}
-              categories={categories}
-              activeCategoryHandle={activeCategoryHandle}
-              onCategorySelect={setActiveCategoryHandle}
-            />
-            <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} items={cart} onUpdateQuantity={(id, delta) => setCart(prev => prev.map(i => i.productId === id ? { ...i, quantity: Math.max(1, i.quantity + delta) } : i))} onRemove={id => setCart(prev => prev.filter(i => i.productId !== id))} darkMode={darkMode} />
-            <ProductModal product={selectedProduct} isOpen={!!selectedProduct} onClose={() => setSelectedProduct(null)} onAddToCart={addToCart} darkMode={darkMode} />
-            <InfoModal type={infoModalType} isOpen={!!infoModalType} onClose={() => setInfoModalType(null)} darkMode={darkMode} />
-            <CookieBanner darkMode={darkMode} onOpenPrivacy={() => setInfoModalType('privacy')} />
+            </div>
           </div>
-          <style dangerouslySetInnerHTML={{
-            __html: `
+        </section>
+
+        <TestimonialsSection />
+
+        <section id="faq" className="relative z-10 py-8 md:py-12 px-6 max-w-5xl mx-auto text-right">
+          <h2 className="text-3xl md:text-6xl font-black italic uppercase tracking-tighter mb-8">שאלות נפוצות <span className="text-orange-600">.FAQ</span></h2>
+          <div className="space-y-4">
+            {[
+              { q: "1. למה לבחור ב-CARVO?", a: "אנחנו כאן כדי לשדרג את תרבות הנהיגה בישראל ולמנוע אסונות בעזרת מוצרים חכמים." },
+              { q: "2. האם השימוש במוצרים מצריך ידע טכני?", a: "בכלל לא. כל הכלים באתר נבחרו כדי לספק פתרון מקצועי במינימום מאמץ." },
+              { q: "3. מהם זמני ועלויות המשלוח?", a: "משלוח חינם לכל ההזמנות. זמן אספקה: 5–12 ימי עסקים. ייתכנו עיכובים חריגים עקב מצב ביטחוני או תנאי מזג אוויר חריגים, אנו פועלים עם חברת משלוחים מהירה ועושים כל מאמץ לספק את ההזמנה בזמן הקצר ביותר." },
+              { q: "4. מה זה Carvo AI ואיך הוא עובד?", a: "Carvo AI הוא בוט חכם הזמין 24/7, שנועד לתת הכוונה מיידית במצבי חירום ברכב. הוא אומן במיוחד למקרים שכיחים של תקיעות או תקלות, מכיר את כל כלי החירום של Carvo, ומדריך את המשתמש בצורה ברורה ובטוחה כיצד להשתמש בהם בהתאם לסוג הרכב ולבעיה." },
+              { q: "5. האם הערכה באמת עוזרת במצבי חירום?", a: "ברור. אם מעולם לא השתמשתם בכלים כאלה, עכשיו זה הזמן להשקיע בביטחון שלכם ולשפר את איכות החוויה שלכם בכביש." }
+            ].map((faq, i) => (
+              <div key={i} className={`rounded-[1.5rem] border-2 overflow-hidden transition-all ${darkMode ? 'hyper-glass border-white/10' : 'bg-white border-black/10 shadow-md'}`}>
+                <details className="group">
+                  <summary className="w-full p-6 flex items-center justify-between text-right cursor-pointer list-none"><ChevronDown className="shrink-0 text-orange-600 transition-transform group-open:rotate-180" size={24} /><span className="text-lg md:text-xl font-black italic tracking-tighter">{faq.q}</span></summary>
+                  <div className="p-6 pt-0"><p className={`font-bold italic leading-relaxed text-base opacity-70 ${darkMode ? 'text-white' : 'text-black'}`}>{faq.a}</p></div>
+                </details>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <FloatingBottomBar darkMode={darkMode} onOpenInfo={setInfoModalType} />
+      </main>
+
+      <footer className={`py-12 md:py-16 px-10 text-center border-t-2 ${darkMode ? 'border-white/10 bg-[#404040]' : 'border-black/15 bg-[#cccccc]'}`}>
+        <div className="mb-8 opacity-20 flex justify-center scale-75 md:scale-100"><CarvoLogo size="massive" /></div>
+        <PaymentIconsFooter darkMode={darkMode} />
+      </footer>
+
+      <SafetyAssistant darkMode={darkMode} />
+      <div className="z-[200] relative">
+        <MenuDrawer
+          isOpen={isMenuOpen}
+          onClose={() => setIsMenuOpen(false)}
+          darkMode={darkMode}
+          categories={categories}
+          activeCategoryHandle={activeCategoryHandle}
+          onCategorySelect={setActiveCategoryHandle}
+        />
+        <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} items={cart} onUpdateQuantity={(id, delta) => setCart(prev => prev.map(i => i.productId === id ? { ...i, quantity: Math.max(1, i.quantity + delta) } : i))} onRemove={id => setCart(prev => prev.filter(i => i.productId !== id))} darkMode={darkMode} />
+        <ProductModal product={selectedProduct} isOpen={!!selectedProduct} onClose={() => setSelectedProduct(null)} onAddToCart={addToCart} darkMode={darkMode} />
+        <InfoModal type={infoModalType} isOpen={!!infoModalType} onClose={() => setInfoModalType(null)} darkMode={darkMode} />
+        <CookieBanner darkMode={darkMode} onOpenPrivacy={() => setInfoModalType('privacy')} />
+      </div>
+      <style dangerouslySetInnerHTML={{
+        __html: `
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(50%); } }
         .animate-[marquee_30s_linear_infinite] { animation: marquee 30s linear infinite; width: fit-content; }
       `}} />
-        </div>
-        );
+    </div>
+  );
 };
