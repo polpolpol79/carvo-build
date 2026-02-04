@@ -321,9 +321,10 @@ export const App: React.FC = () => {
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-8 mb-8">
           {criticalStats.map((stat, i) => (
-            <div key={i} className={`p-4 md:p-8 rounded-[2rem] border-2 transition-all ${darkMode ? 'hyper-glass border-white/10' : 'bg-white border-black/5 shadow-md'}`}>
-              <div className="text-red-600 mb-6 opacity-80 scale-150 origin-right">{stat.icon}</div>
-              <div className="text-[9px] md:text-lg font-black uppercase tracking-widest opacity-40 mb-2">{stat.label}</div>
+            <div key={i} className={`p-4 md:p-8 rounded-[2rem] border-2 transition-all duration-500 group cursor-default relative overflow-hidden ${darkMode ? 'hyper-glass border-white/10 hover:border-red-600/50 hover:shadow-[0_0_30px_rgba(220,38,38,0.15)]' : 'bg-white border-black/5 shadow-md hover:shadow-xl'}`}>
+              <div className="absolute inset-0 bg-gradient-to-tr from-red-600/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+              <div className="text-red-600 mb-6 opacity-80 scale-150 origin-right transition-transform duration-500 group-hover:scale-[1.8] group-hover:rotate-12">{stat.icon}</div>
+              <div className="text-[9px] md:text-lg font-black uppercase tracking-widest opacity-40 mb-2 transition-opacity group-hover:opacity-100">{stat.label}</div>
               <div className="text-xl md:text-5xl font-black italic text-red-600 leading-none">{stat.val}</div>
             </div>
           ))}
@@ -345,7 +346,8 @@ export const App: React.FC = () => {
           <div className="text-[10px] font-black uppercase tracking-[0.5em] opacity-30 italic">ANALYSIS_PROTOCOL_2026</div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
-          <div className={`p-6 md:p-10 rounded-[2.5rem] border transition-all ${darkMode ? 'bg-red-950/20 border-red-900/40' : 'bg-red-50 border-red-200 shadow-xl'}`}>
+          <div className={`p-6 md:p-10 rounded-[2.5rem] border transition-all duration-500 group relative overflow-hidden ${darkMode ? 'bg-red-950/20 border-red-900/40 hover:border-red-600/60 hover:shadow-[0_0_50px_rgba(220,38,38,0.1)]' : 'bg-red-50 border-red-200 shadow-xl hover:shadow-2xl'}`}>
+            <div className="absolute inset-0 bg-red-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
             <div className="flex items-center gap-3 mb-6"><div className="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center text-black"><AlertTriangle size={18} /></div><h3 className="text-xl md:text-3xl font-black italic uppercase tracking-tighter">כשנתקעים... (הסיוט)</h3></div>
             <ul className="space-y-4 mb-8">
               {[{ label: "3.5 שעות המתנה", detail: "סיכון MAX!", icon: <Clock size={16} /> }, { label: "₪500", detail: "אובדן יום עבודה", icon: <Briefcase size={16} /> }, { label: "₪500", detail: "עלות גרירה ממוצעת", icon: <Truck size={16} /> }, { label: "₪500 - ₪4,000", detail: "עלויות תיקון במוסך", icon: <Wrench size={16} /> }].map((item, i) => (
@@ -354,8 +356,9 @@ export const App: React.FC = () => {
             </ul>
             <div className="pt-6 border-t border-red-600/20 flex justify-between items-end"><div className="text-xl font-black uppercase italic text-red-600">עלות לאירוע_</div><div className="text-2xl md:text-4xl font-black italic text-red-600 tracking-tighter">₪1,500 - ₪5,000</div></div>
           </div>
-          <div className={`p-6 md:p-10 rounded-[2.5rem] border transition-all ${darkMode ? 'hyper-glass border-orange-600/30' : 'bg-white border-orange-200 shadow-2xl'}`}>
-            <div className="flex items-center gap-3 mb-6"><div className="w-8 h-8 bg-orange-600 rounded-full flex items-center justify-center text-black"><Zap size={18} /></div><h3 className="text-xl md:text-3xl font-black italic uppercase tracking-tighter">פרוטוקול CARVO</h3></div>
+          <div className={`p-6 md:p-10 rounded-[2.5rem] border transition-all duration-500 group relative overflow-hidden ${darkMode ? 'hyper-glass border-orange-600/30 hover:border-orange-600 hover:shadow-[0_0_50px_rgba(234,88,12,0.2)]' : 'bg-white border-orange-200 shadow-2xl hover:shadow-[0_0_40px_rgba(234,88,12,0.15)]'}`}>
+            <div className="absolute inset-0 bg-orange-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+            <div className="flex items-center gap-3 mb-6"><div className="w-8 h-8 bg-orange-600 rounded-full flex items-center justify-center text-black group-hover:scale-110 transition-transform duration-500"><Zap size={18} /></div><h3 className="text-xl md:text-3xl font-black italic uppercase tracking-tighter">פרוטוקול CARVO</h3></div>
             <ul className="space-y-4 mb-8">
               {[{ label: "4 דקות", detail: "וחזרת לכביש בבטחה", icon: <Zap size={16} /> }, { label: "אין זמן אבוד", detail: "המשך יום כרגיל", icon: <Sun size={16} /> }, { label: "עצמאות מלאה", detail: "הפתרון תמיד בבגאז'", icon: <ShieldCheck size={16} /> }, { label: "אפס הפתעות", detail: "מערכת מוכנה לכל תרחיש", icon: <CheckCircle2 size={16} /> }].map((item, i) => (
                 <li key={i} className="flex items-center justify-between border-b border-orange-600/10 pb-6"><div className="flex items-center gap-4"><span className="text-orange-600 opacity-60 scale-125">{item.icon}</span><span className="text-sm md:text-2xl font-black italic uppercase">{item.label}</span></div><span className="text-[11px] md:text-lg font-black uppercase opacity-40">{item.detail}</span></li>
@@ -386,7 +389,7 @@ export const App: React.FC = () => {
             { name: "קובי אברהם", rating: 4, text: "כלי ב-600 ש״ח שחסך לי כבר אלפי שקלים. לא מבין איך לא כולם מכירים את זה." },
             { name: "רוני שפירא", rating: 4, text: "פתר לנו לא מעט בעיות בדרך וחסך לי בענק את הגרר ותיקון ." }
           ].map((item, i) => (
-            <div key={i} className={`p-6 md:p-8 rounded-[2rem] border transition-all ${darkMode ? 'hyper-glass border-white/10' : 'bg-white border-black/5 shadow-md'}`}>
+            <div key={i} className={`p-6 md:p-8 rounded-[2rem] border transition-all duration-500 group hover:-translate-y-1 ${darkMode ? 'hyper-glass border-white/10 hover:border-orange-600/30 hover:shadow-[0_0_30px_rgba(234,88,12,0.1)]' : 'bg-white border-black/5 shadow-md hover:shadow-xl'}`}>
               <div className="flex justify-between items-center mb-4">
                 <div className="flex gap-0.5">
                   {[...Array(5)].map((_, starI) => {
