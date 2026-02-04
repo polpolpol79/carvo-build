@@ -491,25 +491,43 @@ export const App: React.FC = () => {
                 )}
               </div>
 
-              {/* DESKTOP ONLY: Grid View */}
-              <div className="hidden md:grid grid-cols-3 gap-8 w-full p-4">
+              {/* DESKTOP ONLY: Grid View - Scaled Up to 2 Columns */}
+              <div className="hidden md:grid grid-cols-2 gap-10 w-full p-4">
                 {products.map((p) => (
-                  <div key={p.id} onClick={() => setSelectedProduct(p)} className={`relative group h-[550px] flex flex-col rounded-[2.5rem] overflow-hidden cursor-pointer transition-all hover:-translate-y-2 duration-500 border-2 ${darkMode ? 'border-white/5 bg-white/[0.03] hover:border-orange-600/30' : 'border-black/5 bg-white shadow-xl hover:shadow-2xl'}`}>
-                    <div className="h-[55%] relative overflow-hidden bg-black/50">
-                      <img src={p.img} alt={p.name} className="w-full h-full object-cover opacity-80 group-hover:scale-110 group-hover:opacity-100 transition-all duration-700" />
-                      {!p.available && <div className="absolute inset-0 bg-black/60 flex items-center justify-center font-black italic text-2xl text-red-500 tracking-widest">SOLD OUT</div>}
-                    </div>
-                    <div className="p-8 flex flex-col h-[45%] justify-between">
-                      <div>
-                        <div className="flex justify-between items-start mb-4">
-                          <h3 className="text-3xl font-black italic uppercase leading-tight max-w-[70%] text-right">{p.name}</h3>
-                          <div className="text-3xl font-black italic text-orange-600">₪{p.price}</div>
-                        </div>
-                        <p className="text-lg font-bold italic opacity-60 line-clamp-3 text-right leading-relaxed">{p.specs.join(' ● ')}</p>
+                  <div key={p.id} onClick={() => setSelectedProduct(p)} className={`relative group min-h-[600px] flex flex-col rounded-[2.5rem] overflow-hidden cursor-pointer transition-all hover:-translate-y-2 duration-500 border-2 ${darkMode ? 'border-white/5 bg-white/[0.03] hover:border-orange-600/30' : 'border-black/5 bg-white shadow-xl hover:shadow-2xl'}`}>
+                    {/* Upper Half: Image */}
+                    <div className="h-[55%] relative overflow-hidden bg-black/50 border-b border-white/5">
+                      <img src={p.img} alt={p.name} className="w-full h-full object-cover opacity-80 group-hover:scale-105 group-hover:opacity-100 transition-all duration-700" />
+                      {!p.available && <div className="absolute inset-0 bg-black/60 flex items-center justify-center font-black italic text-4xl text-red-500 tracking-widest border-4 border-red-600 m-12 rounded-xl rotate-[-12deg]">SOLD OUT</div>}
+                      <div className="absolute top-6 left-6 bg-black/60 backdrop-blur-md border border-white/10 px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest text-white/60">
+                        CARVO_GEAR_V2
                       </div>
-                      <button disabled={!p.available} onClick={(e) => { e.stopPropagation(); addToCart(p); }} className={`w-full py-5 rounded-2xl font-black italic uppercase text-xl tracking-widest transition-all ${p.available ? 'bg-orange-600 text-black hover:bg-orange-500 group-hover:shadow-[0_0_30px_rgba(234,88,12,0.4)]' : 'bg-white/5 text-white/20'}`}>
-                        {p.available ? 'הוסף לסל +' : 'לא זמין'}
-                      </button>
+                    </div>
+
+                    {/* Lower Half: Detailed Technical Layout */}
+                    <div className="flex-1 p-8 flex flex-col justify-between bg-gradient-to-b from-transparent to-black/20">
+                      <div>
+                        <div className="flex justify-between items-start mb-6 pb-6 border-b border-dashed border-white/10">
+                          <h3 className="text-4xl font-black italic uppercase leading-[0.9] max-w-[70%] text-right tracking-tight">{p.name}</h3>
+                          <div className="text-4xl font-black italic text-orange-600 tracking-tighter">₪{p.price}</div>
+                        </div>
+                        <div className="space-y-3">
+                          {p.specs.slice(0, 3).map((spec, i) => (
+                            <div key={i} className="flex items-center gap-3 text-lg font-bold italic opacity-60">
+                              <div className="w-1.5 h-1.5 bg-orange-600 rounded-full" />
+                              {spec}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-4 mt-8 pt-6 border-t border-white/5">
+                        <button disabled={!p.available} onClick={(e) => { e.stopPropagation(); addToCart(p); }} className={`flex-1 py-5 rounded-2xl font-black italic uppercase text-xl tracking-widest transition-all ${p.available ? 'bg-orange-600 text-black hover:bg-orange-500 hover:scale-[1.02] shadow-xl shadow-orange-600/10' : 'bg-white/5 text-white/20'}`}>
+                          {p.available ? 'הוסף ציוד +' : 'לא זמין'}
+                        </button>
+                        <div className="w-16 h-16 rounded-2xl border border-white/10 flex items-center justify-center opacity-40 group-hover:opacity-100 group-hover:border-orange-600/50 group-hover:text-orange-600 transition-all">
+                          <ArrowDownIcon size={32} className="-rotate-45" />
+                        </div>
+                      </div>
                     </div>
                   </div>
                 ))}
