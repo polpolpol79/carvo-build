@@ -7,9 +7,9 @@
 
 // שימוש בכתובת המקורית של שופיפי (myshopify.com) הוא קריטי למניעת שגיאות CORS/Fetch ב-Headless.
 // ודא שהדומיין שבו האתר רץ מופיע ב-"Allowed Origins" בהגדרות ה-Storefront API בשופיפי.
-const SHOPIFY_STORE_DOMAIN = 'carvo-israel.myshopify.com'; 
-const STOREFRONT_ACCESS_TOKEN = '2db8822e9e37450609fba3b4ccd73a74'; 
-const API_VERSION = '2025-01'; 
+const SHOPIFY_STORE_DOMAIN = 'p55ixb-xx.myshopify.com';
+const STOREFRONT_ACCESS_TOKEN = '2db8822e9e37450609fba3b4ccd73a74';
+const API_VERSION = '2024-10';
 
 export async function shopifyFetch({ query, variables = {} }: { query: string, variables?: any }) {
   if (!SHOPIFY_STORE_DOMAIN || !STOREFRONT_ACCESS_TOKEN) {
@@ -19,16 +19,16 @@ export async function shopifyFetch({ query, variables = {} }: { query: string, v
 
   try {
     const url = `https://${SHOPIFY_STORE_DOMAIN}/api/${API_VERSION}/graphql.json`;
-    
+
     const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'X-Shopify-Storefront-Access-Token': STOREFRONT_ACCESS_TOKEN,
       },
-      body: JSON.stringify({ 
-        query, 
-        variables: variables || {} 
+      body: JSON.stringify({
+        query,
+        variables: variables || {}
       }),
       // הוספת הגדרות אלו עוזרת במניעת חלק משגיאות ה-Network בדפדפנים מסוימים
       credentials: 'omit',
@@ -42,7 +42,7 @@ export async function shopifyFetch({ query, variables = {} }: { query: string, v
     }
 
     const json = await response.json();
-    
+
     if (json.errors) {
       console.error('[Shopify] GraphQL Errors:', json.errors);
       return { error: 'GRAPHQL_ERROR', details: json.errors };
@@ -52,9 +52,9 @@ export async function shopifyFetch({ query, variables = {} }: { query: string, v
   } catch (error) {
     // שגיאה זו בדרך כלל מעידה על בעיית רשת, DNS או חסימת CORS מצד השרת
     console.error('[Shopify] Connection Failed:', error);
-    return { 
-      error: 'NETWORK_ERROR', 
-      details: error instanceof Error ? error.message : String(error) 
+    return {
+      error: 'NETWORK_ERROR',
+      details: error instanceof Error ? error.message : String(error)
     };
   }
 }
