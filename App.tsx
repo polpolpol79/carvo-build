@@ -21,6 +21,7 @@ import { Product, Category, CartItem } from './types';
 import { DesktopNavigation } from './components/DesktopNavigation';
 import { shopifyFetch, GET_COLLECTIONS_QUERY, GET_COLLECTION_PRODUCTS_QUERY } from './lib/shopify';
 import { trackAddToCart, trackProductView } from './lib/analytics';
+import { CustomCursor } from './components/CustomCursor';
 
 const PaymentIconsFooter = ({ darkMode }: { darkMode: boolean }) => (
   <div className="flex items-center justify-center gap-6 opacity-80 transition-all duration-700 mb-6">
@@ -417,8 +418,9 @@ export const App: React.FC = () => {
   );
 
   return (
-    <div className={`min-h-screen transition-all duration-1000 relative overflow-x-hidden pb-8 md:pb-12 ${darkMode ? 'text-white' : 'text-black'}`} dir="rtl">
+    <div className={`min-h-screen transition-all duration-1000 relative overflow-x-hidden pb-8 md:pb-12 md:cursor-none ${darkMode ? 'text-white' : 'text-black'}`} dir="rtl">
       <BlueprintBackground darkMode={darkMode} />
+      <CustomCursor />
 
       <DesktopNavigation
         darkMode={darkMode}
@@ -521,7 +523,9 @@ export const App: React.FC = () => {
 
                 <div ref={showroomScrollRef} className="flex flex-nowrap gap-8 overflow-x-auto pb-12 w-full p-4 px-12 relative z-10 snap-x snap-mandatory no-scrollbar scroll-smooth" dir="rtl">
                   {products.map((p) => (
-                    <div key={p.id} onClick={() => setSelectedProduct(p)} className={`relative group shrink-0 w-[400px] h-[650px] flex flex-col rounded-[3rem] overflow-hidden cursor-pointer transition-all hover:-translate-y-2 duration-500 border-2 snap-center ${darkMode ? 'border-white/5 bg-white/[0.03] hover:border-orange-600/30' : 'border-black/5 bg-white shadow-xl hover:shadow-2xl'}`}>
+                    <div key={p.id} onClick={() => setSelectedProduct(p)} className={`relative group shrink-0 w-[400px] h-[650px] flex flex-col rounded-[3rem] overflow-hidden cursor-pointer transition-all hover:-translate-y-2 duration-500 border-2 snap-center ${darkMode ? 'border-white/5 bg-white/[0.03] hover:border-orange-600/40 hover:shadow-[0_0_30px_rgba(234,88,12,0.15)]' : 'border-black/5 bg-white shadow-xl hover:shadow-2xl'}`}>
+                      {/* Hover Glow Gradient */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-orange-600/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-10" />
                       {/* Upper Half: Image - 88% Height (Massive Image) */}
                       <div className="h-[88%] relative overflow-hidden bg-black/50 border-b border-white/5">
                         <img src={p.img} alt={p.name} className="w-full h-full object-cover opacity-80 group-hover:scale-105 group-hover:opacity-100 transition-all duration-700" />
@@ -593,6 +597,8 @@ export const App: React.FC = () => {
               <div className="hidden md:flex flex-nowrap gap-8 overflow-x-auto pb-12 w-full relative z-10 snap-x snap-mandatory no-scrollbar">
                 {bundleProducts.map((bundle) => (
                   <div key={bundle.id} onClick={() => setSelectedProduct(bundle)} className={`relative group shrink-0 w-[400px] h-[650px] flex flex-col rounded-[3rem] overflow-hidden cursor-pointer transition-all hover:-translate-y-2 duration-500 border-2 snap-center ${bundle.featured ? 'border-orange-600 shadow-[0_0_50px_rgba(234,88,12,0.15)] hover:shadow-[0_0_80px_rgba(234,88,12,0.25)]' : (darkMode ? 'border-white/10 bg-white/5 hover:bg-white/10' : 'border-black/5 bg-white shadow-xl hover:shadow-2xl')}`}>
+                    {/* Hover Glow Gradient */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-orange-600/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-10" />
                     {/* Upper Half: Image - 88% Height */}
                     <div className="h-[88%] relative overflow-hidden bg-black/50 border-b border-white/5">
                       <img src={bundle.img} alt={bundle.name} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700" />
