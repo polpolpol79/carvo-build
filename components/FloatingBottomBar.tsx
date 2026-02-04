@@ -14,20 +14,20 @@ export const FloatingBottomBar: React.FC<FloatingBottomBarProps> = ({ darkMode, 
     { id: 'privacy', label: 'פרטיות', icon: <Shield className="w-5 h-5" /> },
     { id: 'shipping', label: 'משלוחים', icon: <Truck className="w-5 h-5" /> },
     { id: 'accessibility', label: 'נגישות', icon: <Accessibility className="w-5 h-5" /> },
-    { 
-      id: 'whatsapp', 
-      label: 'WhatsApp', 
-      icon: <MessageCircle className="w-5 h-5 text-green-500" />, 
-      isExternal: true, 
-      link: 'https://wa.me/972553087708' 
+    {
+      id: 'whatsapp',
+      label: 'WhatsApp',
+      icon: <MessageCircle className="w-5 h-5 text-green-500" />,
+      isExternal: true,
+      link: 'https://wa.me/972553087708'
     },
   ];
 
   return (
     <div className="relative z-[150] px-2 md:px-4 py-12 flex justify-center w-full overflow-hidden">
       <div className={`flex items-center justify-center gap-0.5 md:gap-1.5 p-1.5 md:p-2.5 rounded-[2rem] hyper-glass border-white/10 shadow-2xl transition-all duration-500 w-full max-w-[96%] md:max-w-fit`}>
-        
-        <a 
+
+        <a
           href={`mailto:${STORE_CONFIG.email.support}`}
           className="flex items-center gap-2 md:gap-3 px-3 md:px-6 py-3 md:py-4 bg-orange-600 text-black rounded-2xl hover:scale-105 active:scale-95 transition-all group shadow-lg shadow-orange-600/20 shrink-0"
         >
