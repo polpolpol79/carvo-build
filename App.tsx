@@ -298,25 +298,25 @@ export const App: React.FC = () => {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4 mb-10">
           {vehicleData.map((veh, i) => (
-            <div key={i} className="space-y-1.5">
-              <div className="flex justify-between items-center text-[12px] md:text-[11px] font-black italic uppercase tracking-widest opacity-60">
-                <div className="flex items-center gap-3"><span className="text-red-600">{veh.icon}</span><span>{veh.type}</span></div>
-                <div className="text-red-600">{isAnimating ? veh.count.toLocaleString() : 0}</div>
+            <div key={i} className="space-y-4">
+              <div className="flex justify-between items-center text-[12px] md:text-xl font-black italic uppercase tracking-widest opacity-60">
+                <div className="flex items-center gap-4"><span className="text-red-600">{veh.icon}</span><span>{veh.type}</span></div>
+                <div className="text-red-600 text-2xl">{isAnimating ? veh.count.toLocaleString() : 0}</div>
               </div>
-              <div className={`h-2 w-full rounded-full overflow-hidden ${darkMode ? 'bg-white/10' : 'bg-black/10'}`}><div className={`h-full rounded-full transition-all duration-[1500ms] ${veh.color}`} style={{ width: isAnimating ? `${(veh.count / 13500) * 100}%` : '0%' }} /></div>
+              <div className={`h-2 md:h-6 w-full rounded-full overflow-hidden ${darkMode ? 'bg-white/10' : 'bg-black/10'}`}><div className={`h-full rounded-full transition-all duration-[1500ms] ${veh.color}`} style={{ width: isAnimating ? `${(veh.count / 13500) * 100}%` : '0%' }} /></div>
             </div>
           ))}
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-8 mb-8">
           {criticalStats.map((stat, i) => (
-            <div key={i} className={`p-4 md:p-5 rounded-2xl border transition-all ${darkMode ? 'hyper-glass border-white/10' : 'bg-white border-black/5 shadow-md'}`}>
-              <div className="text-red-600 mb-3 opacity-80">{stat.icon}</div>
-              <div className="text-[9px] font-black uppercase tracking-widest opacity-40 mb-1">{stat.label}</div>
-              <div className="text-xl md:text-2xl font-black italic text-red-600 leading-none">{stat.val}</div>
+            <div key={i} className={`p-4 md:p-8 rounded-[2rem] border-2 transition-all ${darkMode ? 'hyper-glass border-white/10' : 'bg-white border-black/5 shadow-md'}`}>
+              <div className="text-red-600 mb-6 opacity-80 scale-150 origin-right">{stat.icon}</div>
+              <div className="text-[9px] md:text-lg font-black uppercase tracking-widest opacity-40 mb-2">{stat.label}</div>
+              <div className="text-xl md:text-5xl font-black italic text-red-600 leading-none">{stat.val}</div>
             </div>
           ))}
         </div>
-        <p className="text-[10px] md:text-[11px] font-bold italic opacity-40 text-right pr-2">* (נתונים מאומתים: כ-25% מהתאונות הקטלניות בדרכים בין-עירוניות מתרחשות בשולי הכביש עקב עצירה לא בטוחה)</p>
+        <p className="text-[10px] md:text-xl font-bold italic opacity-40 text-right pr-2">* (נתונים מאומתים: כ-25% מהתאונות הקטלניות בדרכים בין-עירוניות מתרחשות בשולי הכביש עקב עצירה לא בטוחה)</p>
       </section>
     );
   };
@@ -333,7 +333,7 @@ export const App: React.FC = () => {
             <div className="flex items-center gap-3 mb-6"><div className="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center text-black"><AlertTriangle size={18} /></div><h3 className="text-xl md:text-3xl font-black italic uppercase tracking-tighter">כשנתקעים... (הסיוט)</h3></div>
             <ul className="space-y-4 mb-8">
               {[{ label: "3.5 שעות המתנה", detail: "סיכון MAX!", icon: <Clock size={16} /> }, { label: "₪500", detail: "אובדן יום עבודה", icon: <Briefcase size={16} /> }, { label: "₪500", detail: "עלות גרירה ממוצעת", icon: <Truck size={16} /> }, { label: "₪500 - ₪4,000", detail: "עלויות תיקון במוסך", icon: <Wrench size={16} /> }].map((item, i) => (
-                <li key={i} className="flex items-center justify-between border-b border-red-600/10 pb-3"><div className="flex items-center gap-3"><span className="text-red-600 opacity-60">{item.icon}</span><span className="text-sm md:text-base font-black italic uppercase">{item.label}</span></div><span className="text-[11px] font-black uppercase opacity-40">{item.detail}</span></li>
+                <li key={i} className="flex items-center justify-between border-b border-red-600/10 pb-6"><div className="flex items-center gap-4"><span className="text-red-600 opacity-60 scale-125">{item.icon}</span><span className="text-sm md:text-2xl font-black italic uppercase">{item.label}</span></div><span className="text-[11px] md:text-lg font-black uppercase opacity-40">{item.detail}</span></li>
               ))}
             </ul>
             <div className="pt-6 border-t border-red-600/20 flex justify-between items-end"><div className="text-[10px] font-black uppercase opacity-40 italic">COST_PER_EVENT</div><div className="text-2xl md:text-4xl font-black italic text-red-600 tracking-tighter">₪1,500 - ₪5,000</div></div>
@@ -342,7 +342,7 @@ export const App: React.FC = () => {
             <div className="flex items-center gap-3 mb-6"><div className="w-8 h-8 bg-orange-600 rounded-full flex items-center justify-center text-black"><Zap size={18} /></div><h3 className="text-xl md:text-3xl font-black italic uppercase tracking-tighter">פרוטוקול CARVO</h3></div>
             <ul className="space-y-4 mb-8">
               {[{ label: "4 דקות", detail: "וחזרת לכביש בבטחה", icon: <Zap size={16} /> }, { label: "אין זמן אבוד", detail: "המשך יום כרגיל", icon: <Sun size={16} /> }, { label: "עצמאות מלאה", detail: "הפתרון תמיד בבגאז'", icon: <ShieldCheck size={16} /> }, { label: "אפס הפתעות", detail: "מערכת מוכנה לכל תרחיש", icon: <CheckCircle2 size={16} /> }].map((item, i) => (
-                <li key={i} className="flex items-center justify-between border-b border-orange-600/10 pb-3"><div className="flex items-center gap-3"><span className="text-orange-600 opacity-60">{item.icon}</span><span className="text-sm md:text-base font-black italic uppercase">{item.label}</span></div><span className="text-[11px] font-black uppercase opacity-40">{item.detail}</span></li>
+                <li key={i} className="flex items-center justify-between border-b border-orange-600/10 pb-6"><div className="flex items-center gap-4"><span className="text-orange-600 opacity-60 scale-125">{item.icon}</span><span className="text-sm md:text-2xl font-black italic uppercase">{item.label}</span></div><span className="text-[11px] md:text-lg font-black uppercase opacity-40">{item.detail}</span></li>
               ))}
             </ul>
           </div>
