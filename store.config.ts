@@ -1,8 +1,13 @@
 
 export const STORE_CONFIG = {
   name: 'Carvo',
+  domain: 'carvo.co.il',
+  idNumber: 'בתהליך רישום',
+  year: '2026',
   locale: 'he-IL',
   currency: 'ILS',
+  address: 'יבנה 5, אשקלון, ישראל',
+  phone: '',
   email: {
     support: 'support@carvo.co.il',
     legal: 'legal@carvo.co.il',
