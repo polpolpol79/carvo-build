@@ -458,8 +458,10 @@ export const App: React.FC = () => {
         ) : (
           <section id="showroom" className="relative py-8 md:py-20 px-4 max-w-7xl mx-auto">
             <div className="text-right mb-10 px-6"><h2 className="text-3xl md:text-8xl font-black italic uppercase tracking-tighter">THE_SHOWROOM</h2></div>
-            <div className="relative mx-auto max-w-[90vw] md:max-w-4xl">
-              <div className="w-full h-[420px] md:h-[650px] overflow-hidden rounded-[35px] relative shadow-2xl touch-pan-y" onTouchStart={handleTouchStart} onTouchEnd={(e) => handleTouchEnd('products', e.changedTouches[0].clientX)}>
+            {/* Showroom Logic */}
+            <div className="relative mx-auto max-w-[90vw] md:max-w-7xl">
+              {/* MOBILE ONLY: Swipe Carousel */}
+              <div className="md:hidden w-full h-[420px] overflow-hidden rounded-[35px] relative shadow-2xl touch-pan-y" onTouchStart={handleTouchStart} onTouchEnd={(e) => handleTouchEnd('products', e.changedTouches[0].clientX)}>
                 <div className="flex h-full w-full transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]" style={{ transform: `translateX(${activeProdIdx * 100}%)` }}>
                   {isProductsLoading ? (
                     <div className="w-full shrink-0 h-full p-2"><CardSkeleton darkMode={darkMode} /></div>
@@ -471,22 +473,47 @@ export const App: React.FC = () => {
                     <div key={p.id} className="w-full h-full shrink-0 flex-none" dir="rtl">
                       <div onClick={() => !isSwiping && setSelectedProduct(p)} className={`h-full w-full flex flex-col overflow-hidden rounded-[35px] cursor-pointer group transition-all ${darkMode ? 'hyper-glass bg-white/[0.04] border-white/10' : 'bg-white border border-black/15 shadow-2xl'}`}>
                         <div className="aspect-[16/9] bg-black relative shrink-0 overflow-hidden"><img src={p.img} alt={p.name} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-transform duration-1000 group-hover:scale-110" />{!p.available && <div className="absolute inset-0 bg-black/60 flex items-center justify-center font-black italic text-xl text-red-500">אזל מהמלאי_</div>}</div>
-                        <div className="flex-1 p-6 md:p-8 flex flex-col justify-between">
-                          <div className="flex justify-between items-start gap-4 mb-2"><h3 className="text-xl md:text-2xl font-black italic uppercase leading-tight flex-1 truncate">{p.name}</h3><div className="text-xl md:text-2xl font-black italic text-orange-600 shrink-0">₪{p.price}</div></div>
-                          <div className="h-[68px] md:h-[76px] mb-4 overflow-hidden"><p className="text-[11px] font-bold italic opacity-60 leading-relaxed line-clamp-4 uppercase">{p.specs.join('\n')}</p></div>
+                        <div className="flex-1 p-6 flex flex-col justify-between">
+                          <div className="flex justify-between items-start gap-4 mb-2"><h3 className="text-xl font-black italic uppercase leading-tight flex-1 truncate">{p.name}</h3><div className="text-xl font-black italic text-orange-600 shrink-0">₪{p.price}</div></div>
+                          <div className="h-[68px] mb-4 overflow-hidden"><p className="text-[11px] font-bold italic opacity-60 leading-relaxed line-clamp-4 uppercase">{p.specs.join('\n')}</p></div>
                           <button disabled={!p.available} onClick={(e) => { e.stopPropagation(); addToCart(p); }} className={`w-full py-4 rounded-xl font-black italic uppercase text-sm tracking-widest shadow-xl active:scale-95 transition-all ${p.available ? 'bg-orange-600 text-black hover:bg-orange-500' : 'bg-white/10 text-white/40 cursor-not-allowed'}`}>{p.available ? 'הוסף לעגלה_' : 'זמנית לא במלאי'}</button>
                         </div>
                       </div>
                     </div>
                   ))}
                 </div>
+                {/* Mobile Arrows */}
+                {products.length > 1 && (
+                  <>
+                    <button onClick={() => activeProdIdx > 0 && setActiveProdIdx(p => p - 1)} className="absolute -right-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 bg-black text-white rounded-xl border border-orange-600/40 flex items-center justify-center hover:bg-orange-600 hover:text-black transition-all active:scale-90"><ChevronRight size={20} /></button>
+                    <button onClick={() => activeProdIdx < products.length - 1 && setActiveProdIdx(p => p + 1)} className="absolute -left-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 bg-black text-white rounded-xl border border-orange-600/40 flex items-center justify-center hover:bg-orange-600 hover:text-black transition-all active:scale-90"><ChevronLeft size={20} /></button>
+                  </>
+                )}
               </div>
-              {products.length > 1 && (
-                <>
-                  <button onClick={() => activeProdIdx > 0 && setActiveProdIdx(p => p - 1)} className="absolute -right-4 md:-right-14 top-1/2 -translate-y-1/2 z-30 w-10 h-10 md:w-14 md:h-14 bg-black text-white rounded-xl border border-orange-600/40 flex items-center justify-center hover:bg-orange-600 hover:text-black transition-all active:scale-90"><ChevronRight size={20} /></button>
-                  <button onClick={() => activeProdIdx < products.length - 1 && setActiveProdIdx(p => p + 1)} className="absolute -left-4 md:-left-14 top-1/2 -translate-y-1/2 z-30 w-10 h-10 md:w-14 md:h-14 bg-black text-white rounded-xl border border-orange-600/40 flex items-center justify-center hover:bg-orange-600 hover:text-black transition-all active:scale-90"><ChevronLeft size={20} /></button>
-                </>
-              )}
+
+              {/* DESKTOP ONLY: Grid View */}
+              <div className="hidden md:grid grid-cols-3 gap-8 w-full p-4">
+                {products.map((p) => (
+                  <div key={p.id} onClick={() => setSelectedProduct(p)} className={`relative group h-[550px] flex flex-col rounded-[2.5rem] overflow-hidden cursor-pointer transition-all hover:-translate-y-2 duration-500 border-2 ${darkMode ? 'border-white/5 bg-white/[0.03] hover:border-orange-600/30' : 'border-black/5 bg-white shadow-xl hover:shadow-2xl'}`}>
+                    <div className="h-[55%] relative overflow-hidden bg-black/50">
+                      <img src={p.img} alt={p.name} className="w-full h-full object-cover opacity-80 group-hover:scale-110 group-hover:opacity-100 transition-all duration-700" />
+                      {!p.available && <div className="absolute inset-0 bg-black/60 flex items-center justify-center font-black italic text-2xl text-red-500 tracking-widest">SOLD OUT</div>}
+                    </div>
+                    <div className="p-8 flex flex-col h-[45%] justify-between">
+                      <div>
+                        <div className="flex justify-between items-start mb-4">
+                          <h3 className="text-3xl font-black italic uppercase leading-tight max-w-[70%] text-right">{p.name}</h3>
+                          <div className="text-3xl font-black italic text-orange-600">₪{p.price}</div>
+                        </div>
+                        <p className="text-lg font-bold italic opacity-60 line-clamp-3 text-right leading-relaxed">{p.specs.join(' ● ')}</p>
+                      </div>
+                      <button disabled={!p.available} onClick={(e) => { e.stopPropagation(); addToCart(p); }} className={`w-full py-5 rounded-2xl font-black italic uppercase text-xl tracking-widest transition-all ${p.available ? 'bg-orange-600 text-black hover:bg-orange-500 group-hover:shadow-[0_0_30px_rgba(234,88,12,0.4)]' : 'bg-white/5 text-white/20'}`}>
+                        {p.available ? 'הוסף לסל +' : 'לא זמין'}
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </section>
         )}
@@ -500,36 +527,65 @@ export const App: React.FC = () => {
             <h2 className="text-3xl md:text-8xl font-black italic uppercase tracking-tighter leading-none">חבילות העלית לחיסכון</h2>
           </div>
           <div className="relative mx-auto max-w-[90vw] md:max-w-4xl">
-            <div className="w-full h-[450px] md:h-[700px] overflow-hidden rounded-[35px] relative shadow-2xl touch-pan-y" onTouchStart={handleTouchStart} onTouchEnd={(e) => handleTouchEnd('bundles', e.changedTouches[0].clientX)}>
-              <div className="flex h-full w-full transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]" style={{ transform: `translateX(${activeBundleIdx * 100}%)` }}>
-                {isBundlesLoading ? (
-                  <div className="w-full shrink-0 h-full p-2"><CardSkeleton darkMode={darkMode} /></div>
-                ) : bundleProducts.length === 0 ? (
-                  <div className="w-full h-full flex flex-col items-center justify-center p-8 text-center opacity-40">
-                    <p className="text-[12px] font-black uppercase tracking-widest">לא נמצאו חבילות_</p>
-                  </div>
-                ) : bundleProducts.map((bundle) => (
-                  <div key={bundle.id} className="w-full h-full shrink-0 flex-none" dir="rtl">
-                    <div onClick={() => !isSwiping && setSelectedProduct(bundle)} className={`relative h-full flex flex-col rounded-[35px] overflow-hidden transition-all group border-4 ${bundle.featured ? 'border-orange-600' : (darkMode ? 'border-white/10' : 'border-black/10')} ${darkMode ? 'bg-[#1a1a1a]' : 'bg-white'}`}>
-                      <div className="aspect-[16/9] bg-black relative shrink-0 overflow-hidden"><img src={bundle.img} alt={bundle.name} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-transform duration-1000 group-hover:scale-110" /></div>
-                      <div className="p-6 md:p-12 flex flex-col justify-between flex-1 text-right">
-                        <div className="flex flex-col flex-1">
-                          <div className="flex justify-between items-start gap-4 mb-6"><h3 className="text-xl md:text-4xl font-black italic uppercase leading-none truncate">{bundle.name}</h3><div className="text-xl md:text-4xl font-black italic text-orange-600 shrink-0">₪{bundle.price}</div></div>
-                          <div className="h-[80px] md:h-[120px] mb-8 overflow-hidden"><p className="text-[11px] md:text-lg font-bold italic opacity-60 leading-relaxed line-clamp-4 uppercase">{bundle.specs.join('\n')}</p></div>
+            <div className="relative mx-auto">
+              {/* MOBILE ONLY: Bundle Carousel */}
+              <div className="md:hidden w-full h-[450px] overflow-hidden rounded-[35px] relative shadow-2xl touch-pan-y" onTouchStart={handleTouchStart} onTouchEnd={(e) => handleTouchEnd('bundles', e.changedTouches[0].clientX)}>
+                <div className="flex h-full w-full transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]" style={{ transform: `translateX(${activeBundleIdx * 100}%)` }}>
+                  {isBundlesLoading ? (
+                    <div className="w-full shrink-0 h-full p-2"><CardSkeleton darkMode={darkMode} /></div>
+                  ) : bundleProducts.length === 0 ? (
+                    <div className="w-full h-full flex flex-col items-center justify-center p-8 text-center opacity-40">
+                      <p className="text-[12px] font-black uppercase tracking-widest">לא נמצאו חבילות_</p>
+                    </div>
+                  ) : bundleProducts.map((bundle) => (
+                    <div key={bundle.id} className="w-full h-full shrink-0 flex-none" dir="rtl">
+                      <div onClick={() => !isSwiping && setSelectedProduct(bundle)} className={`relative h-full flex flex-col rounded-[35px] overflow-hidden transition-all group border-4 ${bundle.featured ? 'border-orange-600' : (darkMode ? 'border-white/10' : 'border-black/10')} ${darkMode ? 'bg-[#1a1a1a]' : 'bg-white'}`}>
+                        <div className="aspect-[16/9] bg-black relative shrink-0 overflow-hidden"><img src={bundle.img} alt={bundle.name} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-transform duration-1000 group-hover:scale-110" /></div>
+                        <div className="p-6 flex flex-col justify-between flex-1 text-right">
+                          <div className="flex flex-col flex-1">
+                            <div className="flex justify-between items-start gap-4 mb-4"><h3 className="text-xl font-black italic uppercase leading-none truncate">{bundle.name}</h3><div className="text-xl font-black italic text-orange-600 shrink-0">₪{bundle.price}</div></div>
+                            <div className="h-[80px] mb-8 overflow-hidden"><p className="text-[11px] font-bold italic opacity-60 leading-relaxed line-clamp-4 uppercase">{bundle.specs.join('\n')}</p></div>
+                          </div>
+                          <button disabled={!bundle.available} onClick={(e) => { e.stopPropagation(); addToCart(bundle); }} className={`w-full py-4 font-black italic uppercase text-sm tracking-widest rounded-xl transition-all shadow-xl ${bundle.available ? 'bg-orange-600 text-black hover:bg-orange-500 shadow-orange-600/10' : 'bg-white/10 text-white/20 cursor-not-allowed'}`}>{bundle.available ? 'הזמן עכשיו_' : 'אזל מהמלאי'}</button>
                         </div>
-                        <button disabled={!bundle.available} onClick={(e) => { e.stopPropagation(); addToCart(bundle); }} className={`w-full py-4 md:py-6 font-black italic uppercase text-sm md:text-xl tracking-widest rounded-2xl transition-all shadow-xl ${bundle.available ? 'bg-orange-600 text-black hover:bg-orange-500 shadow-orange-600/10' : 'bg-white/10 text-white/20 cursor-not-allowed'}`}>{bundle.available ? 'הזמן עכשיו_' : 'אזל מהמלאי'}</button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                {bundleProducts.length > 1 && (
+                  <>
+                    <button onClick={() => activeBundleIdx > 0 && setActiveBundleIdx(p => p - 1)} className="absolute -right-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 bg-black text-white rounded-xl border border-orange-600/40 flex items-center justify-center hover:bg-orange-600 hover:text-black transition-all active:scale-90"><ChevronRight size={20} /></button>
+                    <button onClick={() => activeBundleIdx < bundleProducts.length - 1 && setActiveBundleIdx(p => p + 1)} className="absolute -left-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 bg-black text-white rounded-xl border border-orange-600/40 flex items-center justify-center hover:bg-orange-600 hover:text-black transition-all active:scale-90"><ChevronLeft size={20} /></button>
+                  </>
+                )}
+              </div>
+
+              {/* DESKTOP ONLY: Bundle Grid */}
+              <div className="hidden md:grid grid-cols-2 gap-10">
+                {bundleProducts.map((bundle) => (
+                  <div key={bundle.id} onClick={() => setSelectedProduct(bundle)} className={`relative group h-[500px] flex rounded-[2.5rem] overflow-hidden cursor-pointer transition-all hover:-translate-y-2 duration-500 border-2 ${bundle.featured ? 'border-orange-600 shadow-[0_0_50px_rgba(234,88,12,0.15)] hover:shadow-[0_0_80px_rgba(234,88,12,0.25)]' : (darkMode ? 'border-white/10 bg-white/5 hover:bg-white/10' : 'border-black/5 bg-white shadow-xl hover:shadow-2xl')}`}>
+                    <div className="w-[55%] relative overflow-hidden bg-black/50">
+                      <img src={bundle.img} alt={bundle.name} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700" />
+                    </div>
+                    <div className="w-[45%] p-10 flex flex-col justify-between relative bg-gradient-to-l from-transparent to-black/20">
+                      <div>
+                        <div className="text-orange-600 text-sm font-black italic uppercase tracking-[0.3em] mb-4 flex items-center gap-2"><Layers size={16} /> ELITE_BUNDLE</div>
+                        <h3 className="text-5xl font-black italic uppercase leading-[0.9] mb-6">{bundle.name.split(' ').map((w, i) => <div key={i}>{w}</div>)}</h3>
+                        <div className="space-y-2">
+                          {bundle.specs.slice(0, 3).map((spec, i) => (
+                            <div key={i} className="flex items-center gap-3 text-lg font-bold italic opacity-60"><Check size={16} className="text-orange-600" /> {spec}</div>
+                          ))}
+                        </div>
+                      </div>
+                      <div className="flex flex-col gap-4">
+                        <div className="text-4xl font-black italic text-orange-600">₪{bundle.price}</div>
+                        <button disabled={!bundle.available} onClick={(e) => { e.stopPropagation(); addToCart(bundle); }} className={`w-full py-4 rounded-xl font-black italic uppercase tracking-widest text-lg transition-all border-2 border-orange-600 ${bundle.available ? 'bg-orange-600 text-black hover:bg-transparent hover:text-white' : 'bg-white/10'}`}>הוסף_</button>
                       </div>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
-            {bundleProducts.length > 1 && (
-              <>
-                <button onClick={() => activeBundleIdx > 0 && setActiveBundleIdx(p => p - 1)} className="absolute -right-4 md:-right-14 top-1/2 -translate-y-1/2 z-30 w-10 h-10 md:w-14 md:h-14 bg-black text-white rounded-xl border border-orange-600/40 flex items-center justify-center hover:bg-orange-600 hover:text-black transition-all active:scale-90"><ChevronRight size={20} /></button>
-                <button onClick={() => activeBundleIdx < bundleProducts.length - 1 && setActiveBundleIdx(p => p + 1)} className="absolute -left-4 md:-left-14 top-1/2 -translate-y-1/2 z-30 w-10 h-10 md:w-14 md:h-14 bg-black text-white rounded-xl border border-orange-600/40 flex items-center justify-center hover:bg-orange-600 hover:text-black transition-all active:scale-90"><ChevronLeft size={20} /></button>
-              </>
-            )}
           </div>
         </section>
 
