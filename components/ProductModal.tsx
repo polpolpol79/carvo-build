@@ -97,9 +97,8 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onC
     const threshold = 50;
 
     if (Math.abs(diff) > threshold) {
-      // Inverted Logic
-      if (diff < 0) nextImage(); // Swipe Right -> Next
-      else prevImage();         // Swipe Left -> Prev
+      if (diff < 0) nextImage();
+      else prevImage();
     }
   };
 
@@ -171,7 +170,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onC
           >
             <div
               className={`flex h-full w-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] touch-pan-y ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
-              style={{ transform: `translateX(${currentImgIdx * -100}%)` }} // Switched to negative percentage for correct RTL/LTR logic if needed, but standard carousel uses -100% per index
+              style={{ transform: `translateX(${currentImgIdx * 100}%)` }} // Fixed for RTL: Shift Right to view Left items
               onTouchStart={(e) => setTouchStart(e.touches[0].clientX)}
               onTouchEnd={(e) => handleSwipeEnd(e.changedTouches[0].clientX, touchStart)}
             >
