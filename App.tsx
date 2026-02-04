@@ -257,7 +257,7 @@ export const App: React.FC = () => {
     ];
 
     return (
-      <section ref={sectionRef} className="relative z-10 py-8 md:py-12 px-6 max-w-5xl mx-auto text-right">
+      <section ref={sectionRef} className="relative z-10 py-8 md:py-20 px-6 max-w-7xl mx-auto text-right">
         <ThinMotion>
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 border-r-4 border-red-600 pr-6">
             <div className="flex-1">
@@ -267,7 +267,7 @@ export const App: React.FC = () => {
                 </div>
                 <a href="https://www.gov.il/BlobFolder/reports/2025_summary_ralbad/he/summry_ralbad_25.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-red-600/30 text-red-600 font-black italic uppercase tracking-tighter text-[10px] hover:bg-red-600 hover:text-white transition-all"><Download size={14} /><span>הורדת הדוח</span></a>
               </div>
-              <h2 className="text-3xl md:text-6xl font-black italic uppercase leading-none tracking-tighter">דוח רלב"ד <span className="text-red-600 opacity-80">קריטי</span></h2>
+              <h2 className="text-3xl md:text-8xl font-black italic uppercase leading-none tracking-tighter">דוח רלב"ד <span className="text-red-600 opacity-80">קריטי</span></h2>
             </div>
           </div>
         </ThinMotion>
@@ -300,10 +300,10 @@ export const App: React.FC = () => {
   };
 
   const CrisisProtocolSection = () => (
-    <section id="crisis-protocol" className="relative z-10 py-6 md:py-10 px-6 max-w-5xl mx-auto text-right">
+    <section id="crisis-protocol" className="relative z-10 py-8 md:py-24 px-6 max-w-7xl mx-auto text-right">
       <ThinMotion>
         <div className="mb-6">
-          <h2 className="text-3xl md:text-6xl font-black italic uppercase tracking-tighter leading-none mb-2 flex flex-wrap items-center justify-start gap-x-2 md:gap-x-4"><span className="text-red-600">המשבר</span><span className="opacity-40">VS</span><span className="text-orange-600">CARVO</span></h2>
+          <h2 className="text-3xl md:text-8xl font-black italic uppercase tracking-tighter leading-none mb-4 flex flex-wrap items-center justify-start gap-x-2 md:gap-x-6"><span className="text-red-600">המשבר</span><span className="opacity-40">VS</span><span className="text-orange-600">CARVO</span></h2>
           <div className="text-[10px] font-black uppercase tracking-[0.5em] opacity-30 italic">ANALYSIS_PROTOCOL_2026</div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
@@ -424,10 +424,10 @@ export const App: React.FC = () => {
             </button>
           </div>
         ) : (
-          <section id="showroom" className="relative py-8 px-4 max-w-2xl mx-auto">
-            <div className="text-right mb-6 px-6"><h2 className="text-3xl md:text-6xl font-black italic uppercase tracking-tighter">THE_SHOWROOM</h2></div>
-            <div className="relative mx-auto max-w-[90vw] md:max-w-lg">
-              <div className="w-full h-[420px] md:h-[500px] overflow-hidden rounded-[35px] relative shadow-2xl touch-pan-y" onTouchStart={handleTouchStart} onTouchEnd={(e) => handleTouchEnd('products', e.changedTouches[0].clientX)}>
+          <section id="showroom" className="relative py-8 md:py-20 px-4 max-w-7xl mx-auto">
+            <div className="text-right mb-10 px-6"><h2 className="text-3xl md:text-8xl font-black italic uppercase tracking-tighter">THE_SHOWROOM</h2></div>
+            <div className="relative mx-auto max-w-[90vw] md:max-w-4xl">
+              <div className="w-full h-[420px] md:h-[650px] overflow-hidden rounded-[35px] relative shadow-2xl touch-pan-y" onTouchStart={handleTouchStart} onTouchEnd={(e) => handleTouchEnd('products', e.changedTouches[0].clientX)}>
                 <div className="flex h-full w-full transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]" style={{ transform: `translateX(${activeProdIdx * 100}%)` }}>
                   {isProductsLoading ? (
                     <div className="w-full shrink-0 h-full p-2"><CardSkeleton darkMode={darkMode} /></div>
@@ -462,13 +462,13 @@ export const App: React.FC = () => {
         <RALBADSection />
         <CrisisProtocolSection />
 
-        <section id="bundles" className="relative z-10 py-8 px-4 max-w-2xl mx-auto">
-          <div className="text-center mb-8">
-            <div className="text-[11px] font-black uppercase text-orange-600 tracking-[0.4em] mb-1 italic flex items-center justify-center gap-2"><Layers size={18} /> ELITE_PACKAGES</div>
-            <h2 className="text-3xl md:text-6xl font-black italic uppercase tracking-tighter leading-none">חבילות העלית לחיסכון</h2>
+        <section id="bundles" className="relative z-10 py-8 md:py-20 px-4 max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <div className="text-[11px] md:text-sm font-black uppercase text-orange-600 tracking-[0.4em] mb-2 italic flex items-center justify-center gap-2"><Layers size={22} /> ELITE_PACKAGES</div>
+            <h2 className="text-3xl md:text-8xl font-black italic uppercase tracking-tighter leading-none">חבילות העלית לחיסכון</h2>
           </div>
-          <div className="relative mx-auto max-w-[90vw] md:max-w-lg">
-            <div className="w-full h-[450px] md:h-[550px] overflow-hidden rounded-[35px] relative shadow-2xl touch-pan-y" onTouchStart={handleTouchStart} onTouchEnd={(e) => handleTouchEnd('bundles', e.changedTouches[0].clientX)}>
+          <div className="relative mx-auto max-w-[90vw] md:max-w-4xl">
+            <div className="w-full h-[450px] md:h-[700px] overflow-hidden rounded-[35px] relative shadow-2xl touch-pan-y" onTouchStart={handleTouchStart} onTouchEnd={(e) => handleTouchEnd('bundles', e.changedTouches[0].clientX)}>
               <div className="flex h-full w-full transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]" style={{ transform: `translateX(${activeBundleIdx * 100}%)` }}>
                 {isBundlesLoading ? (
                   <div className="w-full shrink-0 h-full p-2"><CardSkeleton darkMode={darkMode} /></div>
@@ -480,12 +480,12 @@ export const App: React.FC = () => {
                   <div key={bundle.id} className="w-full h-full shrink-0 flex-none" dir="rtl">
                     <div onClick={() => !isSwiping && setSelectedProduct(bundle)} className={`relative h-full flex flex-col rounded-[35px] overflow-hidden transition-all group border-4 ${bundle.featured ? 'border-orange-600' : (darkMode ? 'border-white/10' : 'border-black/10')} ${darkMode ? 'bg-[#1a1a1a]' : 'bg-white'}`}>
                       <div className="aspect-[16/9] bg-black relative shrink-0 overflow-hidden"><img src={bundle.img} alt={bundle.name} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-transform duration-1000 group-hover:scale-110" /></div>
-                      <div className="p-6 md:p-8 flex flex-col justify-between flex-1 text-right">
+                      <div className="p-6 md:p-12 flex flex-col justify-between flex-1 text-right">
                         <div className="flex flex-col flex-1">
-                          <div className="flex justify-between items-start gap-4 mb-4"><h3 className="text-xl md:text-2xl font-black italic uppercase leading-none truncate">{bundle.name}</h3><div className="text-xl md:text-2xl font-black italic text-orange-600 shrink-0">₪{bundle.price}</div></div>
-                          <div className="h-[80px] md:h-[100px] mb-8 overflow-hidden"><p className="text-[11px] md:text-[10px] font-bold italic opacity-60 leading-relaxed line-clamp-4 uppercase">{bundle.specs.join('\n')}</p></div>
+                          <div className="flex justify-between items-start gap-4 mb-6"><h3 className="text-xl md:text-4xl font-black italic uppercase leading-none truncate">{bundle.name}</h3><div className="text-xl md:text-4xl font-black italic text-orange-600 shrink-0">₪{bundle.price}</div></div>
+                          <div className="h-[80px] md:h-[120px] mb-8 overflow-hidden"><p className="text-[11px] md:text-lg font-bold italic opacity-60 leading-relaxed line-clamp-4 uppercase">{bundle.specs.join('\n')}</p></div>
                         </div>
-                        <button disabled={!bundle.available} onClick={(e) => { e.stopPropagation(); addToCart(bundle); }} className={`w-full py-4 font-black italic uppercase text-sm tracking-widest rounded-xl transition-all shadow-xl ${bundle.available ? 'bg-orange-600 text-black hover:bg-orange-500 shadow-orange-600/10' : 'bg-white/10 text-white/20 cursor-not-allowed'}`}>{bundle.available ? 'הזמן עכשיו_' : 'אזל מהמלאי'}</button>
+                        <button disabled={!bundle.available} onClick={(e) => { e.stopPropagation(); addToCart(bundle); }} className={`w-full py-4 md:py-6 font-black italic uppercase text-sm md:text-xl tracking-widest rounded-2xl transition-all shadow-xl ${bundle.available ? 'bg-orange-600 text-black hover:bg-orange-500 shadow-orange-600/10' : 'bg-white/10 text-white/20 cursor-not-allowed'}`}>{bundle.available ? 'הזמן עכשיו_' : 'אזל מהמלאי'}</button>
                       </div>
                     </div>
                   </div>
