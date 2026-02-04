@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { X, ShoppingBag, ShieldCheck, Zap, Wind, Wrench, ChevronLeft, ChevronRight, ZoomIn, Truck } from 'lucide-react';
+import { X, ShoppingBag, ShieldCheck, Zap, Wind, Wrench, ChevronLeft, ChevronRight, ZoomIn, Truck, Info } from 'lucide-react';
 import { Product } from '../types';
 
 interface ProductModalProps {
@@ -14,11 +14,28 @@ interface ProductModalProps {
 export const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onClose, onAddToCart, darkMode }) => {
   const [currentImgIdx, setCurrentImgIdx] = useState(0);
   const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [dragStartX, setDragStartX] = useState<number | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
   const [fullscreenImage, setFullscreenImage] = useState<string | null>(null);
+  const [isInfoOpen, setIsInfoOpen] = useState(false);
 
   useEffect(() => {
     setCurrentImgIdx(0);
     setFullscreenImage(null);
+
+    // Keyboard Navigation
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!isOpen) return;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowUp') nextImage();
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') prevImage();
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') prevImage();
+      if (e.key === 'Escape') {
+        if (isInfoOpen) setIsInfoOpen(false);
+        else onClose();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
 
     // Dynamic Schema Injection
     if (isOpen && product) {
@@ -53,25 +70,50 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onC
       }
       script.text = JSON.stringify(schema);
     }
+
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, [product, isOpen]);
 
   if (!product) return null;
 
   const images = product.images || [product.img];
 
-  const handleSwipe = (endX: number) => {
-    if (touchStart === null) return;
-    const diff = touchStart - endX;
+  const nextImage = () => setCurrentImgIdx(prev => (prev < images.length - 1 ? prev + 1 : prev));
+  const prevImage = () => setCurrentImgIdx(prev => (prev > 0 ? prev - 1 : prev));
+
+  // Unified Swipe Handler (Touch & Mouse)
+  const handleSwipeEnd = (endX: number, startX: number | null) => {
+    if (startX === null) return;
+    const diff = startX - endX;
     const threshold = 50;
 
     if (Math.abs(diff) > threshold) {
-      if (diff > 0 && currentImgIdx < images.length - 1) {
-        setCurrentImgIdx(prev => prev + 1);
-      } else if (diff < 0 && currentImgIdx > 0) {
-        setCurrentImgIdx(prev => prev - 1);
-      }
+      if (diff > 0) nextImage();
+      else prevImage();
     }
-    setTouchStart(null);
+  };
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setDragStartX(e.clientX);
+    setIsDragging(true);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || dragStartX === null) return;
+    e.preventDefault();
+  };
+
+  const handleMouseUp = (e: React.MouseEvent) => {
+    if (isDragging && dragStartX !== null) {
+      handleSwipeEnd(e.clientX, dragStartX);
+    }
+    setIsDragging(false);
+    setDragStartX(null);
+  };
+
+  const handleMouseLeave = () => {
+    setIsDragging(false);
+    setDragStartX(null);
   };
 
   return (
@@ -111,24 +153,50 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onC
           </button>
 
           {/* 1. HERO IMAGE (70% Height on Mobile) */}
-          <div className="h-[70%] md:h-full md:col-span-7 md:row-span-12 relative rounded-b-[2.5rem] md:rounded-[2.5rem] overflow-hidden group bg-black shadow-lg order-1 md:order-none">
+          <div className="h-[70%] md:h-full md:col-span-7 md:row-span-12 relative rounded-b-[2.5rem] md:rounded-[2.5rem] overflow-hidden group bg-black shadow-lg order-1 md:order-none"
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseLeave}
+          >
             <div
-              className="flex h-full w-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] touch-pan-y"
-              style={{ transform: `translateX(${currentImgIdx * 100}%)` }}
+              className={`flex h-full w-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] touch-pan-y ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+              style={{ transform: `translateX(${currentImgIdx * -100}%)` }} // Switched to negative percentage for correct RTL/LTR logic if needed, but standard carousel uses -100% per index
               onTouchStart={(e) => setTouchStart(e.touches[0].clientX)}
-              onTouchEnd={(e) => handleSwipe(e.changedTouches[0].clientX)}
+              onTouchEnd={(e) => handleSwipeEnd(e.changedTouches[0].clientX, touchStart)}
             >
               {images.map((imgUrl, i) => (
                 <div
                   key={i}
-                  className="w-full h-full shrink-0 flex-none relative cursor-zoom-in"
-                  onClick={() => setFullscreenImage(imgUrl)}
+                  className="w-full h-full shrink-0 flex-none relative"
+                  onClick={(e) => {
+                    // Only trigger zoom if it wasn't a drag
+                    if (!isDragging) setFullscreenImage(imgUrl);
+                  }}
                 >
-                  <img src={imgUrl} alt={`${product.name} ${i}`} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-700" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60" />
+                  <img src={imgUrl} alt={`${product.name} ${i}`} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" /> {/* pointer-events-none prevents ghost image drag */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60 pointer-events-none" />
                 </div>
               ))}
             </div>
+
+            {/* Desktop Navigation Arrows */}
+            {images.length > 1 && (
+              <>
+                <button
+                  onClick={(e) => { e.stopPropagation(); prevImage(); }}
+                  className={`hidden md:flex absolute top-1/2 left-4 -translate-y-1/2 w-12 h-12 rounded-full items-center justify-center bg-white/10 hover:bg-orange-600 backdrop-blur-md transition-all z-[280] ${currentImgIdx === 0 ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
+                >
+                  <ChevronLeft className="w-6 h-6 text-white" />
+                </button>
+                <button
+                  onClick={(e) => { e.stopPropagation(); nextImage(); }}
+                  className={`hidden md:flex absolute top-1/2 right-4 -translate-y-1/2 w-12 h-12 rounded-full items-center justify-center bg-white/10 hover:bg-orange-600 backdrop-blur-md transition-all z-[280] ${currentImgIdx === images.length - 1 ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
+                >
+                  <ChevronRight className="w-6 h-6 text-white" />
+                </button>
+              </>
+            )}
 
             {/* Pagination Dots */}
             {images.length > 1 && (
@@ -143,7 +211,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onC
               </div>
             )}
 
-            <div className="absolute top-8 left-8 bg-black/40 backdrop-blur-xl border border-white/10 px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.25em] text-white/80">
+            <div className="absolute top-8 left-8 bg-black/40 backdrop-blur-xl border border-white/10 px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.25em] text-white/80 pointer-events-none">
               High_Performance_Gear_v3.0
             </div>
 
@@ -159,15 +227,46 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onC
 
           {/* MOBILE & DESKTOP CONTENT WRAPPER */}
           {/* Mobile: Spans 30% height using Flex-1. Desktop: Grid items as before */}
-          <div className="flex-1 md:hidden flex flex-col justify-between p-6 pt-0 bg-transparent order-2">
+          <div className="flex-1 md:hidden flex flex-col justify-between p-6 pt-0 bg-transparent order-2 relative">
+
+            {/* Mobile Details Overlay */}
+            <div className={`absolute inset-0 z-50 bg-[#0f0f0f] p-8 overflow-y-auto transition-all duration-500 ease-out ${isInfoOpen ? 'translate-y-0 opacity-100' : 'translate-y-[110%] opacity-0 pointer-events-none'} md:hidden rounded-t-[2.5rem] border-t border-white/10 shadow-[0_-10px_40px_rgba(0,0,0,0.5)]`}>
+              <div className="flex justify-between items-center mb-8 border-b border-white/10 pb-4">
+                <h3 className="text-2xl font-black italic uppercase text-orange-600 tracking-widest">מפרט טכני_</h3>
+                <button onClick={() => setIsInfoOpen(false)} className="p-2 bg-white/10 rounded-full hover:bg-white/20"><X size={20} /></button>
+              </div>
+              <div className="space-y-8">
+                <p className="text-lg leading-relaxed font-bold italic opacity-80" dir="rtl">{product.description}</p>
+                <div className="grid grid-cols-2 gap-4">
+                  {[
+                    { label: "עמידות", val: "MIL-STD", icon: <ShieldCheck className="w-5 h-5" /> },
+                    { label: "אספקה", val: "מיידית", icon: <Zap className="w-5 h-5" /> },
+                    { label: "אחריות", val: "שנה מלאה", icon: <Wrench className="w-5 h-5" /> },
+                    { label: "משלוח", val: "חינם", icon: <Truck className="w-5 h-5" /> },
+                  ].map((spec, i) => (
+                    <div key={i} className="p-4 rounded-2xl bg-white/5 border border-white/5 text-center">
+                      <div className="text-orange-600 opacity-60 mb-1 flex justify-center">{spec.icon}</div>
+                      <div className="text-[10px] font-black uppercase opacity-40 tracking-wider">{spec.label}</div>
+                      <div className="text-sm font-black italic">{spec.val}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
             <div className="flex justify-between items-start mb-2">
               <div>
                 <h2 className="text-3xl font-black italic tracking-tighter uppercase leading-[0.9]">{product.name}</h2>
                 <div className="text-3xl font-black italic text-orange-600">₪{product.price}</div>
               </div>
-              <span className={`text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded-full ${product.available ? 'bg-green-500/20 text-green-500' : 'bg-red-500/20 text-red-500'}`}>
-                {product.available ? 'IN STOCK' : 'SOLD OUT'}
-              </span>
+              <div className="flex flex-col items-end gap-2">
+                <span className={`text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded-full ${product.available ? 'bg-green-500/20 text-green-500' : 'bg-red-500/20 text-red-500'}`}>
+                  {product.available ? 'IN STOCK' : 'SOLD OUT'}
+                </span>
+                <button onClick={() => setIsInfoOpen(true)} className="p-2 bg-white/10 rounded-full text-orange-600 hover:bg-white/20 hover:scale-110 transition-all">
+                  <Info size={24} />
+                </button>
+              </div>
             </div>
 
             <button
