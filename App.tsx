@@ -288,14 +288,16 @@ export const App: React.FC = () => {
                 <div className="text-[11px] font-black uppercase text-red-600 tracking-[0.2em] italic flex items-center gap-2">
                   <ShieldAlert size={16} /> RALBAD_2025
                 </div>
-                <a href="https://www.gov.il/BlobFolder/reports/2025_summary_ralbad/he/summry_ralbad_25.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-red-600/30 text-red-600 font-black italic uppercase tracking-tighter text-[10px] hover:bg-red-600 hover:text-white transition-all"><Download size={14} /><span>הורדת הדוח</span></a>
               </div>
               <h2 className="text-3xl md:text-8xl font-black italic uppercase leading-none tracking-tighter">הסטטיסטיקה <span className="text-red-600">המדממת</span></h2>
             </div>
           </div>
         </ThinMotion>
-        <div className="text-[11px] font-bold italic opacity-50 mb-4 pr-2">
-          *הנתונים מייצגים את מספר התאונות עם נפגעים*
+        <div className="flex flex-wrap items-center gap-4 text-[11px] font-bold italic mb-6 pr-2">
+          <span className="opacity-70">נתונים שנלקחו הישר מדוח הרשות הלאומית לבטיחות בדרכים</span>
+          <a href="https://www.gov.il/BlobFolder/reports/2025_summary_ralbad/he/summry_ralbad_25.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-lg bg-red-600 text-white font-black italic uppercase tracking-tighter text-[10px] shadow-lg shadow-red-600/30 hover:bg-red-500 hover:scale-105 transition-all">
+            <Download size={14} /><span>להורדת הדוח המלא</span>
+          </a>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4 mb-10">
           {vehicleData.map((veh, i) => (
@@ -610,7 +612,7 @@ export const App: React.FC = () => {
           <div className="space-y-4">
             {[
               { q: "1. למה לבחור ב-CARVO?", a: "אנחנו כאן כדי לשדרג את תרבות הנהיגה בישראל ולמנוע אסונות בעזרת מוצרים חכמים." },
-              { q: "2. האם השימוש במוצרים מצריך ידע טכני?", a: "בכלל לא. כל הכלים באתר נבחרו כדי לספק פתרון מקצועי במינימום מאמץ." },
+              { q: "2. האם השימוש במוצרים מצריך ידע טכני?", a: "בכלל לא. כל הכלים באתר נבחרו כדי לספק פתרון מקצועי במינימום מאמץ. ובמיוחד לשאלה כזאת בנינו את carvo ai הבוט החכם שאומן לכל שאלה ובעיה שנתקלם בה בדרך לנסיעה הוא אומן לתת פתרון מהיר ולמנוע ממכם הוצאות נוספות מיותרת" },
               { q: "3. מהם זמני ועלויות המשלוח?", a: "משלוח חינם לכל ההזמנות. זמן אספקה: 5–12 ימי עסקים. ייתכנו עיכובים חריגים עקב מצב ביטחוני או תנאי מזג אוויר חריגים, אנו פועלים עם חברת משלוחים מהירה ועושים כל מאמץ לספק את ההזמנה בזמן הקצר ביותר." },
               { q: "4. מה זה Carvo AI ואיך הוא עובד?", a: "Carvo AI הוא בוט חכם הזמין 24/7, שנועד לתת הכוונה מיידית במצבי חירום ברכב. הוא אומן במיוחד למקרים שכיחים של תקיעות או תקלות, מכיר את כל כלי החירום של Carvo, ומדריך את המשתמש בצורה ברורה ובטוחה כיצד להשתמש בהם בהתאם לסוג הרכב ולבעיה." },
               { q: "5. האם הערכה באמת עוזרת במצבי חירום?", a: "ברור. אם מעולם לא השתמשתם בכלים כאלה, עכשיו זה הזמן להשקיע בביטחון שלכם ולשפר את איכות החוויה שלכם בכביש." }
