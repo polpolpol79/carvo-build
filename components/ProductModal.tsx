@@ -300,7 +300,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onC
           </div>
 
           {/* 3. DESCRIPTION (Middle Right) */}
-          <div className={`hidden md:block md:col-span-5 md:row-span-4 rounded-[2.5rem] p-8 relative overflow-hidden order-3 md:order-none ${darkMode ? 'bg-white/[0.03] border border-white/5' : 'bg-white border border-black/5 shadow-sm'}`}>
+          <div className={`hidden md:block md:col-span-5 md:row-span-4 rounded-[2.5rem] p-8 relative overflow-y-auto pr-2 order-3 md:order-none ${darkMode ? 'bg-white/[0.03] border border-white/5' : 'bg-white border border-black/5 shadow-sm'}`}>
             <h3 className="text-[11px] font-black uppercase text-orange-600 tracking-widest mb-4 text-right">סקירה טכנית_</h3>
             <p className={`text-base md:text-lg leading-relaxed font-bold italic text-right ${darkMode ? 'opacity-70' : 'opacity-80'}`} dir="rtl">
               {product.description}
