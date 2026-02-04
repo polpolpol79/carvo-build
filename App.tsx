@@ -461,8 +461,7 @@ export const App: React.FC = () => {
             {/* Showroom Logic */}
             <div className="relative mx-auto max-w-[90vw] md:max-w-[90rem]"> {/* Increased max-w for massive feel */}
 
-              {/* Central Architectural Axis Line (Desktop) */}
-              <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px -ml-px bg-orange-600/20 border-l border-dashed border-orange-600/40 z-0" />
+              {/* Central Architectural Axis Line REMOVED for Single Row Layout */}
 
               {/* MOBILE ONLY: Swipe Carousel */}
               <div className="md:hidden w-full h-[420px] overflow-hidden rounded-[35px] relative shadow-2xl touch-pan-y" onTouchStart={handleTouchStart} onTouchEnd={(e) => handleTouchEnd('products', e.changedTouches[0].clientX)}>
@@ -495,12 +494,12 @@ export const App: React.FC = () => {
                 )}
               </div>
 
-              {/* DESKTOP ONLY: Grid View - Scaled Up to 2 Columns */}
-              <div className="hidden md:grid grid-cols-2 gap-x-20 gap-y-12 w-full p-4 relative z-10"> {/* Wider gap for elegance */}
+              {/* DESKTOP ONLY: Horizontal Scroll Rail - Single Row Only */}
+              <div className="hidden md:flex flex-nowrap gap-8 overflow-x-auto pb-12 w-full p-4 relative z-10 snap-x snap-mandatory no-scrollbar">
                 {products.map((p) => (
-                  <div key={p.id} onClick={() => setSelectedProduct(p)} className={`relative group min-h-[650px] flex flex-col rounded-[3rem] overflow-hidden cursor-pointer transition-all hover:-translate-y-2 duration-500 border-2 ${darkMode ? 'border-white/5 bg-white/[0.03] hover:border-orange-600/30' : 'border-black/5 bg-white shadow-xl hover:shadow-2xl'}`}>
-                    {/* Upper Half: Image - Taller */}
-                    <div className="h-[60%] relative overflow-hidden bg-black/50 border-b border-white/5">
+                  <div key={p.id} onClick={() => setSelectedProduct(p)} className={`relative group shrink-0 w-[400px] h-[650px] flex flex-col rounded-[3rem] overflow-hidden cursor-pointer transition-all hover:-translate-y-2 duration-500 border-2 snap-center ${darkMode ? 'border-white/5 bg-white/[0.03] hover:border-orange-600/30' : 'border-black/5 bg-white shadow-xl hover:shadow-2xl'}`}>
+                    {/* Upper Half: Image - 70% Height */}
+                    <div className="h-[70%] relative overflow-hidden bg-black/50 border-b border-white/5">
                       <img src={p.img} alt={p.name} className="w-full h-full object-cover opacity-80 group-hover:scale-105 group-hover:opacity-100 transition-all duration-700" />
                       {!p.available && <div className="absolute inset-0 bg-black/60 flex items-center justify-center font-black italic text-4xl text-red-500 tracking-widest border-4 border-red-600 m-12 rounded-xl rotate-[-12deg]">SOLD OUT</div>}
                       <div className="absolute top-8 left-8 bg-black/60 backdrop-blur-md border border-white/10 px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest text-white/60">
@@ -550,8 +549,7 @@ export const App: React.FC = () => {
           </div>
           <div className="relative mx-auto max-w-[90vw] md:max-w-[90rem]"> {/* SAME MAX-W AS PRODUCTS for Alignment */}
 
-            {/* Central Architectural Axis Line (Desktop) */}
-            <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px -ml-px bg-orange-600/20 border-l border-dashed border-orange-600/40 z-0" />
+            {/* Central Architectural Axis Line REMOVED for Single Row Layout */}
 
             <div className="relative mx-auto">
               {/* MOBILE ONLY: Bundle Carousel */}
@@ -586,12 +584,12 @@ export const App: React.FC = () => {
                 )}
               </div>
 
-              {/* DESKTOP ONLY: Bundle Grid - Perfectly Matched to Products */}
-              <div className="hidden md:grid grid-cols-2 gap-x-20 gap-y-12 relative z-10">
+              {/* DESKTOP ONLY: Bundle Horizontal Rail - Identical to Products */}
+              <div className="hidden md:flex flex-nowrap gap-8 overflow-x-auto pb-12 w-full relative z-10 snap-x snap-mandatory no-scrollbar">
                 {bundleProducts.map((bundle) => (
-                  <div key={bundle.id} onClick={() => setSelectedProduct(bundle)} className={`relative group min-h-[650px] flex flex-col rounded-[3rem] overflow-hidden cursor-pointer transition-all hover:-translate-y-2 duration-500 border-2 ${bundle.featured ? 'border-orange-600 shadow-[0_0_50px_rgba(234,88,12,0.15)] hover:shadow-[0_0_80px_rgba(234,88,12,0.25)]' : (darkMode ? 'border-white/10 bg-white/5 hover:bg-white/10' : 'border-black/5 bg-white shadow-xl hover:shadow-2xl')}`}>
-                    {/* Upper Half: Image - Taller to match products */}
-                    <div className="h-[60%] relative overflow-hidden bg-black/50 border-b border-white/5">
+                  <div key={bundle.id} onClick={() => setSelectedProduct(bundle)} className={`relative group shrink-0 w-[400px] h-[650px] flex flex-col rounded-[3rem] overflow-hidden cursor-pointer transition-all hover:-translate-y-2 duration-500 border-2 snap-center ${bundle.featured ? 'border-orange-600 shadow-[0_0_50px_rgba(234,88,12,0.15)] hover:shadow-[0_0_80px_rgba(234,88,12,0.25)]' : (darkMode ? 'border-white/10 bg-white/5 hover:bg-white/10' : 'border-black/5 bg-white shadow-xl hover:shadow-2xl')}`}>
+                    {/* Upper Half: Image - 70% Height */}
+                    <div className="h-[70%] relative overflow-hidden bg-black/50 border-b border-white/5">
                       <img src={bundle.img} alt={bundle.name} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700" />
                       <div className="absolute top-8 left-8 bg-orange-600/90 backdrop-blur-md px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest text-black flex items-center gap-2">
                         <Layers size={14} className="fill-black" /> ELITE_BUNDLE_V1
