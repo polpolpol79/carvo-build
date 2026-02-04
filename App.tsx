@@ -221,8 +221,8 @@ export const App: React.FC = () => {
       //           if (diff > 0 && activeIdx > 0) setter(p => p - 1);
 
       // New (Inverted):
-      if (diff > 0 && activeIdx < dataLength - 1) setter(p => p + 1);
-      if (diff < 0 && activeIdx > 0) setter(p => p - 1);
+      if (diff < 0 && activeIdx < dataLength - 1) setter(p => p + 1);
+      if (diff > 0 && activeIdx > 0) setter(p => p - 1);
     }
     touchStartRef.current = null;
   };
@@ -512,11 +512,11 @@ export const App: React.FC = () => {
               {/* DESKTOP ONLY: Horizontal Scroll Rail */}
               <div className="hidden md:block relative group/rail">
                 <button onClick={() => {
-                  if (showroomScrollRef.current) showroomScrollRef.current.scrollBy({ left: 400, behavior: 'smooth' });
+                  if (showroomScrollRef.current) showroomScrollRef.current.scrollBy({ left: -400, behavior: 'smooth' });
                 }} className="absolute -left-12 top-1/2 -translate-y-1/2 z-30 w-16 h-16 bg-black/50 backdrop-blur-xl border border-white/10 rounded-full text-white flex items-center justify-center hover:bg-orange-600 hover:text-black hover:scale-110 active:scale-90 transition-all shadow-2xl opacity-0 group-hover/rail:opacity-100 translate-x-4 group-hover/rail:translate-x-0"><ChevronLeft size={32} /></button>
 
                 <button onClick={() => {
-                  if (showroomScrollRef.current) showroomScrollRef.current.scrollBy({ left: -400, behavior: 'smooth' });
+                  if (showroomScrollRef.current) showroomScrollRef.current.scrollBy({ left: 400, behavior: 'smooth' });
                 }} className="absolute -right-12 top-1/2 -translate-y-1/2 z-30 w-16 h-16 bg-black/50 backdrop-blur-xl border border-white/10 rounded-full text-white flex items-center justify-center hover:bg-orange-600 hover:text-black hover:scale-110 active:scale-90 transition-all shadow-2xl opacity-0 group-hover/rail:opacity-100 -translate-x-4 group-hover/rail:translate-x-0"><ChevronRight size={32} /></button>
 
                 <div ref={showroomScrollRef} className="flex flex-nowrap gap-8 overflow-x-auto pb-12 w-full p-4 px-12 relative z-10 snap-x snap-mandatory no-scrollbar scroll-smooth" dir="rtl">
