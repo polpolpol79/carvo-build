@@ -6,18 +6,18 @@ interface BlueprintBackgroundProps {
 }
 
 const TacticalGear: React.FC<{ size: number, className?: string, blur?: string }> = ({ size, className = "", blur = "blur(12px)" }) => (
-  <svg 
-    width={size} 
-    height={size} 
-    viewBox="0 0 100 100" 
-    fill="none" 
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 100 100"
+    fill="none"
     xmlns="http://www.w3.org/2000/svg"
     className={className}
     style={{ filter: blur }}
   >
-    <path 
-      d="M50 35L54 20H46L50 35ZM65 38.5L75 26L68 21L60 35.5ZM77.5 50L92.5 50V42L77.5 45V55L92.5 50ZM65 61.5L80 72L85 65L70 56.5ZM50 65L46 80H54L50 65ZM35 61.5L20 72L15 65L30 56.5ZM22.5 50L7.5 50V58L22.5 55V45L7.5 50ZM35 38.5L25 26L32 21L40 35.5Z" 
-      stroke="currentColor" 
+    <path
+      d="M50 35L54 20H46L50 35ZM65 38.5L75 26L68 21L60 35.5ZM77.5 50L92.5 50V42L77.5 45V55L92.5 50ZM65 61.5L80 72L85 65L70 56.5ZM50 65L46 80H54L50 65ZM35 61.5L20 72L15 65L30 56.5ZM22.5 50L7.5 50V58L22.5 55V45L7.5 50ZM35 38.5L25 26L32 21L40 35.5Z"
+      stroke="currentColor"
       strokeWidth="0.8"
     />
     <circle cx="50" cy="50" r="15" stroke="currentColor" strokeWidth="0.8" />
@@ -39,16 +39,21 @@ export const BlueprintBackground: React.FC<BlueprintBackgroundProps> = ({ darkMo
   }, []);
 
   return (
-    <div className={`fixed inset-0 pointer-events-none z-0 overflow-hidden transition-colors duration-1000 ${
-      darkMode 
-        ? 'bg-[#404040] bg-gradient-to-br from-[#4a4a4a] via-[#404040] to-[#363636]' 
-        : 'bg-[#cccccc]'
-    }`}>
-      
-      {/* Scanline Effect - Very Subtle */}
-      <div className="absolute inset-0 opacity-[0.02] pointer-events-none overflow-hidden z-10">
-        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_50%,rgba(0,0,0,0.5)_50%)] bg-[length:100%_4px] animate-[scan_15s_linear_infinite]" />
+    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+      {/* Clean Gradient Background */}
+      <div className={`absolute inset-0 transition-colors duration-1000 ${darkMode ? 'bg-[#0a0a0a]' : 'bg-[#f0f0f0]'}`} />
+
+      {/* Subtle Premium Glows */}
+      <div className={`absolute inset-0 opacity-30 transition-opacity duration-1000 ${darkMode ? 'opacity-30' : 'opacity-20'}`}>
+        <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] rounded-full bg-orange-600/5 blur-[120px]" />
+        <div className="absolute bottom-[-10%] right-[-5%] w-[50%] h-[50%] rounded-full bg-blue-900/5 blur-[120px]" />
       </div>
+
+      {/* Very Subtle Grid Pattern */}
+      <div
+        className={`absolute inset-0 opacity-[0.03] pointer-events-none ${darkMode ? 'bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)]' : 'bg-[linear-gradient(to_right,#00000008_1px,transparent_1px),linear-gradient(to_bottom,#00000008_1px,transparent_1px)]'}`}
+        style={{ backgroundSize: '40px 40px' }}
+      />
 
       {/* Large Tactical Gear - Bottom Left (Seamless & Blurred) */}
       <div className={`absolute left-[-15%] bottom-[-15%] opacity-[0.04] animate-[spin_80s_linear_infinite] ${darkMode ? 'text-white' : 'text-black'}`}>
