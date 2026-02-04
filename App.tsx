@@ -18,6 +18,7 @@ import { FloatingBottomBar } from './components/FloatingBottomBar';
 import { TacticalGridBackground } from './components/TacticalGridBackground';
 import { CookieBanner } from './components/CookieBanner';
 import { Product, Category, CartItem } from './types';
+import { DesktopNavigation } from './components/DesktopNavigation';
 import { shopifyFetch, GET_COLLECTIONS_QUERY, GET_COLLECTION_PRODUCTS_QUERY } from './lib/shopify';
 import { trackAddToCart, trackProductView } from './lib/analytics';
 
@@ -218,17 +219,38 @@ export const App: React.FC = () => {
   };
 
   const HeroSection = () => (
-    <header className="relative min-h-[80vh] md:min-h-screen py-8 md:py-12 flex flex-col items-center justify-center px-6 z-10 text-center overflow-hidden">
+    <header className="relative min-h-[80vh] md:min-h-screen py-8 md:py-0 flex flex-col md:flex-row items-center justify-center md:justify-between px-6 md:px-20 z-10 text-center md:text-right overflow-hidden">
       <TacticalGridBackground darkMode={darkMode} />
-      <ThinMotion className="relative z-20 flex flex-col items-center hero-stabilizer w-full max-w-7xl">
-        <div className={`text-[10px] md:text-[8px] font-black uppercase tracking-[1.2em] md:tracking-[2em] mb-6 md:mb-8 opacity-30 select-none ${darkMode ? 'text-white' : 'text-black'}`}>[AUTHENTIC_BRAND_CORE]</div>
-        <div className="mb-6 md:mb-8 opacity-90 hover:opacity-100 transition-opacity duration-700"><CarvoLogo size="hero" /></div>
-        <h1 className="text-4xl md:text-[5.5rem] font-black italic uppercase leading-[0.9] tracking-[-0.04em] mb-10 md:mb-14 max-w-4xl mx-auto px-4">
-          מתקדמים ל-CARVO לעתיד <br />
-          <span className="opacity-40 text-3xl md:text-[4rem]">חסכוני ובטוח יותר</span>
+      <div className="hidden md:block absolute inset-0 bg-[url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-10 mix-blend-overlay"></div>
+
+      <ThinMotion className="relative z-20 flex flex-col items-center md:items-start hero-stabilizer w-full max-w-7xl mx-auto">
+        <div className={`text-[10px] md:text-sm font-black uppercase tracking-[1.2em] md:tracking-[0.5em] mb-6 md:mb-4 opacity-30 select-none ${darkMode ? 'text-white' : 'text-black'}`}>[AUTHENTIC_BRAND_CORE]</div>
+        <div className="mb-6 md:mb-10 opacity-90 hover:opacity-100 transition-opacity duration-700 md:hidden"><CarvoLogo size="hero" /></div>
+        <div className="hidden md:block mb-8"><CarvoLogo size="lg" /></div>
+
+        <h1 className="text-4xl md:text-[6rem] font-black italic uppercase leading-[0.9] tracking-[-0.04em] mb-10 md:mb-12 max-w-4xl">
+          מתקדמים<br /> <span className="text-orange-600">ל-CARVO</span> לעתיד <br />
+          <span className="opacity-40 text-3xl md:text-[3.5rem] tracking-tight">חסכוני ובטוח יותר_</span>
         </h1>
-        <button onClick={() => document.getElementById('crisis-protocol')?.scrollIntoView({ behavior: 'smooth' })} className={`flex items-center gap-6 px-10 md:px-14 py-5 md:py-7 hyper-glass border border-orange-600/30 text-orange-600 font-black italic uppercase tracking-widest text-lg md:text-xl rounded-2xl shadow-[0_0_40px_rgba(234,88,12,0.1)] active:scale-95 hover:shadow-[0_0_60px_rgba(234,88,12,0.2)] hover:border-orange-600 transition-all group`}><span>פרוטוקול המשבר</span><ArrowDown size={24} className="group-hover:translate-y-2 transition-transform duration-500 ease-out" /></button>
+
+        <div className="flex flex-col md:flex-row gap-6 items-center">
+          <button onClick={() => document.getElementById('showroom')?.scrollIntoView({ behavior: 'smooth' })} className={`flex items-center gap-6 px-10 md:px-12 py-5 md:py-6 bg-orange-600 text-black font-black italic uppercase tracking-widest text-lg md:text-xl rounded-full shadow-[0_0_40px_rgba(234,88,12,0.3)] active:scale-95 hover:shadow-[0_0_80px_rgba(234,88,12,0.5)] transition-all group hover:-translate-y-1`}>
+            <span>לקטלוג המלא</span>
+            <ChevronLeft size={24} className="group-hover:-translate-x-2 transition-transform duration-300" />
+          </button>
+          <button onClick={() => document.getElementById('crisis-protocol')?.scrollIntoView({ behavior: 'smooth' })} className={`flex items-center gap-6 px-10 md:px-12 py-5 md:py-6 hyper-glass border border-orange-600/30 text-orange-600 font-black italic uppercase tracking-widest text-lg md:text-xl rounded-full shadow-[0_0_40px_rgba(234,88,12,0.1)] active:scale-95 hover:shadow-[0_0_60px_rgba(234,88,12,0.2)] hover:border-orange-600 transition-all group`}>
+            <span>פרוטוקול המשבר</span>
+            <ArrowDown size={24} className="group-hover:translate-y-2 transition-transform duration-500 ease-out" />
+          </button>
+        </div>
       </ThinMotion>
+
+      {/* Desktop Visual Decoration */}
+      <div className="hidden md:flex absolute right-0 top-0 bottom-0 w-1/3 bg-gradient-to-l from-orange-600/5 to-transparent pointer-events-none items-center justify-center opacity-30">
+        <div className="w-[500px] h-[500px] border border-orange-600/20 rounded-full animate-[spin_60s_linear_infinite] flex items-center justify-center">
+          <div className="w-[300px] h-[300px] border border-orange-600/40 rounded-full animate-[spin_40s_linear_infinite_reverse] border-dashed"></div>
+        </div>
+      </div>
     </header>
   );
 
@@ -383,18 +405,28 @@ export const App: React.FC = () => {
     <div className={`min-h-screen transition-all duration-1000 relative overflow-x-hidden pb-8 md:pb-12 ${darkMode ? 'text-white' : 'text-black'}`} dir="rtl">
       <BlueprintBackground darkMode={darkMode} />
 
-      <nav className="fixed top-0 left-0 right-0 z-[200] p-4 md:p-6 flex justify-between items-start pointer-events-none gap-2">
-        <div className="flex items-center gap-2 md:gap-4 p-2 md:p-3 px-4 md:px-8 rounded-full hyper-glass border-white/20 shadow-2xl pointer-events-auto max-w-[48%] md:max-w-none">
-          <button onClick={() => setIsMenuOpen(true)} className="p-2 md:p-3 rounded-full hover:bg-white/10 group transition-all shrink-0"><Menu size={18} className="md:w-6 md:h-6 group-hover:text-orange-600" /></button>
-          <div className="w-px h-6 md:h-8 mx-1 md:mx-2 bg-white/20 shrink-0" />
-          <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="shrink-0 overflow-hidden"><div className="scale-75 md:scale-100 origin-right"><CarvoLogo size="md" /></div></button>
+      <DesktopNavigation
+        darkMode={darkMode}
+        toggleDarkMode={() => setDarkMode(!darkMode)}
+        cartCount={cart.length}
+        openCart={() => setIsCartOpen(true)}
+        categories={categories}
+        activeCategory={activeCategoryHandle}
+        onCategorySelect={setActiveCategoryHandle}
+      />
+
+      <nav className="fixed md:hidden top-0 left-0 right-0 z-[200] p-4 flex justify-between items-start pointer-events-none gap-2">
+        <div className="flex items-center gap-2 p-2 px-4 rounded-full hyper-glass border-white/20 shadow-2xl pointer-events-auto max-w-[48%]">
+          <button onClick={() => setIsMenuOpen(true)} className="p-2 rounded-full hover:bg-white/10 group transition-all shrink-0"><Menu size={18} className="group-hover:text-orange-600" /></button>
+          <div className="w-px h-6 mx-1 bg-white/20 shrink-0" />
+          <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="shrink-0 overflow-hidden"><div className="scale-75 origin-right"><CarvoLogo size="md" /></div></button>
         </div>
-        <div className="flex items-center gap-2 md:gap-4 p-2 md:p-3 px-4 md:px-8 rounded-full hyper-glass border-white/20 shadow-2xl pointer-events-auto max-w-[48%] md:max-w-none">
-          <button onClick={() => setDarkMode(!darkMode)} className="p-2 md:p-3 opacity-90 hover:opacity-100 transition-all shrink-0">{darkMode ? <Sun size={18} className="md:w-6 md:h-6" /> : <Moon size={18} className="md:w-6 md:h-6" />}</button>
-          <div className="w-px h-6 md:h-8 mx-1 md:mx-2 bg-white/20 shrink-0" />
-          <button onClick={() => setIsCartOpen(true)} className="p-2 md:p-3 group relative transition-all shrink-0">
-            <ShoppingBag size={18} className="md:w-6 md:h-6 group-hover:text-orange-600" />
-            {cart.length > 0 && <div className="absolute top-2 left-2 md:top-3 md:left-3 w-2.5 h-2.5 bg-orange-600 rounded-full border-2 border-black" />}
+        <div className="flex items-center gap-2 p-2 px-4 rounded-full hyper-glass border-white/20 shadow-2xl pointer-events-auto max-w-[48%]">
+          <button onClick={() => setDarkMode(!darkMode)} className="p-2 opacity-90 hover:opacity-100 transition-all shrink-0">{darkMode ? <Sun size={18} /> : <Moon size={18} />}</button>
+          <div className="w-px h-6 mx-1 bg-white/20 shrink-0" />
+          <button onClick={() => setIsCartOpen(true)} className="p-2 group relative transition-all shrink-0">
+            <ShoppingBag size={18} className="group-hover:text-orange-600" />
+            {cart.length > 0 && <div className="absolute top-2 left-2 w-2.5 h-2.5 bg-orange-600 rounded-full border-2 border-black" />}
           </button>
         </div>
       </nav>
