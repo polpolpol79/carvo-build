@@ -23,6 +23,15 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onC
     setCurrentImgIdx(0);
     setFullscreenImage(null);
 
+    // Lock Body Scroll
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.touchAction = 'none'; // Prevent scroll chaining
+    } else {
+      document.body.style.overflow = '';
+      document.body.style.touchAction = '';
+    }
+
     // Keyboard Navigation
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!isOpen) return;
@@ -88,8 +97,9 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onC
     const threshold = 50;
 
     if (Math.abs(diff) > threshold) {
-      if (diff > 0) nextImage();
-      else prevImage();
+      // Inverted Logic
+      if (diff < 0) nextImage(); // Swipe Right -> Next
+      else prevImage();         // Swipe Left -> Prev
     }
   };
 
@@ -142,7 +152,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onC
         className={`fixed inset-0 z-[250] transition-all duration-500 flex items-center justify-center ${isOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`}
       >
         {/* Backdrop */}
-        <div className="absolute inset-0 bg-black/60 backdrop-blur-md" onClick={onClose} />
+        <div className="absolute inset-0 bg-black/60 backdrop-blur-md touch-none" onClick={onClose} />
 
         {/* Content Card - Bento Grid Style */}
         <div className={`relative w-full h-full md:w-[95vw] md:h-[90vh] md:max-w-7xl z-[260] overflow-hidden transition-all duration-500 transform ${isOpen ? 'translate-y-0 scale-100' : 'translate-y-20 scale-95'} 
