@@ -41,7 +41,7 @@ export const BlueprintBackground: React.FC<BlueprintBackgroundProps> = ({ darkMo
   return (
     <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
       {/* Clean Background - Pure Colors */}
-      <div className={`absolute inset-0 transition-colors duration-1000 ${darkMode ? 'bg-[#050505]' : 'bg-[#ffffff]'}`} />
+      <div className={`absolute inset-0 transition-colors duration-1000 ${darkMode ? 'bg-[#1a1a1a]' : 'bg-[#ffffff]'}`} />
 
       {/* Subtle Premium Glows - Smoother */}
       <div className={`absolute inset-0 opacity-40 transition-opacity duration-1000 ${darkMode ? 'opacity-40' : 'opacity-30'}`}>
