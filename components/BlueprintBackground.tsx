@@ -40,33 +40,38 @@ export const BlueprintBackground: React.FC<BlueprintBackgroundProps> = ({ darkMo
 
   return (
     <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-      {/* Clean Gradient Background */}
-      <div className={`absolute inset-0 transition-colors duration-1000 ${darkMode ? 'bg-[#0a0a0a]' : 'bg-[#f0f0f0]'}`} />
+      {/* Clean Background - Pure Colors */}
+      <div className={`absolute inset-0 transition-colors duration-1000 ${darkMode ? 'bg-[#050505]' : 'bg-[#ffffff]'}`} />
 
-      {/* Subtle Premium Glows */}
-      <div className={`absolute inset-0 opacity-30 transition-opacity duration-1000 ${darkMode ? 'opacity-30' : 'opacity-20'}`}>
-        <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] rounded-full bg-orange-600/5 blur-[120px]" />
-        <div className="absolute bottom-[-10%] right-[-5%] w-[50%] h-[50%] rounded-full bg-blue-900/5 blur-[120px]" />
+      {/* Subtle Premium Glows - Smoother */}
+      <div className={`absolute inset-0 opacity-40 transition-opacity duration-1000 ${darkMode ? 'opacity-40' : 'opacity-30'}`}>
+        <div className="absolute top-[-20%] left-[-10%] w-[70%] h-[70%] rounded-full bg-orange-600/5 blur-[100px]" />
+        <div className="absolute bottom-[-10%] right-[-5%] w-[60%] h-[60%] rounded-full bg-blue-900/5 blur-[100px]" />
       </div>
 
-      {/* Very Subtle Grid Pattern */}
+      {/* Micro-Grid Pattern - Dense & Subtle (Depth Layer) */}
       <div
-        className={`absolute inset-0 opacity-[0.03] pointer-events-none ${darkMode ? 'bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)]' : 'bg-[linear-gradient(to_right,#00000008_1px,transparent_1px),linear-gradient(to_bottom,#00000008_1px,transparent_1px)]'}`}
-        style={{ backgroundSize: '40px 40px' }}
+        className={`absolute inset-0 pointer-events-none ${darkMode ? 'opacity-[0.03]' : 'opacity-[0.02]'}`}
+        style={{
+          backgroundImage: `linear-gradient(to right, ${darkMode ? '#ffffff' : '#000000'} 1px, transparent 1px), linear-gradient(to bottom, ${darkMode ? '#ffffff' : '#000000'} 1px, transparent 1px)`,
+          backgroundSize: '20px 20px',
+          maskImage: 'radial-gradient(circle at center, black 40%, transparent 100%)',
+          WebkitMaskImage: 'radial-gradient(circle at center, black 40%, transparent 100%)'
+        }}
       />
 
+      {/* Depth Vignette - Darkens corners for focus */}
+      <div className={`absolute inset-0 pointer-events-none transition-opacity duration-1000 ${darkMode ? 'bg-[radial-gradient(circle_at_center,transparent_0%,#000000_100%)] opacity-80' : 'bg-[radial-gradient(circle_at_center,transparent_0%,#ffffff_100%)] opacity-60'}`} />
+
       {/* Large Tactical Gear - Bottom Left (Seamless & Blurred) */}
-      <div className={`absolute left-[-15%] bottom-[-15%] opacity-[0.04] animate-[spin_80s_linear_infinite] ${darkMode ? 'text-white' : 'text-black'}`}>
-        <TacticalGear size={900} blur="blur(16px)" />
+      <div className={`absolute left-[-15%] bottom-[-15%] opacity-[0.03] animate-[spin_120s_linear_infinite] ${darkMode ? 'text-white' : 'text-black'}`}>
+        <TacticalGear size={900} blur="blur(24px)" />
       </div>
 
       {/* Small Tactical Gear - Top Right Center (Blurred & Discrete) */}
-      <div className={`absolute right-[25%] top-[15%] opacity-[0.03] animate-[spin_40s_linear_infinite_reverse] ${darkMode ? 'text-orange-600' : 'text-black'}`}>
-        <TacticalGear size={300} blur="blur(8px)" />
+      <div className={`absolute right-[25%] top-[15%] opacity-[0.02] animate-[spin_60s_linear_infinite_reverse] ${darkMode ? 'text-orange-600' : 'text-black'}`}>
+        <TacticalGear size={300} blur="blur(16px)" />
       </div>
-
-      {/* Grid Overlay - Extra Faint */}
-      <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)', backgroundSize: '60px 60px', color: darkMode ? 'white' : 'black' }} />
 
       {/* Technical HUD Details */}
       <div className="absolute bottom-10 left-10 flex flex-col items-start gap-1 text-[11px] md:text-[7px] font-black opacity-[0.25] md:opacity-[0.15] hidden md:flex uppercase tracking-[0.4em]">
