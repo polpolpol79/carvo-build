@@ -459,7 +459,11 @@ export const App: React.FC = () => {
           <section id="showroom" className="relative py-8 md:py-20 px-4 max-w-7xl mx-auto">
             <div className="text-right mb-10 px-6"><h2 className="text-3xl md:text-8xl font-black italic uppercase tracking-tighter">THE_SHOWROOM</h2></div>
             {/* Showroom Logic */}
-            <div className="relative mx-auto max-w-[90vw] md:max-w-7xl">
+            <div className="relative mx-auto max-w-[90vw] md:max-w-[90rem]"> {/* Increased max-w for massive feel */}
+
+              {/* Central Architectural Axis Line (Desktop) */}
+              <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px -ml-px bg-orange-600/20 border-l border-dashed border-orange-600/40 z-0" />
+
               {/* MOBILE ONLY: Swipe Carousel */}
               <div className="md:hidden w-full h-[420px] overflow-hidden rounded-[35px] relative shadow-2xl touch-pan-y" onTouchStart={handleTouchStart} onTouchEnd={(e) => handleTouchEnd('products', e.changedTouches[0].clientX)}>
                 <div className="flex h-full w-full transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]" style={{ transform: `translateX(${activeProdIdx * 100}%)` }}>
@@ -492,40 +496,40 @@ export const App: React.FC = () => {
               </div>
 
               {/* DESKTOP ONLY: Grid View - Scaled Up to 2 Columns */}
-              <div className="hidden md:grid grid-cols-2 gap-10 w-full p-4">
+              <div className="hidden md:grid grid-cols-2 gap-x-20 gap-y-12 w-full p-4 relative z-10"> {/* Wider gap for elegance */}
                 {products.map((p) => (
-                  <div key={p.id} onClick={() => setSelectedProduct(p)} className={`relative group min-h-[600px] flex flex-col rounded-[2.5rem] overflow-hidden cursor-pointer transition-all hover:-translate-y-2 duration-500 border-2 ${darkMode ? 'border-white/5 bg-white/[0.03] hover:border-orange-600/30' : 'border-black/5 bg-white shadow-xl hover:shadow-2xl'}`}>
-                    {/* Upper Half: Image */}
-                    <div className="h-[55%] relative overflow-hidden bg-black/50 border-b border-white/5">
+                  <div key={p.id} onClick={() => setSelectedProduct(p)} className={`relative group min-h-[650px] flex flex-col rounded-[3rem] overflow-hidden cursor-pointer transition-all hover:-translate-y-2 duration-500 border-2 ${darkMode ? 'border-white/5 bg-white/[0.03] hover:border-orange-600/30' : 'border-black/5 bg-white shadow-xl hover:shadow-2xl'}`}>
+                    {/* Upper Half: Image - Taller */}
+                    <div className="h-[60%] relative overflow-hidden bg-black/50 border-b border-white/5">
                       <img src={p.img} alt={p.name} className="w-full h-full object-cover opacity-80 group-hover:scale-105 group-hover:opacity-100 transition-all duration-700" />
                       {!p.available && <div className="absolute inset-0 bg-black/60 flex items-center justify-center font-black italic text-4xl text-red-500 tracking-widest border-4 border-red-600 m-12 rounded-xl rotate-[-12deg]">SOLD OUT</div>}
-                      <div className="absolute top-6 left-6 bg-black/60 backdrop-blur-md border border-white/10 px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest text-white/60">
+                      <div className="absolute top-8 left-8 bg-black/60 backdrop-blur-md border border-white/10 px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest text-white/60">
                         CARVO_GEAR_V2
                       </div>
                     </div>
 
                     {/* Lower Half: Detailed Technical Layout */}
-                    <div className="flex-1 p-8 flex flex-col justify-between bg-gradient-to-b from-transparent to-black/20">
+                    <div className="flex-1 p-10 flex flex-col justify-between bg-gradient-to-b from-transparent to-black/20">
                       <div>
-                        <div className="flex justify-between items-start mb-6 pb-6 border-b border-dashed border-white/10">
-                          <h3 className="text-4xl font-black italic uppercase leading-[0.9] max-w-[70%] text-right tracking-tight">{p.name}</h3>
+                        <div className="flex justify-between items-start mb-8 pb-8 border-b border-dashed border-white/10">
+                          <h3 className="text-4xl font-black italic uppercase leading-[0.9] text-right tracking-tight">{p.name}</h3>
                           <div className="text-4xl font-black italic text-orange-600 tracking-tighter">₪{p.price}</div>
                         </div>
-                        <div className="space-y-3">
+                        <div className="space-y-4">
                           {p.specs.slice(0, 3).map((spec, i) => (
-                            <div key={i} className="flex items-center gap-3 text-lg font-bold italic opacity-60">
-                              <div className="w-1.5 h-1.5 bg-orange-600 rounded-full" />
+                            <div key={i} className="flex items-center gap-4 text-lg font-bold italic opacity-60">
+                              <div className="w-2 h-2 bg-orange-600 rounded-full" />
                               {spec}
                             </div>
                           ))}
                         </div>
                       </div>
-                      <div className="flex items-center gap-4 mt-8 pt-6 border-t border-white/5">
-                        <button disabled={!p.available} onClick={(e) => { e.stopPropagation(); addToCart(p); }} className={`flex-1 py-5 rounded-2xl font-black italic uppercase text-xl tracking-widest transition-all ${p.available ? 'bg-orange-600 text-black hover:bg-orange-500 hover:scale-[1.02] shadow-xl shadow-orange-600/10' : 'bg-white/5 text-white/20'}`}>
+                      <div className="flex items-center gap-6 mt-10 pt-6 border-t border-white/5">
+                        <button disabled={!p.available} onClick={(e) => { e.stopPropagation(); addToCart(p); }} className={`flex-1 py-6 rounded-2xl font-black italic uppercase text-2xl tracking-widest transition-all ${p.available ? 'bg-orange-600 text-black hover:bg-orange-500 hover:scale-[1.02] shadow-xl shadow-orange-600/10' : 'bg-white/5 text-white/20'}`}>
                           {p.available ? 'הוסף ציוד +' : 'לא זמין'}
                         </button>
-                        <div className="w-16 h-16 rounded-2xl border border-white/10 flex items-center justify-center opacity-40 group-hover:opacity-100 group-hover:border-orange-600/50 group-hover:text-orange-600 transition-all">
-                          <ArrowDownIcon size={32} className="-rotate-45" />
+                        <div className="w-20 h-20 rounded-2xl border border-white/10 flex items-center justify-center opacity-40 group-hover:opacity-100 group-hover:border-orange-600/50 group-hover:text-orange-600 transition-all">
+                          <ArrowDownIcon size={36} className="-rotate-45" />
                         </div>
                       </div>
                     </div>
@@ -544,7 +548,11 @@ export const App: React.FC = () => {
             <div className="text-[11px] md:text-sm font-black uppercase text-orange-600 tracking-[0.4em] mb-2 italic flex items-center justify-center gap-2"><Layers size={22} /> ELITE_PACKAGES</div>
             <h2 className="text-3xl md:text-8xl font-black italic uppercase tracking-tighter leading-none">חבילות העלית לחיסכון</h2>
           </div>
-          <div className="relative mx-auto max-w-[90vw] md:max-w-4xl">
+          <div className="relative mx-auto max-w-[90vw] md:max-w-[90rem]"> {/* SAME MAX-W AS PRODUCTS for Alignment */}
+
+            {/* Central Architectural Axis Line (Desktop) */}
+            <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px -ml-px bg-orange-600/20 border-l border-dashed border-orange-600/40 z-0" />
+
             <div className="relative mx-auto">
               {/* MOBILE ONLY: Bundle Carousel */}
               <div className="md:hidden w-full h-[450px] overflow-hidden rounded-[35px] relative shadow-2xl touch-pan-y" onTouchStart={handleTouchStart} onTouchEnd={(e) => handleTouchEnd('bundles', e.changedTouches[0].clientX)}>
@@ -578,26 +586,35 @@ export const App: React.FC = () => {
                 )}
               </div>
 
-              {/* DESKTOP ONLY: Bundle Grid */}
-              <div className="hidden md:grid grid-cols-2 gap-10">
+              {/* DESKTOP ONLY: Bundle Grid - Perfectly Matched to Products */}
+              <div className="hidden md:grid grid-cols-2 gap-x-20 gap-y-12 relative z-10">
                 {bundleProducts.map((bundle) => (
-                  <div key={bundle.id} onClick={() => setSelectedProduct(bundle)} className={`relative group h-[500px] flex rounded-[2.5rem] overflow-hidden cursor-pointer transition-all hover:-translate-y-2 duration-500 border-2 ${bundle.featured ? 'border-orange-600 shadow-[0_0_50px_rgba(234,88,12,0.15)] hover:shadow-[0_0_80px_rgba(234,88,12,0.25)]' : (darkMode ? 'border-white/10 bg-white/5 hover:bg-white/10' : 'border-black/5 bg-white shadow-xl hover:shadow-2xl')}`}>
-                    <div className="w-[55%] relative overflow-hidden bg-black/50">
+                  <div key={bundle.id} onClick={() => setSelectedProduct(bundle)} className={`relative group min-h-[650px] flex flex-col rounded-[3rem] overflow-hidden cursor-pointer transition-all hover:-translate-y-2 duration-500 border-2 ${bundle.featured ? 'border-orange-600 shadow-[0_0_50px_rgba(234,88,12,0.15)] hover:shadow-[0_0_80px_rgba(234,88,12,0.25)]' : (darkMode ? 'border-white/10 bg-white/5 hover:bg-white/10' : 'border-black/5 bg-white shadow-xl hover:shadow-2xl')}`}>
+                    {/* Upper Half: Image - Taller to match products */}
+                    <div className="h-[60%] relative overflow-hidden bg-black/50 border-b border-white/5">
                       <img src={bundle.img} alt={bundle.name} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700" />
+                      <div className="absolute top-8 left-8 bg-orange-600/90 backdrop-blur-md px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest text-black flex items-center gap-2">
+                        <Layers size={14} className="fill-black" /> ELITE_BUNDLE_V1
+                      </div>
                     </div>
-                    <div className="w-[45%] p-10 flex flex-col justify-between relative bg-gradient-to-l from-transparent to-black/20">
+                    {/* Lower Half: Detailed Technical Layout */}
+                    <div className="flex-1 p-10 flex flex-col justify-between bg-gradient-to-b from-transparent to-black/20">
                       <div>
-                        <div className="text-orange-600 text-sm font-black italic uppercase tracking-[0.3em] mb-4 flex items-center gap-2"><Layers size={16} /> ELITE_BUNDLE</div>
-                        <h3 className="text-5xl font-black italic uppercase leading-[0.9] mb-6">{bundle.name.split(' ').map((w, i) => <div key={i}>{w}</div>)}</h3>
-                        <div className="space-y-2">
+                        <div className="flex justify-between items-start mb-8 pb-8 border-b border-dashed border-white/10">
+                          <h3 className="text-4xl font-black italic uppercase leading-[0.9] text-right tracking-tight">{bundle.name.split(' ').map((w, i) => <span key={i} className="block">{w}</span>)}</h3>
+                          <div className="text-4xl font-black italic text-orange-600 tracking-tighter">₪{bundle.price}</div>
+                        </div>
+                        <div className="space-y-4">
                           {bundle.specs.slice(0, 3).map((spec, i) => (
-                            <div key={i} className="flex items-center gap-3 text-lg font-bold italic opacity-60"><Check size={16} className="text-orange-600" /> {spec}</div>
+                            <div key={i} className="flex items-center gap-4 text-lg font-bold italic opacity-60"><Check size={20} className="text-orange-600" /> {spec}</div>
                           ))}
                         </div>
                       </div>
-                      <div className="flex flex-col gap-4">
-                        <div className="text-4xl font-black italic text-orange-600">₪{bundle.price}</div>
-                        <button disabled={!bundle.available} onClick={(e) => { e.stopPropagation(); addToCart(bundle); }} className={`w-full py-4 rounded-xl font-black italic uppercase tracking-widest text-lg transition-all border-2 border-orange-600 ${bundle.available ? 'bg-orange-600 text-black hover:bg-transparent hover:text-white' : 'bg-white/10'}`}>הוסף_</button>
+                      <div className="flex items-center gap-6 mt-10 pt-6 border-t border-white/5">
+                        <button disabled={!bundle.available} onClick={(e) => { e.stopPropagation(); addToCart(bundle); }} className={`flex-1 py-6 rounded-2xl font-black italic uppercase tracking-widest text-2xl transition-all border-2 border-orange-600 ${bundle.available ? 'bg-orange-600 text-black hover:bg-transparent hover:text-white' : 'bg-white/10'}`}>הוסף_</button>
+                        <div className="w-20 h-20 rounded-2xl border border-white/10 flex items-center justify-center opacity-40 group-hover:opacity-100 group-hover:border-orange-600/50 group-hover:text-orange-600 transition-all">
+                          <Layers size={36} />
+                        </div>
                       </div>
                     </div>
                   </div>
