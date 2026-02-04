@@ -325,6 +325,10 @@ export const App: React.FC = () => {
     <section id="crisis-protocol" className="relative z-10 py-8 md:py-24 px-6 max-w-7xl mx-auto text-right">
       <ThinMotion>
         <div className="mb-6">
+          <div className="flex flex-col md:flex-row items-start md:items-end gap-2 md:gap-4 mb-8 leading-none">
+            <span className="text-xl md:text-5xl font-black italic uppercase text-red-600 tracking-tighter">מעבר לסיכון חיים עצום,</span>
+            <span className={`text-xl md:text-5xl font-black italic uppercase tracking-tighter ${darkMode ? 'text-white' : 'text-black'}`}>זה גם עולה לך ביוקר.</span>
+          </div>
           <h2 className="text-3xl md:text-8xl font-black italic uppercase tracking-tighter leading-none mb-4 flex flex-wrap items-center justify-start gap-x-2 md:gap-x-6"><span className="text-red-600">המשבר</span><span className="opacity-40">VS</span><span className="text-orange-600">CARVO</span></h2>
           <div className="text-[10px] font-black uppercase tracking-[0.5em] opacity-30 italic">ANALYSIS_PROTOCOL_2026</div>
         </div>
@@ -336,7 +340,7 @@ export const App: React.FC = () => {
                 <li key={i} className="flex items-center justify-between border-b border-red-600/10 pb-6"><div className="flex items-center gap-4"><span className="text-red-600 opacity-60 scale-125">{item.icon}</span><span className="text-sm md:text-2xl font-black italic uppercase">{item.label}</span></div><span className="text-[11px] md:text-lg font-black uppercase opacity-40">{item.detail}</span></li>
               ))}
             </ul>
-            <div className="pt-6 border-t border-red-600/20 flex justify-between items-end"><div className="text-[10px] font-black uppercase opacity-40 italic">COST_PER_EVENT</div><div className="text-2xl md:text-4xl font-black italic text-red-600 tracking-tighter">₪1,500 - ₪5,000</div></div>
+            <div className="pt-6 border-t border-red-600/20 flex justify-between items-end"><div className="text-xl font-black uppercase italic text-red-600">עלות לאירוע_</div><div className="text-2xl md:text-4xl font-black italic text-red-600 tracking-tighter">₪1,500 - ₪5,000</div></div>
           </div>
           <div className={`p-6 md:p-10 rounded-[2.5rem] border transition-all ${darkMode ? 'hyper-glass border-orange-600/30' : 'bg-white border-orange-200 shadow-2xl'}`}>
             <div className="flex items-center gap-3 mb-6"><div className="w-8 h-8 bg-orange-600 rounded-full flex items-center justify-center text-black"><Zap size={18} /></div><h3 className="text-xl md:text-3xl font-black italic uppercase tracking-tighter">פרוטוקול CARVO</h3></div>
