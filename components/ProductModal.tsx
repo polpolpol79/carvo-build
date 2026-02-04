@@ -216,7 +216,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onC
             </div>
 
             {/* Desktop Thumbnails (Hidden on Mobile) */}
-            <div className="hidden md:flex absolute bottom-8 right-8 gap-4 z-[275]">
+            <div className="hidden md:flex flex-row-reverse absolute bottom-8 right-8 gap-4 z-[275]">
               {images.map((img, i) => (
                 <button key={i} onClick={(e) => { e.stopPropagation(); setCurrentImgIdx(i); }} className={`w-16 h-16 rounded-2xl overflow-hidden border-2 transition-all ${currentImgIdx === i ? 'border-orange-600 scale-110' : 'border-white/20 hover:border-white/60'}`}>
                   <img src={img} className="w-full h-full object-cover" />
