@@ -603,27 +603,24 @@ export const App: React.FC = () => {
                 </div>
               </div>
               {/* DESKTOP ONLY: Grid Layout - Identical to Products */}
-              <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 w-full relative z-10" dir="rtl">
+              <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full relative z-10" dir="rtl">
                 {bundleProducts.map((bundle) => (
-                  <div key={bundle.id} onClick={() => openProduct(bundle)} className={`relative group w-full flex flex-col rounded-[3rem] overflow-hidden cursor-pointer transition-all hover:-translate-y-2 duration-500 border-2 ${darkMode ? 'border-white/5 bg-white/[0.03] hover:border-orange-600/40 hover:shadow-[0_0_30px_rgba(234,88,12,0.15)]' : 'border-black/5 bg-white shadow-xl hover:shadow-2xl'}`}>
+                  <div key={bundle.id} onClick={() => openProduct(bundle)} className={`relative group w-full aspect-[4/5] flex flex-col rounded-[2.5rem] overflow-hidden cursor-pointer transition-all hover:-translate-y-2 duration-500 border-2 ${darkMode ? 'border-white/5 bg-white/[0.03] hover:border-orange-600/40 hover:shadow-[0_0_30px_rgba(234,88,12,0.15)]' : 'border-black/5 bg-white shadow-xl hover:shadow-2xl'}`}>
                     {/* Hover Glow Gradient */}
                     <div className="absolute inset-0 bg-gradient-to-t from-orange-600/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-10" />
-                    {/* Upper Half: Image - 60% Height for bundles */}
-                    <div className="h-[400px] relative overflow-hidden bg-black/50 border-b border-white/5">
+                    {/* Upper Half: Image - 85% Height */}
+                    <div className="h-[85%] relative overflow-hidden bg-black/50 border-b border-white/5">
                       <img src={bundle.img} alt={bundle.name} className="w-full h-full object-cover opacity-80 group-hover:scale-105 group-hover:opacity-100 transition-all duration-700" />
                       {!bundle.available && <div className="absolute inset-0 bg-black/60 flex items-center justify-center font-black italic text-4xl text-red-500 tracking-widest border-4 border-red-600 m-12 rounded-xl rotate-[-12deg]">SOLD OUT</div>}
+                      <div className="absolute top-6 left-6 bg-orange-600/90 backdrop-blur-md px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest text-black flex items-center gap-2">
+                        <Layers size={12} className="fill-black" /> ELITE_BUNDLE
+                      </div>
                     </div>
 
-                    {/* Lower Half: Content */}
-                    <div className="flex-1 p-8 flex flex-col justify-between bg-gradient-to-b from-transparent to-black/20">
-                      <div>
-                        <div className="flex justify-between items-start gap-4 mb-4">
-                          <h3 className="text-2xl font-black italic uppercase leading-none tracking-tight">{bundle.name}</h3>
-                          <div className="text-2xl font-black italic text-orange-600 tracking-tighter">₪{bundle.price}</div>
-                        </div>
-                        <p className="text-sm font-bold italic opacity-60 leading-relaxed mb-6 whitespace-pre-line">{bundle.specs.join('\n')}</p>
-                      </div>
-                      <button disabled={!bundle.available} onClick={(e) => { e.stopPropagation(); addToCart(bundle); }} className={`w-full py-5 rounded-2xl font-black italic uppercase text-lg tracking-widest shadow-xl active:scale-95 transition-all ${bundle.available ? 'bg-orange-600 text-black hover:bg-orange-500' : 'bg-white/10 text-white/40 cursor-not-allowed'}`}>{bundle.available ? 'הוסף לעגלה' : 'זמנית לא במלאי'}</button>
+                    {/* Lower Half: Minimalist Content */}
+                    <div className="flex-1 px-8 flex items-center justify-between bg-gradient-to-b from-transparent to-black/20">
+                      <h3 className="text-xl font-black italic uppercase leading-none tracking-tight truncate max-w-[70%]">{bundle.name}</h3>
+                      <div className="text-xl font-black italic text-orange-600 tracking-tighter">₪{bundle.price}</div>
                     </div>
                   </div>
                 ))}
