@@ -7,14 +7,14 @@ export const STORE_CONFIG = {
   locale: 'he-IL',
   currency: 'ILS',
   address: 'יבנה 5, אשקלון, ישראל',
-  phone: '',
+  phone: '0553087708',
   email: {
     support: 'support@carvo.co.il',
     legal: 'legal@carvo.co.il',
   },
   contact: {
     address: 'יבנה 5, אשקלון, ישראל',
-    phone: ''
+    phone: '055-308-7708'
   },
   policies: {
     privacy: `
