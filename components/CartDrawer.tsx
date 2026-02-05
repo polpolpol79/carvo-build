@@ -12,6 +12,7 @@ interface CartDrawerProps {
   onRemove: (id: string) => void;
   darkMode: boolean;
   onOpenTerms: () => void;
+  onCheckout: () => void;
 }
 
 const PaymentIcons = ({ darkMode }: { darkMode: boolean }) => (
@@ -24,7 +25,7 @@ const PaymentIcons = ({ darkMode }: { darkMode: boolean }) => (
   </div>
 );
 
-export const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose, items, onUpdateQuantity, onRemove, darkMode, onOpenTerms }) => {
+export const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose, items, onUpdateQuantity, onRemove, darkMode, onOpenTerms, onCheckout }) => {
   const [isTermsAccepted, setIsTermsAccepted] = React.useState(false);
   const total = items.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
 
@@ -110,11 +111,13 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose, items, 
               </div>
 
               <button
-                onClick={handleCheckout}
+                onClick={() => {
+                  if (isTermsAccepted) onCheckout();
+                }}
                 disabled={!isTermsAccepted}
                 className={`w-full py-3.5 md:py-4 font-black italic text-sm uppercase rounded-xl shadow-xl transition-all flex items-center justify-center gap-3 ${isTermsAccepted ? 'bg-orange-600 text-black shadow-orange-600/20 hover:scale-[1.02] active:scale-95' : 'bg-gray-500/20 text-gray-500 cursor-not-allowed opacity-50'}`}
               >
-                <span>מעבר לתשלום</span>
+                <span>מעבר לתשלום מאובטח</span>
                 <ExternalLink className="w-4 h-4" />
               </button>
 
