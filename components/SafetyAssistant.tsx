@@ -37,7 +37,7 @@ export const SafetyAssistant: React.FC<{ darkMode: boolean }> = ({ darkMode }) =
     setIsLoading(true);
 
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+      const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY });
       const response = await ai.models.generateContent({
         model: 'gemini-3-flash-preview',
         contents: [...messages.map(m => ({
@@ -74,8 +74,8 @@ export const SafetyAssistant: React.FC<{ darkMode: boolean }> = ({ darkMode }) =
       {/* Entry Notification Bubble */}
       {showBubble && !isOpen && (
         <div className="fixed bottom-44 md:bottom-48 right-6 z-[100] max-w-[260px] md:max-w-[300px] hyper-glass p-5 rounded-[2rem] border-orange-600/30 shadow-2xl animate-in fade-in slide-in-from-bottom-4 duration-700">
-          <button 
-            onClick={() => setShowBubble(false)} 
+          <button
+            onClick={() => setShowBubble(false)}
             className="absolute -top-2 -left-2 bg-orange-600 text-black rounded-full p-1 shadow-xl hover:scale-110 active:scale-95 transition-all"
           >
             <X size={14} />
@@ -101,9 +101,8 @@ export const SafetyAssistant: React.FC<{ darkMode: boolean }> = ({ darkMode }) =
       </button>
 
       {isOpen && (
-        <div className={`fixed inset-x-4 bottom-24 sm:inset-auto sm:bottom-28 sm:right-6 sm:w-[320px] h-[70vh] sm:h-[420px] z-[120] flex flex-col rounded-[2rem] border backdrop-blur-3xl overflow-hidden shadow-[0_30px_60px_-15px_rgba(0,0,0,0.6)] transition-all ${
-          darkMode ? 'bg-black/90 border-white/10 text-white' : 'bg-white/95 border-black/15 text-black'
-        }`}>
+        <div className={`fixed inset-x-4 bottom-24 sm:inset-auto sm:bottom-28 sm:right-6 sm:w-[320px] h-[70vh] sm:h-[420px] z-[120] flex flex-col rounded-[2rem] border backdrop-blur-3xl overflow-hidden shadow-[0_30px_60px_-15px_rgba(0,0,0,0.6)] transition-all ${darkMode ? 'bg-black/90 border-white/10 text-white' : 'bg-white/95 border-black/15 text-black'
+          }`}>
           <div className="p-4 border-b border-orange-600/20 flex justify-between items-center bg-orange-600/5 shrink-0">
             <div className="flex items-center gap-2">
               <div className="w-2.5 h-2.5 bg-orange-600 rounded-full animate-pulse" />
@@ -120,11 +119,10 @@ export const SafetyAssistant: React.FC<{ darkMode: boolean }> = ({ darkMode }) =
           <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar text-right">
             {messages.map((msg, i) => (
               <div key={i} className={`flex ${msg.role === 'user' ? 'justify-start' : 'justify-end'}`}>
-                <div className={`max-w-[90%] md:max-w-[85%] p-4 md:p-3 rounded-2xl text-[14px] md:text-[13px] font-medium leading-relaxed ${
-                  msg.role === 'user' 
-                    ? (darkMode ? 'bg-white/10 border border-white/20 text-white' : 'bg-neutral-100 border border-black/10 text-black') 
+                <div className={`max-w-[90%] md:max-w-[85%] p-4 md:p-3 rounded-2xl text-[14px] md:text-[13px] font-medium leading-relaxed ${msg.role === 'user'
+                    ? (darkMode ? 'bg-white/10 border border-white/20 text-white' : 'bg-neutral-100 border border-black/10 text-black')
                     : `bg-orange-600/15 border border-orange-600/30 ${darkMode ? 'text-orange-50' : 'text-orange-950'}`
-                }`}>
+                  }`}>
                   {msg.role === 'model' && <Sparkles className="w-4 h-4 text-orange-600 mb-2 opacity-70 md:opacity-50" />}
                   {msg.text}
                 </div>
@@ -147,9 +145,8 @@ export const SafetyAssistant: React.FC<{ darkMode: boolean }> = ({ darkMode }) =
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && handleSend()}
               placeholder="זקוק לעזרה? כתוב כאן..."
-              className={`flex-1 bg-transparent border-b outline-none text-[15px] md:text-xs py-2 md:py-1.5 transition-all text-right ${
-                darkMode ? 'border-white/30 focus:border-orange-600 text-white placeholder:text-white/60' : 'border-black/30 focus:border-orange-600 text-black placeholder:text-black/40'
-              }`}
+              className={`flex-1 bg-transparent border-b outline-none text-[15px] md:text-xs py-2 md:py-1.5 transition-all text-right ${darkMode ? 'border-white/30 focus:border-orange-600 text-white placeholder:text-white/60' : 'border-black/30 focus:border-orange-600 text-black placeholder:text-black/40'
+                }`}
             />
             <button
               onClick={handleSend}
