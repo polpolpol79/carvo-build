@@ -88,6 +88,7 @@ export const App: React.FC = () => {
   const [infoModalType, setInfoModalType] = useState<string | null>(null);
   const [activeProdIdx, setActiveProdIdx] = useState(0);
   const [activeBundleIdx, setActiveBundleIdx] = useState(0);
+  const [loadingProduct, setLoadingProduct] = useState<string | null>(null);
 
   const touchStartRef = useRef<number | null>(null);
   const [isSwiping, setIsSwiping] = useState(false);
@@ -197,6 +198,17 @@ export const App: React.FC = () => {
     });
     trackAddToCart(p);
     setIsCartOpen(true);
+  };
+
+  const openProduct = (p: Product) => {
+    // Immediate feedback
+    setLoadingProduct(p.id);
+
+    // Defer heavy modal mount to allow UI update
+    setTimeout(() => {
+      setSelectedProduct(p);
+      setLoadingProduct(null);
+    }, 10);
   };
 
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -494,7 +506,12 @@ export const App: React.FC = () => {
                     </div>
                   ) : products.map((p) => (
                     <div key={p.id} className="w-full h-full shrink-0 flex-none px-1" dir="rtl">
-                      <div onClick={() => setSelectedProduct(p)} className={`h-full w-full flex flex-col overflow-hidden rounded-[35px] cursor-pointer group active:scale-[0.98] transition-all duration-200 ${darkMode ? 'hyper-glass bg-white/[0.04] border-white/10' : 'bg-white border border-black/15 shadow-2xl'}`}>
+                      <div onClick={() => openProduct(p)} className={`h-full w-full flex flex-col overflow-hidden rounded-[35px] cursor-pointer group active:scale-[0.98] transition-all duration-200 relative ${darkMode ? 'hyper-glass bg-white/[0.04] border-white/10' : 'bg-white border border-black/15 shadow-2xl'}`}>
+                        {loadingProduct === p.id && (
+                          <div className="absolute inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center">
+                            <Loader2 className="w-12 h-12 text-orange-600 animate-spin" />
+                          </div>
+                        )}
                         <div className="aspect-[16/9] bg-black relative shrink-0 overflow-hidden"><img src={p.img} alt={p.name} draggable="false" className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-transform duration-1000 group-hover:scale-110 pointer-events-none" />{!p.available && <div className="absolute inset-0 bg-black/60 flex items-center justify-center font-black italic text-xl text-red-500">אזל מהמלאי_</div>}</div>
                         <div className="flex-1 p-6 flex flex-col justify-between">
                           <div className="flex justify-between items-start gap-4 mb-2"><h3 className="text-xl font-black italic uppercase leading-tight flex-1 truncate">{p.name}</h3><div className="text-xl font-black italic text-orange-600 shrink-0">₪{p.price}</div></div>
@@ -515,37 +532,28 @@ export const App: React.FC = () => {
               </div>
 
               {/* DESKTOP ONLY: Horizontal Scroll Rail */}
-              <div className="hidden md:block relative group/rail">
-                <button onClick={() => {
-                  if (showroomScrollRef.current) showroomScrollRef.current.scrollBy({ left: -400, behavior: 'smooth' });
-                }} className="absolute -left-12 top-1/2 -translate-y-1/2 z-30 w-16 h-16 bg-black/50 backdrop-blur-xl border border-white/10 rounded-full text-white flex items-center justify-center hover:bg-orange-600 hover:text-black hover:scale-110 active:scale-90 transition-all shadow-2xl opacity-0 group-hover/rail:opacity-100 translate-x-4 group-hover/rail:translate-x-0"><ChevronLeft size={32} /></button>
-
-                <button onClick={() => {
-                  if (showroomScrollRef.current) showroomScrollRef.current.scrollBy({ left: 400, behavior: 'smooth' });
-                }} className="absolute -right-12 top-1/2 -translate-y-1/2 z-30 w-16 h-16 bg-black/50 backdrop-blur-xl border border-white/10 rounded-full text-white flex items-center justify-center hover:bg-orange-600 hover:text-black hover:scale-110 active:scale-90 transition-all shadow-2xl opacity-0 group-hover/rail:opacity-100 -translate-x-4 group-hover/rail:translate-x-0"><ChevronRight size={32} /></button>
-
-                <div ref={showroomScrollRef} className="flex flex-nowrap gap-8 overflow-x-auto pb-12 w-full p-4 px-12 relative z-10 snap-x snap-mandatory no-scrollbar scroll-smooth" dir="rtl">
-                  {products.map((p) => (
-                    <div key={p.id} onClick={() => setSelectedProduct(p)} className={`relative group shrink-0 w-[400px] h-[650px] flex flex-col rounded-[3rem] overflow-hidden cursor-pointer transition-all hover:-translate-y-2 duration-500 border-2 snap-center ${darkMode ? 'border-white/5 bg-white/[0.03] hover:border-orange-600/40 hover:shadow-[0_0_30px_rgba(234,88,12,0.15)]' : 'border-black/5 bg-white shadow-xl hover:shadow-2xl'}`}>
-                      {/* Hover Glow Gradient */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-orange-600/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-10" />
-                      {/* Upper Half: Image - 88% Height (Massive Image) */}
-                      <div className="h-[88%] relative overflow-hidden bg-black/50 border-b border-white/5">
-                        <img src={p.img} alt={p.name} className="w-full h-full object-cover opacity-80 group-hover:scale-105 group-hover:opacity-100 transition-all duration-700" />
-                        {!p.available && <div className="absolute inset-0 bg-black/60 flex items-center justify-center font-black italic text-4xl text-red-500 tracking-widest border-4 border-red-600 m-12 rounded-xl rotate-[-12deg]">SOLD OUT</div>}
-                        <div className="absolute top-8 left-8 bg-black/60 backdrop-blur-md border border-white/10 px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest text-white/60 group-hover:bg-orange-600 group-hover:text-black group-hover:border-transparent transition-colors">
-                          CARVO_GEAR
-                        </div>
-                      </div>
-
-                      {/* Lower Half: Minimalist Gallery Title - 12% Height */}
-                      <div className="flex-1 px-8 flex items-center justify-between bg-gradient-to-b from-transparent to-black/20">
-                        <h3 className="text-2xl font-black italic uppercase leading-none tracking-tight truncate max-w-[70%]">{p.name}</h3>
-                        <div className="text-2xl font-black italic text-orange-600 tracking-tighter">₪{p.price}</div>
+              {/* DESKTOP ONLY: Grid Layout (No horizontal scroll) */}
+              <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 w-full relative z-10" dir="rtl">
+                {products.map((p) => (
+                  <div key={p.id} onClick={() => setSelectedProduct(p)} className={`relative group w-full h-[650px] flex flex-col rounded-[3rem] overflow-hidden cursor-pointer transition-all hover:-translate-y-2 duration-500 border-2 ${darkMode ? 'border-white/5 bg-white/[0.03] hover:border-orange-600/40 hover:shadow-[0_0_30px_rgba(234,88,12,0.15)]' : 'border-black/5 bg-white shadow-xl hover:shadow-2xl'}`}>
+                    {/* Hover Glow Gradient */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-orange-600/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-10" />
+                    {/* Upper Half: Image - 88% Height (Massive Image) */}
+                    <div className="h-[88%] relative overflow-hidden bg-black/50 border-b border-white/5">
+                      <img src={p.img} alt={p.name} className="w-full h-full object-cover opacity-80 group-hover:scale-105 group-hover:opacity-100 transition-all duration-700" />
+                      {!p.available && <div className="absolute inset-0 bg-black/60 flex items-center justify-center font-black italic text-4xl text-red-500 tracking-widest border-4 border-red-600 m-12 rounded-xl rotate-[-12deg]">SOLD OUT</div>}
+                      <div className="absolute top-8 left-8 bg-black/60 backdrop-blur-md border border-white/10 px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest text-white/60 group-hover:bg-orange-600 group-hover:text-black group-hover:border-transparent transition-colors">
+                        CARVO_GEAR
                       </div>
                     </div>
-                  ))}
-                </div>
+
+                    {/* Lower Half: Minimalist Gallery Title - 12% Height */}
+                    <div className="flex-1 px-8 flex items-center justify-between bg-gradient-to-b from-transparent to-black/20">
+                      <h3 className="text-2xl font-black italic uppercase leading-none tracking-tight truncate max-w-[70%]">{p.name}</h3>
+                      <div className="text-2xl font-black italic text-orange-600 tracking-tighter">₪{p.price}</div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </section>
@@ -575,7 +583,12 @@ export const App: React.FC = () => {
                     </div>
                   ) : bundleProducts.map((bundle) => (
                     <div key={bundle.id} className="w-full h-full shrink-0 flex-none px-1" dir="rtl">
-                      <div onClick={() => setSelectedProduct(bundle)} className={`relative h-full flex flex-col rounded-[35px] overflow-hidden transition-all duration-200 group active:scale-[0.98] border-4 ${bundle.featured ? 'border-orange-600' : (darkMode ? 'border-white/10' : 'border-black/10')} ${darkMode ? 'bg-[#1a1a1a]' : 'bg-white'}`}>
+                      <div onClick={() => openProduct(bundle)} className={`relative h-full flex flex-col rounded-[35px] overflow-hidden transition-all duration-200 group active:scale-[0.98] border-4 ${bundle.featured ? 'border-orange-600' : (darkMode ? 'border-white/10' : 'border-black/10')} ${darkMode ? 'bg-[#1a1a1a]' : 'bg-white'}`}>
+                        {loadingProduct === bundle.id && (
+                          <div className="absolute inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center">
+                            <Loader2 className="w-12 h-12 text-orange-600 animate-spin" />
+                          </div>
+                        )}
                         <div className="aspect-[16/9] bg-black relative shrink-0 overflow-hidden"><img src={bundle.img} alt={bundle.name} draggable="false" className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-transform duration-1000 group-hover:scale-110 pointer-events-none" /></div>
                         <div className="p-6 flex flex-col justify-between flex-1 text-right">
                           <div className="flex flex-col flex-1">
@@ -588,16 +601,33 @@ export const App: React.FC = () => {
                     </div>
                   ))}
                 </div>
-                {bundleProducts.length > 1 && (
-                  <>
-                    <button onClick={() => activeBundleIdx > 0 && setActiveBundleIdx(p => p - 1)} className="absolute -right-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 bg-black text-white rounded-xl border border-orange-600/40 flex items-center justify-center hover:bg-orange-600 hover:text-black transition-all active:scale-90"><ChevronRight size={20} /></button>
-                    <button onClick={() => activeBundleIdx < bundleProducts.length - 1 && setActiveBundleIdx(p => p + 1)} className="absolute -left-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 bg-black text-white rounded-xl border border-orange-600/40 flex items-center justify-center hover:bg-orange-600 hover:text-black transition-all active:scale-90"><ChevronLeft size={20} /></button>
-                  </>
-                )}
-              </div>
+              {/* DESKTOP ONLY: Grid Layout - Identical to Products */}
+              <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 w-full relative z-10" dir="rtl">
+                {bundleProducts.map((bundle) => (
+                  <div key={bundle.id} onClick={() => openProduct(bundle)} className={`relative group w-full flex flex-col rounded-[3rem] overflow-hidden cursor-pointer transition-all hover:-translate-y-2 duration-500 border-2 ${darkMode ? 'border-white/5 bg-white/[0.03] hover:border-orange-600/40 hover:shadow-[0_0_30px_rgba(234,88,12,0.15)]' : 'border-black/5 bg-white shadow-xl hover:shadow-2xl'}`}>
+                    {/* Hover Glow Gradient */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-orange-600/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-10" />
+                    {/* Upper Half: Image - 60% Height for bundles */}
+                    <div className="h-[400px] relative overflow-hidden bg-black/50 border-b border-white/5">
+                      <img src={bundle.img} alt={bundle.name} className="w-full h-full object-cover opacity-80 group-hover:scale-105 group-hover:opacity-100 transition-all duration-700" />
+                      {!bundle.available && <div className="absolute inset-0 bg-black/60 flex items-center justify-center font-black italic text-4xl text-red-500 tracking-widest border-4 border-red-600 m-12 rounded-xl rotate-[-12deg]">SOLD OUT</div>}
+                    </div>
 
-              {/* DESKTOP ONLY: Bundle Horizontal Rail - Identical to Products */}
-              <div className="hidden md:flex flex-nowrap gap-8 overflow-x-auto pb-12 w-full relative z-10 snap-x snap-mandatory no-scrollbar">
+                    {/* Lower Half: Content */}
+                    <div className="flex-1 p-8 flex flex-col justify-between bg-gradient-to-b from-transparent to-black/20">
+                      <div>
+                        <div className="flex justify-between items-start gap-4 mb-4">
+                          <h3 className="text-2xl font-black italic uppercase leading-none tracking-tight">{bundle.name}</h3>
+                          <div className="text-2xl font-black italic text-orange-600 tracking-tighter">₪{bundle.price}</div>
+                        </div>
+                        <p className="text-sm font-bold italic opacity-60 leading-relaxed mb-6 whitespace-pre-line">{bundle.specs.join('\n')}</p>
+                      </div>
+                      <button disabled={!bundle.available} onClick={(e) => { e.stopPropagation(); addToCart(bundle); }} className={`w-full py-5 rounded-2xl font-black italic uppercase text-lg tracking-widest shadow-xl active:scale-95 transition-all ${bundle.available ? 'bg-orange-600 text-black hover:bg-orange-500' : 'bg-white/10 text-white/40 cursor-not-allowed'}`}>{bundle.available ? 'הוסף לעגלה' : 'זמנית לא במלאי'}</button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
                 {bundleProducts.map((bundle) => (
                   <div key={bundle.id} onClick={() => setSelectedProduct(bundle)} className={`relative group shrink-0 w-[400px] h-[650px] flex flex-col rounded-[3rem] overflow-hidden cursor-pointer transition-all hover:-translate-y-2 duration-500 border-2 snap-center ${bundle.featured ? 'border-orange-600 shadow-[0_0_50px_rgba(234,88,12,0.15)] hover:shadow-[0_0_80px_rgba(234,88,12,0.25)]' : (darkMode ? 'border-white/10 bg-white/5 hover:bg-white/10' : 'border-black/5 bg-white shadow-xl hover:shadow-2xl')}`}>
                     {/* Hover Glow Gradient */}
@@ -672,6 +702,6 @@ export const App: React.FC = () => {
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(50%); } }
         .animate-[marquee_30s_linear_infinite] { animation: marquee 30s linear infinite; width: fit-content; }
       `}} />
-    </div>
+    </div >
   );
 };
