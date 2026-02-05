@@ -255,14 +255,14 @@ export const App: React.FC = () => {
           <span className="opacity-40 text-3xl md:text-[3.5rem] tracking-tight">חסכוני ובטוח יותר_</span>
         </h1>
 
-        <div className="flex flex-col md:flex-row gap-6 items-center">
-          <button onClick={() => document.getElementById('showroom')?.scrollIntoView({ behavior: 'smooth' })} className={`flex items-center gap-6 px-10 md:px-12 py-5 md:py-6 bg-orange-600 text-black font-black italic uppercase tracking-widest text-lg md:text-xl rounded-full shadow-[0_0_40px_rgba(234,88,12,0.3)] active:scale-95 hover:scale-105 hover:shadow-[0_0_80px_rgba(234,88,12,0.5)] transition-all duration-300 group hover:-translate-y-1`}>
+        <div className="flex flex-col md:flex-row gap-4 md:gap-6 items-center w-full md:w-auto px-4 md:px-0">
+          <button onClick={() => document.getElementById('showroom')?.scrollIntoView({ behavior: 'smooth' })} className={`w-full md:w-auto justify-center flex items-center gap-4 md:gap-6 px-8 md:px-12 py-4 md:py-6 bg-orange-600 text-black font-black italic uppercase tracking-widest text-base md:text-xl rounded-full shadow-[0_0_40px_rgba(234,88,12,0.3)] active:scale-95 hover:scale-105 hover:shadow-[0_0_80px_rgba(234,88,12,0.5)] transition-all duration-300 group hover:-translate-y-1`}>
             <span>לקטלוג המלא</span>
-            <ChevronLeft size={24} className="group-hover:-translate-x-2 transition-transform duration-300" />
+            <ChevronLeft size={20} className="md:w-6 md:h-6 group-hover:-translate-x-2 transition-transform duration-300" />
           </button>
-          <button onClick={() => document.getElementById('ralbad-stats')?.scrollIntoView({ behavior: 'smooth' })} className={`flex items-center gap-6 px-10 md:px-12 py-5 md:py-6 hyper-glass border border-red-600/30 text-red-600 font-black italic uppercase tracking-widest text-lg md:text-xl rounded-full shadow-[0_0_40px_rgba(220,38,38,0.1)] active:scale-95 hover:scale-105 hover:shadow-[0_0_60px_rgba(220,38,38,0.3)] hover:border-red-600 transition-all duration-300 group`}>
+          <button onClick={() => document.getElementById('ralbad-stats')?.scrollIntoView({ behavior: 'smooth' })} className={`w-full md:w-auto justify-center flex items-center gap-4 md:gap-6 px-8 md:px-12 py-4 md:py-6 hyper-glass border border-red-600/30 text-red-600 font-black italic uppercase tracking-widest text-base md:text-xl rounded-full shadow-[0_0_40px_rgba(220,38,38,0.1)] active:scale-95 hover:scale-105 hover:shadow-[0_0_60px_rgba(220,38,38,0.3)] hover:border-red-600 transition-all duration-300 group`}>
             <span>הסטטיסטיקה המדממת</span>
-            <ArrowDown size={24} className="group-hover:translate-y-2 transition-transform duration-500 ease-out" />
+            <ArrowDown size={20} className="md:w-6 md:h-6 group-hover:translate-y-2 transition-transform duration-500 ease-out" />
           </button>
         </div>
       </ThinMotion>
