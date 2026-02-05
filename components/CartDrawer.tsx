@@ -11,6 +11,7 @@ interface CartDrawerProps {
   onUpdateQuantity: (id: string, delta: number) => void;
   onRemove: (id: string) => void;
   darkMode: boolean;
+  onOpenTerms: () => void;
 }
 
 const PaymentIcons = ({ darkMode }: { darkMode: boolean }) => (
@@ -23,7 +24,7 @@ const PaymentIcons = ({ darkMode }: { darkMode: boolean }) => (
   </div>
 );
 
-export const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose, items, onUpdateQuantity, onRemove, darkMode }) => {
+export const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose, items, onUpdateQuantity, onRemove, darkMode, onOpenTerms }) => {
   const [isTermsAccepted, setIsTermsAccepted] = React.useState(false);
   const total = items.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
 
@@ -104,7 +105,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose, items, 
                   {isTermsAccepted && <div className="w-4 h-4 text-black"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4"><polyline points="20 6 9 17 4 12"></polyline></svg></div>}
                 </div>
                 <div className={`text-[11px] font-bold ${darkMode ? 'text-white/70' : 'text-black/70'}`}>
-                  אני מאשר את <a href="/terms" onClick={(e) => { e.preventDefault(); /* Open Terms Modal Logic should be here, but for now fallback to link or notify parent */ }} className="underline hover:text-orange-600 transition-colors">תנאי השימוש</a>
+                  אני מאשר את <button onClick={(e) => { e.preventDefault(); onOpenTerms(); }} className="underline hover:text-orange-600 transition-colors">תנאי השימוש</button>
                 </div>
               </div>
 
