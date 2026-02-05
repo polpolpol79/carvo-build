@@ -443,9 +443,19 @@ export const App: React.FC = () => {
         total={cart.reduce((sum, item) => sum + (item.product.price * item.quantity), 0)}
         onBack={() => setView('home')}
         onProceed={(formData) => {
-          // Construct Shopify Cart URL or handle Redirect
+          // Construct Shopify Cart URL with Pre-filled checkout params
           const cartString = cart.map(item => `${item.product.id.split('/').pop()}:${item.quantity}`).join(',');
-          window.location.href = `https://carvo.co.il/cart/${cartString}`;
+
+          const params = new URLSearchParams();
+          if (formData.email) params.append('checkout[email]', formData.email);
+          if (formData.firstName) params.append('checkout[shipping_address][first_name]', formData.firstName);
+          if (formData.lastName) params.append('checkout[shipping_address][last_name]', formData.lastName);
+          if (formData.phone) params.append('checkout[shipping_address][phone]', formData.phone);
+          if (formData.city) params.append('checkout[shipping_address][city]', formData.city);
+          if (formData.street) params.append('checkout[shipping_address][address1]', `${formData.street} ${formData.floor ? `קומה ${formData.floor}` : ''} ${formData.apt ? `דירה ${formData.apt}` : ''}`);
+          if (formData.notes) params.append('checkout[note]', formData.notes);
+
+          window.location.href = `https://carvo.co.il/cart/${cartString}?${params.toString()}`;
         }}
         darkMode={darkMode}
         onOpenTerms={() => setInfoModalType('terms')}
