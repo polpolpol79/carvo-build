@@ -21,7 +21,6 @@ import { Product, Category, CartItem } from './types';
 import { DesktopNavigation } from './components/DesktopNavigation';
 import { shopifyFetch, GET_COLLECTIONS_QUERY, GET_COLLECTION_PRODUCTS_QUERY } from './lib/shopify';
 import { trackAddToCart, trackProductView } from './lib/analytics';
-import { CustomCursor } from './components/CustomCursor';
 
 const PaymentIconsFooter = ({ darkMode }: { darkMode: boolean }) => (
   <div className="flex items-center justify-center gap-6 opacity-80 transition-all duration-700 mb-6">
