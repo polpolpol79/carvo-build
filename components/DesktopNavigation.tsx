@@ -75,7 +75,7 @@ export const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
             </div>
 
             {/* Center: Navigation Links - Compact */}
-            <nav className={`pointer-events-auto flex items-center gap-6 px-8 py-3 rounded-full transition-all duration-500 ${scrolled ? 'bg-black/80 backdrop-blur-md' : ''}`}>
+            <nav className={`pointer-events-auto flex items-center gap-6 px-8 py-3 rounded-full transition-all duration-500 ${scrolled ? 'bg-black/80 backdrop-blur-md text-white' : ''}`}>
                 {allLinks.map((link) => (
                     <button
                         key={link.id}
