@@ -12,13 +12,13 @@ interface MenuDrawerProps {
   onCategorySelect: (handle: string) => void;
 }
 
-export const MenuDrawer: React.FC<MenuDrawerProps> = ({ 
-  isOpen, 
-  onClose, 
-  darkMode, 
-  categories, 
-  activeCategoryHandle, 
-  onCategorySelect 
+export const MenuDrawer: React.FC<MenuDrawerProps> = ({
+  isOpen,
+  onClose,
+  darkMode,
+  categories,
+  activeCategoryHandle,
+  onCategorySelect
 }) => {
   const staticMenuItems = [
     { id: 'crisis-protocol', label: 'פרוטוקול המשבר_', icon: <AlertCircle className="w-5 h-5" /> },
@@ -45,13 +45,13 @@ export const MenuDrawer: React.FC<MenuDrawerProps> = ({
 
   return (
     <>
-      <div 
+      <div
         className={`fixed inset-0 z-[250] transition-opacity duration-500 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'} bg-black/60 backdrop-blur-sm`}
         onClick={onClose}
       />
       <div className={`fixed top-0 bottom-0 right-0 w-full max-w-[300px] z-[260] transition-transform duration-500 ease-out transform ${isOpen ? 'translate-x-0' : 'translate-x-full'} 
         hyper-glass border-l border-white/10 flex flex-col shadow-2xl backdrop-blur-2xl text-right`}>
-        
+
         <div className="p-6 border-b border-white/10 flex justify-between items-center">
           <button onClick={onClose} className={`p-2 rounded-full hover:bg-white/10 transition-colors ${darkMode ? 'text-white' : 'text-black'}`}>
             <X className="w-6 h-6" />
@@ -70,11 +70,10 @@ export const MenuDrawer: React.FC<MenuDrawerProps> = ({
               <button
                 key={cat.id}
                 onClick={() => handleCategoryClick(cat.id)}
-                className={`w-full group flex items-center justify-between p-4 rounded-2xl transition-all border ${
-                  activeCategoryHandle === cat.id 
-                    ? 'bg-orange-600/15 border-orange-600/30' 
+                className={`w-full group flex items-center justify-between p-4 rounded-2xl transition-all border ${activeCategoryHandle === cat.id
+                    ? 'bg-orange-600/15 border-orange-600/30'
                     : 'bg-white/5 border-transparent hover:border-white/10'
-                } text-right`}
+                  } text-right`}
               >
                 <ChevronLeft className={`w-4 h-4 text-orange-600 ${activeCategoryHandle === cat.id ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0'} transition-all`} />
                 <span className={`text-base font-black italic tracking-tighter ${activeCategoryHandle === cat.id ? 'text-orange-600' : (darkMode ? 'text-white' : 'text-black')}`}>
@@ -104,27 +103,27 @@ export const MenuDrawer: React.FC<MenuDrawerProps> = ({
               </button>
             ))}
           </div>
-          
+
           <div className="pt-4 border-t border-white/5">
-             <a 
-              href="https://wa.me/972553087708" 
-              target="_blank" 
+            <a
+              href="https://wa.me/972553087708"
+              target="_blank"
               rel="noopener noreferrer"
               className="w-full flex items-center justify-between p-5 rounded-2xl bg-green-600/10 border border-green-600/20 text-green-500 hover:bg-green-600 hover:text-white transition-all"
-             >
-                <ChevronLeft size={16} />
-                <div className="flex items-center gap-4">
-                  <span className="text-lg font-black italic tracking-tighter">צ'אט עם מומחה_</span>
-                  <MessageCircle size={20} />
-                </div>
-             </a>
+            >
+              <ChevronLeft size={16} />
+              <div className="flex items-center gap-4">
+                <span className="text-lg font-black italic tracking-tighter">דברו איתנו_</span>
+                <MessageCircle size={20} />
+              </div>
+            </a>
           </div>
         </div>
 
         <div className="p-8 border-t border-white/5 bg-black/20 text-center shrink-0">
-           <p className={`text-[9px] font-black uppercase tracking-[0.4em] ${darkMode ? 'opacity-40' : 'opacity-20'}`}>
-             CARVO_OS // NAV_PROTOCOL // 2026
-           </p>
+          <p className={`text-[9px] font-black uppercase tracking-[0.4em] ${darkMode ? 'opacity-40' : 'opacity-20'}`}>
+            CARVO_OS // NAV_PROTOCOL // 2026
+          </p>
         </div>
       </div>
     </>
