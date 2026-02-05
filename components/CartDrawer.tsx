@@ -24,28 +24,29 @@ const PaymentIcons = ({ darkMode }: { darkMode: boolean }) => (
 );
 
 export const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose, items, onUpdateQuantity, onRemove, darkMode }) => {
+  const [isTermsAccepted, setIsTermsAccepted] = React.useState(false);
   const total = items.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
-  
+
   const handleCheckout = () => {
     if (items.length === 0) return;
-    
+
     // Track analytics
     trackBeginCheckout(items, total);
-    
+
     const cartString = items.map(item => `${item.product.id.split('/').pop()}:${item.quantity}`).join(',');
     window.location.href = `https://carvo.co.il/cart/${cartString}`;
   };
 
   return (
     <>
-      <div 
+      <div
         className={`fixed inset-0 z-[200] transition-opacity duration-500 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'} bg-black/60 backdrop-blur-sm`}
         onClick={onClose}
       />
-      
+
       <div className={`fixed top-0 bottom-0 left-0 w-full max-w-[300px] md:max-w-md z-[210] transition-transform duration-500 ease-out transform ${isOpen ? 'translate-x-0' : '-translate-x-full'} 
         hyper-glass border-r border-white/10 flex flex-col shadow-2xl backdrop-blur-2xl`}>
-        
+
         <div className="p-4 md:p-6 border-b border-white/10 flex justify-between items-center">
           <div className="flex items-center gap-3">
             <ShoppingBag className="w-5 h-5 text-orange-600" />
@@ -72,7 +73,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose, items, 
                 <div className="flex-1 text-right overflow-hidden">
                   <h3 className={`text-[12px] md:text-[11px] font-black italic uppercase leading-tight mb-1 truncate ${darkMode ? 'text-white' : 'text-black'}`}>{item.product.name}</h3>
                   <div className="text-[14px] md:text-[15px] font-black text-orange-600 mb-2">₪{item.product.price}</div>
-                  
+
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2.5 bg-black/20 rounded-lg p-1">
                       <button onClick={() => onUpdateQuantity(item.productId, 1)} className={`p-1 hover:text-orange-600 ${darkMode ? 'text-white' : 'text-black'}`}><Plus className="w-3.5 h-3.5" /></button>
@@ -95,19 +96,30 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose, items, 
               <span className={`text-[10px] md:text-[11px] font-black uppercase italic ${darkMode ? 'text-white/60' : 'text-black/60'}`}>סיכום ביניים</span>
               <span className="text-xl md:text-3xl font-black italic tracking-tighter text-orange-600">₪{total.toLocaleString()}</span>
             </div>
-            
+
             <div className="space-y-4">
-              <button 
+              {/* Terms Checkbox */}
+              <div className="flex items-center gap-3 pr-1">
+                <div onClick={() => setIsTermsAccepted(!isTermsAccepted)} className={`w-5 h-5 rounded border cursor-pointer flex items-center justify-center transition-all ${isTermsAccepted ? 'bg-orange-600 border-orange-600' : (darkMode ? 'border-white/30 hover:border-white/60' : 'border-black/30 hover:border-black/60')}`}>
+                  {isTermsAccepted && <div className="w-4 h-4 text-black"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4"><polyline points="20 6 9 17 4 12"></polyline></svg></div>}
+                </div>
+                <div className={`text-[11px] font-bold ${darkMode ? 'text-white/70' : 'text-black/70'}`}>
+                  אני מאשר את <a href="/terms" onClick={(e) => { e.preventDefault(); /* Open Terms Modal Logic should be here, but for now fallback to link or notify parent */ }} className="underline hover:text-orange-600 transition-colors">תנאי השימוש</a>
+                </div>
+              </div>
+
+              <button
                 onClick={handleCheckout}
-                className="w-full py-3.5 md:py-4 bg-orange-600 text-black font-black italic text-sm uppercase rounded-xl shadow-xl shadow-orange-600/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3"
+                disabled={!isTermsAccepted}
+                className={`w-full py-3.5 md:py-4 font-black italic text-sm uppercase rounded-xl shadow-xl transition-all flex items-center justify-center gap-3 ${isTermsAccepted ? 'bg-orange-600 text-black shadow-orange-600/20 hover:scale-[1.02] active:scale-95' : 'bg-gray-500/20 text-gray-500 cursor-not-allowed opacity-50'}`}
               >
                 <span>מעבר לתשלום</span>
                 <ExternalLink className="w-4 h-4" />
               </button>
-              
+
               <PaymentIcons darkMode={darkMode} />
             </div>
-            
+
             <p className={`text-[9px] md:text-[10px] text-center font-bold italic ${darkMode ? 'text-white/40' : 'text-black/40'}`}>
               SECURE_GATEWAY_PROTOCOL // SHOPIFY
             </p>
