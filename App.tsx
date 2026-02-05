@@ -666,7 +666,15 @@ export const App: React.FC = () => {
           activeCategoryHandle={activeCategoryHandle}
           onCategorySelect={setActiveCategoryHandle}
         />
-        <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} items={cart} onUpdateQuantity={(id, delta) => setCart(prev => prev.map(i => i.productId === id ? { ...i, quantity: Math.max(1, i.quantity + delta) } : i))} onRemove={id => setCart(prev => prev.filter(i => i.productId !== id))} darkMode={darkMode} />
+        <CartDrawer
+          isOpen={isCartOpen}
+          onClose={() => setIsCartOpen(false)}
+          items={cart}
+          onUpdateQuantity={(id, delta) => setCart(prev => prev.map(i => i.productId === id ? { ...i, quantity: Math.max(1, i.quantity + delta) } : i))}
+          onRemove={id => setCart(prev => prev.filter(i => i.productId !== id))}
+          darkMode={darkMode}
+          onOpenTerms={() => setInfoModalType('terms')}
+        />
         <ProductModal product={selectedProduct} isOpen={!!selectedProduct} onClose={() => setSelectedProduct(null)} onAddToCart={addToCart} darkMode={darkMode} />
         <InfoModal type={infoModalType} isOpen={!!infoModalType} onClose={() => setInfoModalType(null)} darkMode={darkMode} />
         <CookieBanner darkMode={darkMode} onOpenPrivacy={() => setInfoModalType('privacy')} />
