@@ -484,8 +484,8 @@ export const App: React.FC = () => {
               {/* Central Architectural Axis Line REMOVED for Single Row Layout */}
 
               {/* MOBILE ONLY: Swipe Carousel */}
-              <div className="md:hidden w-full h-[420px] overflow-hidden rounded-[35px] relative shadow-2xl touch-pan-y" onTouchStart={handleTouchStart} onTouchEnd={(e) => handleTouchEnd('products', e.changedTouches[0].clientX)}>
-                <div className="flex h-full w-full transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]" style={{ transform: `translateX(${activeProdIdx * 100}%)` }}>
+              <div className="md:hidden w-full h-[450px] overflow-hidden rounded-[35px] relative shadow-2xl touch-pan-y select-none" onTouchStart={handleTouchStart} onTouchEnd={(e) => handleTouchEnd('products', e.changedTouches[0].clientX)}>
+                <div className="flex h-full w-full transition-transform duration-500 ease-out" style={{ transform: `translateX(${activeProdIdx * 100}%)` }}>
                   {isProductsLoading ? (
                     <div className="w-full shrink-0 h-full p-2"><CardSkeleton darkMode={darkMode} /></div>
                   ) : products.length === 0 ? (
@@ -493,9 +493,9 @@ export const App: React.FC = () => {
                       <p className="text-[12px] font-black uppercase tracking-widest">לא נמצאו מוצרים_</p>
                     </div>
                   ) : products.map((p) => (
-                    <div key={p.id} className="w-full h-full shrink-0 flex-none" dir="rtl">
-                      <div onClick={() => !isSwiping && setSelectedProduct(p)} className={`h-full w-full flex flex-col overflow-hidden rounded-[35px] cursor-pointer group transition-all ${darkMode ? 'hyper-glass bg-white/[0.04] border-white/10' : 'bg-white border border-black/15 shadow-2xl'}`}>
-                        <div className="aspect-[16/9] bg-black relative shrink-0 overflow-hidden"><img src={p.img} alt={p.name} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-transform duration-1000 group-hover:scale-110" />{!p.available && <div className="absolute inset-0 bg-black/60 flex items-center justify-center font-black italic text-xl text-red-500">אזל מהמלאי_</div>}</div>
+                    <div key={p.id} className="w-full h-full shrink-0 flex-none px-1" dir="rtl">
+                      <div onClick={() => setSelectedProduct(p)} className={`h-full w-full flex flex-col overflow-hidden rounded-[35px] cursor-pointer group active:scale-[0.98] transition-all duration-200 ${darkMode ? 'hyper-glass bg-white/[0.04] border-white/10' : 'bg-white border border-black/15 shadow-2xl'}`}>
+                        <div className="aspect-[16/9] bg-black relative shrink-0 overflow-hidden"><img src={p.img} alt={p.name} draggable="false" className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-transform duration-1000 group-hover:scale-110 pointer-events-none" />{!p.available && <div className="absolute inset-0 bg-black/60 flex items-center justify-center font-black italic text-xl text-red-500">אזל מהמלאי_</div>}</div>
                         <div className="flex-1 p-6 flex flex-col justify-between">
                           <div className="flex justify-between items-start gap-4 mb-2"><h3 className="text-xl font-black italic uppercase leading-tight flex-1 truncate">{p.name}</h3><div className="text-xl font-black italic text-orange-600 shrink-0">₪{p.price}</div></div>
                           <div className="h-[68px] mb-4 overflow-hidden"><p className="text-[11px] font-bold italic opacity-60 leading-relaxed line-clamp-4 uppercase">{p.specs.join('\n')}</p></div>
@@ -565,8 +565,8 @@ export const App: React.FC = () => {
 
             <div className="relative mx-auto">
               {/* MOBILE ONLY: Bundle Carousel */}
-              <div className="md:hidden w-full h-[450px] overflow-hidden rounded-[35px] relative shadow-2xl touch-pan-y" onTouchStart={handleTouchStart} onTouchEnd={(e) => handleTouchEnd('bundles', e.changedTouches[0].clientX)}>
-                <div className="flex h-full w-full transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]" style={{ transform: `translateX(${activeBundleIdx * 100}%)` }}>
+              <div className="md:hidden w-full h-[450px] overflow-hidden rounded-[35px] relative shadow-2xl touch-pan-y select-none" onTouchStart={handleTouchStart} onTouchEnd={(e) => handleTouchEnd('bundles', e.changedTouches[0].clientX)}>
+                <div className="flex h-full w-full transition-transform duration-500 ease-out" style={{ transform: `translateX(${activeBundleIdx * 100}%)` }}>
                   {isBundlesLoading ? (
                     <div className="w-full shrink-0 h-full p-2"><CardSkeleton darkMode={darkMode} /></div>
                   ) : bundleProducts.length === 0 ? (
@@ -574,9 +574,9 @@ export const App: React.FC = () => {
                       <p className="text-[12px] font-black uppercase tracking-widest">לא נמצאו חבילות_</p>
                     </div>
                   ) : bundleProducts.map((bundle) => (
-                    <div key={bundle.id} className="w-full h-full shrink-0 flex-none" dir="rtl">
-                      <div onClick={() => !isSwiping && setSelectedProduct(bundle)} className={`relative h-full flex flex-col rounded-[35px] overflow-hidden transition-all group border-4 ${bundle.featured ? 'border-orange-600' : (darkMode ? 'border-white/10' : 'border-black/10')} ${darkMode ? 'bg-[#1a1a1a]' : 'bg-white'}`}>
-                        <div className="aspect-[16/9] bg-black relative shrink-0 overflow-hidden"><img src={bundle.img} alt={bundle.name} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-transform duration-1000 group-hover:scale-110" /></div>
+                    <div key={bundle.id} className="w-full h-full shrink-0 flex-none px-1" dir="rtl">
+                      <div onClick={() => setSelectedProduct(bundle)} className={`relative h-full flex flex-col rounded-[35px] overflow-hidden transition-all duration-200 group active:scale-[0.98] border-4 ${bundle.featured ? 'border-orange-600' : (darkMode ? 'border-white/10' : 'border-black/10')} ${darkMode ? 'bg-[#1a1a1a]' : 'bg-white'}`}>
+                        <div className="aspect-[16/9] bg-black relative shrink-0 overflow-hidden"><img src={bundle.img} alt={bundle.name} draggable="false" className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-transform duration-1000 group-hover:scale-110 pointer-events-none" /></div>
                         <div className="p-6 flex flex-col justify-between flex-1 text-right">
                           <div className="flex flex-col flex-1">
                             <div className="flex justify-between items-start gap-4 mb-4"><h3 className="text-xl font-black italic uppercase leading-none truncate">{bundle.name}</h3><div className="text-xl font-black italic text-orange-600 shrink-0">₪{bundle.price}</div></div>
