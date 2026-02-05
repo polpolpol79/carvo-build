@@ -21,6 +21,7 @@ import { Product, Category, CartItem } from './types';
 import { DesktopNavigation } from './components/DesktopNavigation';
 import { shopifyFetch, GET_COLLECTIONS_QUERY, GET_COLLECTION_PRODUCTS_QUERY } from './lib/shopify';
 import { trackAddToCart, trackProductView } from './lib/analytics';
+import { CheckoutPage } from './components/CheckoutPage';
 
 const PaymentIconsFooter = ({ darkMode }: { darkMode: boolean }) => (
   <div className="flex items-center justify-center gap-6 opacity-80 transition-all duration-700 mb-6">
@@ -67,6 +68,7 @@ const CardSkeleton = ({ darkMode }: { darkMode: boolean }) => (
 );
 
 export const App: React.FC = () => {
+  const [view, setView] = useState<'home' | 'checkout'>('home');
   const [darkMode, setDarkMode] = useState(true);
   const [categories, setCategories] = useState<Category[]>([]);
   const [activeCategoryHandle, setActiveCategoryHandle] = useState<string>('');
@@ -431,6 +433,26 @@ export const App: React.FC = () => {
     </section>
   );
 
+  // Assuming `view` state is declared here, e.g.:
+  // const [view, setView] = useState('home');
+
+  if (view === 'checkout') {
+    return (
+      <CheckoutPage
+        cart={cart}
+        total={cart.reduce((sum, item) => sum + (item.product.price * item.quantity), 0)}
+        onBack={() => setView('home')}
+        onProceed={(formData) => {
+          // Construct Shopify Cart URL or handle Redirect
+          const cartString = cart.map(item => `${item.product.id.split('/').pop()}:${item.quantity}`).join(',');
+          window.location.href = `https://carvo.co.il/cart/${cartString}`;
+        }}
+        darkMode={darkMode}
+        onOpenTerms={() => setInfoModalType('terms')}
+      />
+    );
+  }
+
   return (
     <div className={`min-h-screen transition-all duration-1000 relative overflow-x-hidden pb-8 md:pb-12 ${darkMode ? 'text-white' : 'text-black'}`} dir="rtl">
       <BlueprintBackground darkMode={darkMode} />
@@ -529,13 +551,11 @@ export const App: React.FC = () => {
               </div>
 
               {/* DESKTOP ONLY: Horizontal Scroll Rail */}
-              {/* DESKTOP ONLY: Grid Layout (No horizontal scroll) */}
+              {/* DESKTOP ONLY: Grid Layout */}
               <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full relative z-10" dir="rtl">
                 {products.map((p) => (
                   <div key={p.id} onClick={() => openProduct(p)} className={`relative group w-full aspect-[4/5] flex flex-col rounded-[2.5rem] overflow-hidden cursor-pointer transition-all hover:-translate-y-2 duration-500 border-2 ${darkMode ? 'border-white/5 bg-white/[0.03] hover:border-orange-600/40 hover:shadow-[0_0_30px_rgba(234,88,12,0.15)]' : 'border-black/5 bg-white shadow-xl hover:shadow-2xl'}`}>
-                    {/* Hover Glow Gradient */}
                     <div className="absolute inset-0 bg-gradient-to-t from-orange-600/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-10" />
-                    {/* Upper Half: Image - 85% Height */}
                     <div className="h-[85%] relative overflow-hidden bg-black/50 border-b border-white/5">
                       <img src={p.img} alt={p.name} className="w-full h-full object-cover opacity-80 group-hover:scale-105 group-hover:opacity-100 transition-all duration-700" />
                       {!p.available && <div className="absolute inset-0 bg-black/60 flex items-center justify-center font-black italic text-4xl text-red-500 tracking-widest border-4 border-red-600 m-12 rounded-xl rotate-[-12deg]">SOLD OUT</div>}
@@ -543,8 +563,6 @@ export const App: React.FC = () => {
                         CARVO_GEAR
                       </div>
                     </div>
-
-                    {/* Lower Half: Minimalist Gallery Title - 15% Height */}
                     <div className="flex-1 px-8 flex items-center justify-between bg-gradient-to-b from-transparent to-black/20">
                       <h3 className="text-xl font-black italic uppercase leading-none tracking-tight truncate max-w-[70%]">{p.name}</h3>
                       <div className="text-xl font-black italic text-orange-600 tracking-tighter">₪{p.price}</div>
@@ -564,10 +582,7 @@ export const App: React.FC = () => {
             <div className="text-[11px] md:text-sm font-black uppercase text-orange-600 tracking-[0.4em] mb-2 italic flex items-center justify-center gap-2"><Layers size={22} /> ELITE_PACKAGES</div>
             <h2 className="text-3xl md:text-8xl font-black italic uppercase tracking-tighter leading-none">חבילות העלית לחיסכון</h2>
           </div>
-          <div className="relative mx-auto max-w-[90vw] md:max-w-[90rem]"> {/* SAME MAX-W AS PRODUCTS for Alignment */}
-
-            {/* Central Architectural Axis Line REMOVED for Single Row Layout */}
-
+          <div className="relative mx-auto max-w-[90vw] md:max-w-[90rem]">
             <div className="relative mx-auto">
               {/* MOBILE ONLY: Bundle Carousel */}
               <div className="md:hidden w-full h-[450px] overflow-hidden rounded-[35px] relative shadow-2xl touch-pan-y select-none" onTouchStart={handleTouchStart} onTouchEnd={(e) => handleTouchEnd('bundles', e.changedTouches[0].clientX)}>
@@ -599,13 +614,11 @@ export const App: React.FC = () => {
                   ))}
                 </div>
               </div>
-              {/* DESKTOP ONLY: Grid Layout - Identical to Products */}
+              {/* DESKTOP ONLY: Grid Layout */}
               <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full relative z-10" dir="rtl">
                 {bundleProducts.map((bundle) => (
                   <div key={bundle.id} onClick={() => openProduct(bundle)} className={`relative group w-full aspect-[4/5] flex flex-col rounded-[2.5rem] overflow-hidden cursor-pointer transition-all hover:-translate-y-2 duration-500 border-2 ${darkMode ? 'border-white/5 bg-white/[0.03] hover:border-orange-600/40 hover:shadow-[0_0_30px_rgba(234,88,12,0.15)]' : 'border-black/5 bg-white shadow-xl hover:shadow-2xl'}`}>
-                    {/* Hover Glow Gradient */}
                     <div className="absolute inset-0 bg-gradient-to-t from-orange-600/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-10" />
-                    {/* Upper Half: Image - 85% Height */}
                     <div className="h-[85%] relative overflow-hidden bg-black/50 border-b border-white/5">
                       <img src={bundle.img} alt={bundle.name} className="w-full h-full object-cover opacity-80 group-hover:scale-105 group-hover:opacity-100 transition-all duration-700" />
                       {!bundle.available && <div className="absolute inset-0 bg-black/60 flex items-center justify-center font-black italic text-4xl text-red-500 tracking-widest border-4 border-red-600 m-12 rounded-xl rotate-[-12deg]">SOLD OUT</div>}
@@ -613,8 +626,6 @@ export const App: React.FC = () => {
                         <Layers size={12} className="fill-black" /> ELITE_BUNDLE
                       </div>
                     </div>
-
-                    {/* Lower Half: Minimalist Content */}
                     <div className="flex-1 px-8 flex items-center justify-between bg-gradient-to-b from-transparent to-black/20">
                       <h3 className="text-xl font-black italic uppercase leading-none tracking-tight truncate max-w-[70%]">{bundle.name}</h3>
                       <div className="text-xl font-black italic text-orange-600 tracking-tighter">₪{bundle.price}</div>
@@ -674,6 +685,11 @@ export const App: React.FC = () => {
           onRemove={id => setCart(prev => prev.filter(i => i.productId !== id))}
           darkMode={darkMode}
           onOpenTerms={() => setInfoModalType('terms')}
+          onCheckout={() => {
+            setIsCartOpen(false);
+            setView('checkout');
+            window.scrollTo(0, 0);
+          }}
         />
         <ProductModal product={selectedProduct} isOpen={!!selectedProduct} onClose={() => setSelectedProduct(null)} onAddToCart={addToCart} darkMode={darkMode} />
         <InfoModal type={infoModalType} isOpen={!!infoModalType} onClose={() => setInfoModalType(null)} darkMode={darkMode} />
