@@ -432,10 +432,8 @@ export const App: React.FC = () => {
   );
 
   return (
-    <div className={`min-h-screen transition-all duration-1000 relative overflow-x-hidden pb-8 md:pb-12 md:cursor-none ${darkMode ? 'text-white' : 'text-black'}`} dir="rtl">
+    <div className={`min-h-screen transition-all duration-1000 relative overflow-x-hidden pb-8 md:pb-12 ${darkMode ? 'text-white' : 'text-black'}`} dir="rtl">
       <BlueprintBackground darkMode={darkMode} />
-      <CustomCursor />
-
       <DesktopNavigation
         darkMode={darkMode}
         toggleDarkMode={() => setDarkMode(!darkMode)}
