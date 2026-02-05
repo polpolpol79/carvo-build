@@ -23,6 +23,8 @@ export const InfoModal: React.FC<InfoModalProps> = ({ type, isOpen, onClose, dar
 1.1 תקנון זה מסדיר את התנאים וההגבלות לשימוש באתר ${STORE_CONFIG.domain} (להלן: “האתר”), המופעל על ידי ${STORE_CONFIG.name} (ח.פ/עוסק: ${STORE_CONFIG.idNumber}) (להלן: “החברה”, “אנו” או “אנחנו”).
 1.3 השימוש באתר, רכישת מוצרים או שימוש בשירותי Carvo AI מהווים הסכמה מלאה ובלתי מסויגת לתנאי תקנון זה. אם אינך מסכים לתנאים אלה, נא להימנע משימוש באתר.
 1.4 החברה שומרת לעצמה את הזכות לעדכן ולשנות תקנון זה מעת לעת. השימוש המתמשך באתר לאחר ביצוע שינויים מהווה הסכמה לתנאים המעודכנת.
+1.5 הרכישה באתר מותרת אך ורק ללקוחות שגילם 18 ומעלה. בעת ביצוע רכישה, המשתמש מצהיר כי הוא מעל גיל זה.
+1.6 מדיניות ביטול עסקה הינה בהתאם לחוק הגנת הצרכן (עד 14 יום מיום קבלת המוצר), כמפורט בסעיף 7 לתקנון זה.
 
 2. הגדרות
 2.1 “לקוח” או “משתמש” – כל אדם המבצע רכישה, גולש באתר או משתמש בשירותי Carvo.
@@ -194,46 +196,46 @@ ${STORE_CONFIG.name}
 
   return (
     <>
-      <div 
+      <div
         className={`fixed inset-0 z-[300] transition-opacity duration-500 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'} bg-black/80 backdrop-blur-xl`}
         onClick={onClose}
       />
-      
+
       <div className={`fixed inset-x-4 top-[8%] bottom-[8%] md:inset-x-auto md:left-1/2 md:-translate-x-1/2 md:w-[750px] z-[310] transition-all duration-500 transform ${isOpen ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-4'} 
         ${darkMode ? 'bg-[#0a0a0a] text-white' : 'bg-white text-black'} border border-white/10 rounded-[2.5rem] shadow-2xl flex flex-col text-right overflow-hidden`}>
-        
+
         <div className="shrink-0 p-8 border-b border-white/5 flex justify-between items-center bg-white/[0.02]">
-           <div className="flex items-center gap-4">
-              {content.icon}
-              <h2 className="text-xl md:text-2xl font-black italic tracking-tighter uppercase">{content.title}</h2>
-           </div>
-           <button onClick={onClose} className="p-2 hover:bg-white/5 rounded-full transition-colors">
+          <div className="flex items-center gap-4">
+            {content.icon}
+            <h2 className="text-xl md:text-2xl font-black italic tracking-tighter uppercase">{content.title}</h2>
+          </div>
+          <button onClick={onClose} className="p-2 hover:bg-white/5 rounded-full transition-colors">
             <X className="w-6 h-6" />
-           </button>
+          </button>
         </div>
 
         <div className="flex-1 overflow-y-auto p-8 md:p-12 space-y-8 custom-scrollbar">
-           <div className="space-y-6">
-              <p className="text-[15px] md:text-base font-bold italic opacity-80 md:opacity-70 leading-relaxed whitespace-pre-wrap">
-                {content.text}
-              </p>
-           </div>
-           
-           <div className="pt-8 border-t border-white/5 space-y-4">
-              <h4 className="text-[13px] md:text-[10px] font-black uppercase text-orange-600 tracking-[0.2em]">צריך עזרה נוספת?_</h4>
-              <div className="flex flex-wrap gap-4">
-                 <a href={`mailto:${STORE_CONFIG.email.support}`} className="flex items-center gap-2 text-[13px] md:text-[11px] font-black italic opacity-60 md:opacity-40 hover:opacity-100 transition-all">
-                    <PhoneCall className="w-4 h-4 md:w-3.5 md:h-3.5" />
-                    <span>מוקד תמיכה: {STORE_CONFIG.email.support}</span>
-                 </a>
-              </div>
-           </div>
+          <div className="space-y-6">
+            <p className="text-[15px] md:text-base font-bold italic opacity-80 md:opacity-70 leading-relaxed whitespace-pre-wrap">
+              {content.text}
+            </p>
+          </div>
+
+          <div className="pt-8 border-t border-white/5 space-y-4">
+            <h4 className="text-[13px] md:text-[10px] font-black uppercase text-orange-600 tracking-[0.2em]">צריך עזרה נוספת?_</h4>
+            <div className="flex flex-wrap gap-4">
+              <a href={`mailto:${STORE_CONFIG.email.support}`} className="flex items-center gap-2 text-[13px] md:text-[11px] font-black italic opacity-60 md:opacity-40 hover:opacity-100 transition-all">
+                <PhoneCall className="w-4 h-4 md:w-3.5 md:h-3.5" />
+                <span>מוקד תמיכה: {STORE_CONFIG.email.support}</span>
+              </a>
+            </div>
+          </div>
         </div>
 
         <div className="shrink-0 p-6 border-t border-white/5 bg-black/40">
-           <p className="text-[11px] md:text-[9px] font-black uppercase opacity-60 md:opacity-20 tracking-widest text-center">
-             {STORE_CONFIG.name} SYSTEMS // LEGAL_DEPT_${STORE_CONFIG.year} // ISRAEL
-           </p>
+          <p className="text-[11px] md:text-[9px] font-black uppercase opacity-60 md:opacity-20 tracking-widest text-center">
+            {STORE_CONFIG.name} SYSTEMS // LEGAL_DEPT_${STORE_CONFIG.year} // ISRAEL
+          </p>
         </div>
 
         <style>{`
