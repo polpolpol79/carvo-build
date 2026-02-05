@@ -19,6 +19,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({ cart, total, onBack,
         phone: '',
         city: '',
         street: '',
+        floor: '',
         apt: '',
         notes: ''
     });
@@ -198,6 +199,26 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({ cart, total, onBack,
                                             className={`w-full p-4 rounded-xl font-bold bg-transparent border-2 outline-none transition-all ${errors.street ? 'border-red-500' : (darkMode ? 'border-white/10 focus:border-orange-600' : 'border-black/10 focus:border-orange-600')}`}
                                         />
                                         {errors.street && <span className="text-xs text-red-500">{errors.street}</span>}
+                                    </div>
+                                </div>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="space-y-2">
+                                        <label className="text-xs font-bold opacity-70">קומה</label>
+                                        <input
+                                            type="text"
+                                            value={formData.floor}
+                                            onChange={e => setFormData({ ...formData, floor: e.target.value })}
+                                            className={`w-full p-4 rounded-xl font-bold bg-transparent border-2 outline-none transition-all ${darkMode ? 'border-white/10 focus:border-orange-600' : 'border-black/10 focus:border-orange-600'}`}
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-xs font-bold opacity-70">מספר דירה</label>
+                                        <input
+                                            type="text"
+                                            value={formData.apt}
+                                            onChange={e => setFormData({ ...formData, apt: e.target.value })}
+                                            className={`w-full p-4 rounded-xl font-bold bg-transparent border-2 outline-none transition-all ${darkMode ? 'border-white/10 focus:border-orange-600' : 'border-black/10 focus:border-orange-600'}`}
+                                        />
                                     </div>
                                 </div>
                                 <div className="space-y-2">
