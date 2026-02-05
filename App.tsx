@@ -533,24 +533,24 @@ export const App: React.FC = () => {
 
               {/* DESKTOP ONLY: Horizontal Scroll Rail */}
               {/* DESKTOP ONLY: Grid Layout (No horizontal scroll) */}
-              <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 w-full relative z-10" dir="rtl">
+              <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full relative z-10" dir="rtl">
                 {products.map((p) => (
-                  <div key={p.id} onClick={() => setSelectedProduct(p)} className={`relative group w-full h-[650px] flex flex-col rounded-[3rem] overflow-hidden cursor-pointer transition-all hover:-translate-y-2 duration-500 border-2 ${darkMode ? 'border-white/5 bg-white/[0.03] hover:border-orange-600/40 hover:shadow-[0_0_30px_rgba(234,88,12,0.15)]' : 'border-black/5 bg-white shadow-xl hover:shadow-2xl'}`}>
+                  <div key={p.id} onClick={() => openProduct(p)} className={`relative group w-full aspect-[4/5] flex flex-col rounded-[2.5rem] overflow-hidden cursor-pointer transition-all hover:-translate-y-2 duration-500 border-2 ${darkMode ? 'border-white/5 bg-white/[0.03] hover:border-orange-600/40 hover:shadow-[0_0_30px_rgba(234,88,12,0.15)]' : 'border-black/5 bg-white shadow-xl hover:shadow-2xl'}`}>
                     {/* Hover Glow Gradient */}
                     <div className="absolute inset-0 bg-gradient-to-t from-orange-600/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-10" />
-                    {/* Upper Half: Image - 88% Height (Massive Image) */}
-                    <div className="h-[88%] relative overflow-hidden bg-black/50 border-b border-white/5">
+                    {/* Upper Half: Image - 85% Height */}
+                    <div className="h-[85%] relative overflow-hidden bg-black/50 border-b border-white/5">
                       <img src={p.img} alt={p.name} className="w-full h-full object-cover opacity-80 group-hover:scale-105 group-hover:opacity-100 transition-all duration-700" />
                       {!p.available && <div className="absolute inset-0 bg-black/60 flex items-center justify-center font-black italic text-4xl text-red-500 tracking-widest border-4 border-red-600 m-12 rounded-xl rotate-[-12deg]">SOLD OUT</div>}
-                      <div className="absolute top-8 left-8 bg-black/60 backdrop-blur-md border border-white/10 px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest text-white/60 group-hover:bg-orange-600 group-hover:text-black group-hover:border-transparent transition-colors">
+                      <div className="absolute top-6 left-6 bg-black/60 backdrop-blur-md border border-white/10 px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest text-white/60 group-hover:bg-orange-600 group-hover:text-black group-hover:border-transparent transition-colors">
                         CARVO_GEAR
                       </div>
                     </div>
 
-                    {/* Lower Half: Minimalist Gallery Title - 12% Height */}
+                    {/* Lower Half: Minimalist Gallery Title - 15% Height */}
                     <div className="flex-1 px-8 flex items-center justify-between bg-gradient-to-b from-transparent to-black/20">
-                      <h3 className="text-2xl font-black italic uppercase leading-none tracking-tight truncate max-w-[70%]">{p.name}</h3>
-                      <div className="text-2xl font-black italic text-orange-600 tracking-tighter">₪{p.price}</div>
+                      <h3 className="text-xl font-black italic uppercase leading-none tracking-tight truncate max-w-[70%]">{p.name}</h3>
+                      <div className="text-xl font-black italic text-orange-600 tracking-tighter">₪{p.price}</div>
                     </div>
                   </div>
                 ))}
