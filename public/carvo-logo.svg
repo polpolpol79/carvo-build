@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 80" fill="none">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@1,900&amp;display=swap');
+    </style>
+  </defs>
+  <!-- Text CARV -->
+  <text x="10" y="60" font-family="'Inter', sans-serif" font-weight="900" font-style="italic" font-size="60" fill="black" letter-spacing="-2">CARV</text>
+  
+  <!-- The 'O' Symbol -->
+  <!-- Outer Ring -->
+  <circle cx="210" cy="40" r="18" stroke="#ea580c" stroke-width="6" fill="none" />
+  <!-- Inner Dot -->
+  <circle cx="210" cy="40" r="5" fill="#ea580c" />
+</svg>
