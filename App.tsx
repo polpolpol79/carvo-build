@@ -1,13 +1,9 @@
-
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
-    ShoppingBag, Zap, Wind, Sun, Moon,
-    Wrench, Star, StarHalf, Mail, Loader2, ArrowDown, ChevronRight, ChevronLeft,
-    AlertTriangle, Users, Wallet, Activity, Menu, X, ChevronDown, UserCircle,
-    FileText, BarChart3, ShieldAlert, Download, Layers, Car, Bike, Truck, Clock, Skull, Footprints,
-    Briefcase, CheckCircle2, TrendingUp, TrendingDown, ShieldCheck, XCircle, Terminal, Cpu, ArrowDownIcon, Check, RefreshCcw
+    ShoppingBag, Sun, Moon,
+    Loader2, ChevronRight, ChevronLeft,
+    Menu, ShieldAlert, Layers, RefreshCcw, Home
 } from 'lucide-react';
-import { ThinMotion } from './components/ThinMotion';
 import { BlueprintBackground } from './components/BlueprintBackground';
 import { SafetyAssistant } from './components/SafetyAssistant';
 import { CartDrawer } from './components/CartDrawer';
@@ -15,13 +11,21 @@ import { MenuDrawer } from './components/MenuDrawer';
 import { ProductModal } from './components/ProductModal';
 import { InfoModal } from './components/InfoModal';
 import { FloatingBottomBar } from './components/FloatingBottomBar';
-import { TacticalGridBackground } from './components/TacticalGridBackground';
 import { CookieBanner } from './components/CookieBanner';
 import { Product, Category, CartItem } from './types';
 import { DesktopNavigation } from './components/DesktopNavigation';
 import { shopifyFetch, GET_COLLECTIONS_QUERY, GET_COLLECTION_PRODUCTS_QUERY } from './lib/shopify';
-import { trackAddToCart, trackProductView } from './lib/analytics';
+import { trackAddToCart } from './lib/analytics';
 import { CheckoutPage } from './components/CheckoutPage';
+
+// Extracted Components
+import { CarvoLogo } from './components/CarvoLogo';
+import { HeroSection } from './components/HeroSection';
+import { RALBADSection } from './components/RALBADSection';
+import { CrisisProtocolSection } from './components/CrisisProtocolSection';
+import { TestimonialsSection } from './components/TestimonialsSection';
+import { FAQSection } from './components/FAQSection';
+import { SEO } from './components/SEO';
 
 const PaymentIconsFooter = ({ darkMode }: { darkMode: boolean }) => (
     <div className="flex items-center justify-center gap-6 opacity-80 transition-all duration-700 mb-6">
@@ -32,23 +36,6 @@ const PaymentIconsFooter = ({ darkMode }: { darkMode: boolean }) => (
         <div className="flex items-center gap-1 bg-[#00D2D2] text-white px-2 py-0.5 rounded text-[9px] font-black italic tracking-tighter shadow-sm">bit</div>
     </div>
 );
-
-const CarvoLogo: React.FC<{ size?: 'sm' | 'md' | 'lg' | 'massive' | 'hero' }> = ({ size = 'md' }) => {
-    const sizes = {
-        sm: 'text-lg', md: 'text-2xl', lg: 'text-4xl', massive: 'text-[10vw] md:text-[8vw]', hero: 'text-[12vw] md:text-[10rem]'
-    };
-    const oSizes = {
-        sm: 'w-[0.75em] h-[0.75em] border-[3px]', md: 'w-[0.75em] h-[0.75em] border-[4px]', lg: 'w-[0.75em] h-[0.75em] border-[6px]', massive: 'w-[0.75em] h-[0.75em] border-[1.2vw]', hero: 'w-[0.75em] h-[0.75em] border-[1.2rem]'
-    };
-    return (
-        <div dir="ltr" className={`massive-logo ${sizes[size]} flex items-center leading-none tracking-[-0.05em] select-none inline-flex hero-stabilizer`}>
-            <span className="block">CARV</span>
-            <div className={`relative ${oSizes[size]} rounded-full border-orange-600 flex items-center justify-center ml-[0.05em]`}>
-                <div className="w-[0.2em] h-[0.2em] bg-orange-600 rounded-full" />
-            </div>
-        </div>
-    );
-};
 
 const CardSkeleton = ({ darkMode }: { darkMode: boolean }) => (
     <div className={`w-full h-full rounded-[35px] overflow-hidden flex flex-col border ${darkMode ? 'bg-white/[0.02] border-white/5' : 'bg-white border-black/5'}`}>
@@ -77,7 +64,6 @@ export const App: React.FC = () => {
     const [isProductsLoading, setIsProductsLoading] = useState(false);
     const [isBundlesLoading, setIsBundlesLoading] = useState(false);
     const [apiError, setApiError] = useState<string | null>(null);
-    const showroomScrollRef = useRef<HTMLDivElement>(null);
 
     const [cart, setCart] = useState<CartItem[]>(() => {
         const saved = localStorage.getItem('carvo_cart');
@@ -202,10 +188,7 @@ export const App: React.FC = () => {
     };
 
     const openProduct = (p: Product) => {
-        // Immediate feedback
         setLoadingProduct(p.id);
-
-        // Defer heavy modal mount to allow UI update
         setTimeout(() => {
             setSelectedProduct(p);
             setLoadingProduct(null);
@@ -227,214 +210,11 @@ export const App: React.FC = () => {
 
         if (Math.abs(diff) > threshold) {
             setIsSwiping(true);
-            // Inverted Logic as per user request: Swipe Left (diff > 0) -> Prev, Swipe Right (diff < 0) -> Next
-            // Actually standard is: Swipe Left (finger moves Left) -> content moves Left -> Next Item comes from Right.
-            // User says "Invert". Current was: diff < 0 (Right) -> Next?? No.
-            // Let's just SWAP whatever was there.
-            // Previous: if (diff < 0 && activeIdx < dataLength - 1) setter(p => p + 1);
-            //           if (diff > 0 && activeIdx > 0) setter(p => p - 1);
-
-            // New (Inverted):
             if (diff < 0 && activeIdx < dataLength - 1) setter(p => p + 1);
             if (diff > 0 && activeIdx > 0) setter(p => p - 1);
         }
         touchStartRef.current = null;
     };
-
-    const HeroSection = () => (
-        <header className="relative min-h-[80vh] md:min-h-screen py-8 md:py-0 flex flex-col md:flex-row items-center justify-center md:justify-between px-6 md:px-20 z-10 text-center md:text-right overflow-hidden">
-            <TacticalGridBackground darkMode={darkMode} />
-            <div className="hidden md:block absolute inset-0 bg-[url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-10 mix-blend-overlay"></div>
-
-            <ThinMotion className="relative z-20 flex flex-col items-center md:items-start hero-stabilizer w-full max-w-7xl mx-auto">
-                <div className={`text-[10px] md:text-sm font-black uppercase tracking-[1.2em] md:tracking-[0.5em] mb-6 md:mb-4 opacity-30 select-none ${darkMode ? 'text-white' : 'text-black'}`}>[AUTHENTIC_BRAND_CORE]</div>
-                <div className="mb-6 md:mb-10 opacity-90 hover:opacity-100 transition-opacity duration-700 md:hidden"><CarvoLogo size="hero" /></div>
-                <div className="hidden md:block mb-8"><CarvoLogo size="lg" /></div>
-
-                <h1 className="text-4xl md:text-[6rem] font-black italic uppercase leading-[0.9] tracking-[-0.04em] mb-10 md:mb-12 max-w-4xl">
-                    מתקדמים<br /> <span className="text-orange-600">ל-CARVO</span> לעתיד <br />
-                    <span className="opacity-40 text-3xl md:text-[3.5rem] tracking-tight">חסכוני ובטוח יותר_</span>
-                </h1>
-
-                <div className="flex flex-col md:flex-row gap-4 md:gap-6 items-center w-full md:w-auto px-4 md:px-0">
-                    <button onClick={() => document.getElementById('showroom')?.scrollIntoView({ behavior: 'smooth' })} className={`w-full md:w-auto justify-center flex items-center gap-4 md:gap-6 px-8 md:px-12 py-4 md:py-6 bg-orange-600 text-black font-black italic uppercase tracking-widest text-base md:text-xl rounded-full shadow-[0_0_40px_rgba(234,88,12,0.3)] active:scale-95 hover:scale-105 hover:shadow-[0_0_80px_rgba(234,88,12,0.5)] transition-all duration-300 group hover:-translate-y-1`}>
-                        <span>לקטלוג המלא</span>
-                        <ChevronLeft size={20} className="md:w-6 md:h-6 group-hover:-translate-x-2 transition-transform duration-300" />
-                    </button>
-                    <button onClick={() => document.getElementById('ralbad-stats')?.scrollIntoView({ behavior: 'smooth' })} className={`w-full md:w-auto justify-center flex items-center gap-4 md:gap-6 px-8 md:px-12 py-4 md:py-6 hyper-glass border border-red-600/30 text-red-600 font-black italic uppercase tracking-widest text-base md:text-xl rounded-full shadow-[0_0_40px_rgba(220,38,38,0.1)] active:scale-95 hover:scale-105 hover:shadow-[0_0_60px_rgba(220,38,38,0.3)] hover:border-red-600 transition-all duration-300 group`}>
-                        <span>הסטטיסטיקה המדממת</span>
-                        <ArrowDown size={20} className="md:w-6 md:h-6 group-hover:translate-y-2 transition-transform duration-500 ease-out" />
-                    </button>
-                </div>
-            </ThinMotion>
-
-            {/* Desktop Visual Decoration */}
-            <div className="hidden md:flex absolute right-0 top-0 bottom-0 w-1/3 bg-gradient-to-l from-orange-600/5 to-transparent pointer-events-none items-center justify-center opacity-30">
-                <div className="w-[500px] h-[500px] border border-orange-600/20 rounded-full animate-[spin_60s_linear_infinite] flex items-center justify-center">
-                    <div className="w-[300px] h-[300px] border border-orange-600/40 rounded-full animate-[spin_40s_linear_infinite_reverse] border-dashed"></div>
-                </div>
-            </div>
-        </header>
-    );
-
-    const RALBADSection = () => {
-        const [isAnimating, setIsAnimating] = useState(false);
-        const sectionRef = useRef<HTMLDivElement>(null);
-
-        useEffect(() => {
-            const observer = new IntersectionObserver(([entry]) => { if (entry.isIntersecting) setIsAnimating(true); }, { threshold: 0.2 });
-            if (sectionRef.current) observer.observe(sectionRef.current);
-            return () => observer.disconnect();
-        }, []);
-
-        const vehicleData = [
-            { type: "רכבים פרטיים", count: 12450, icon: <Car size={18} />, color: "bg-red-600" },
-            { type: "אופנועים וקטנועים", count: 3820, icon: <Bike size={18} />, color: "bg-red-500" },
-            { type: "הולכי רגל (נפגעים)", count: 2480, icon: <Footprints size={18} />, color: "bg-red-700" },
-            { type: "אופניים וקורקינטים", count: 2120, icon: <Zap size={18} />, color: "bg-red-400" }
-        ];
-
-        const criticalStats = [
-            { label: "מקרי מוות ביום", val: "1.3", icon: <Skull size={20} /> },
-            { label: "השעות הקטלניות", val: "15:00-16:00", icon: <Clock size={20} /> },
-            { label: "עמידה בשוליים", val: "25%", icon: <ShieldAlert size={20} /> },
-            { label: "המתנה לגרר", val: '3.5 שעות', icon: <Truck size={20} /> }
-        ];
-
-        return (
-            <section id="ralbad-stats" ref={sectionRef} className="relative z-10 py-8 md:py-20 px-6 max-w-7xl mx-auto text-right">
-                <ThinMotion>
-                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 border-r-4 border-red-600 pr-6">
-                        <div className="flex-1">
-                            <div className="flex flex-wrap items-center gap-4 mb-2">
-                                <div className="text-[11px] font-black uppercase text-red-600 tracking-[0.2em] italic flex items-center gap-2">
-                                    <ShieldAlert size={16} /> RALBAD_2025
-                                </div>
-                            </div>
-                            <h2 className="text-3xl md:text-8xl font-black italic uppercase leading-none tracking-tighter">הסטטיסטיקה <span className="text-red-600">המדממת</span></h2>
-                        </div>
-                    </div>
-                </ThinMotion>
-                <div className="flex flex-wrap items-center gap-4 text-[11px] font-bold italic mb-6 pr-2">
-                    <span className="opacity-70">נתונים שנלקחו הישר מדוח הרשות הלאומית לבטיחות בדרכים</span>
-                    <a href="https://www.gov.il/BlobFolder/reports/2025_summary_ralbad/he/summry_ralbad_25.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-lg bg-red-600 text-white font-black italic uppercase tracking-tighter text-[10px] shadow-lg shadow-red-600/30 hover:bg-red-500 hover:scale-105 transition-all">
-                        <Download size={14} /><span>להורדת הדוח המלא</span>
-                    </a>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4 mb-10">
-                    {vehicleData.map((veh, i) => (
-                        <div key={i} className="space-y-4">
-                            <div className="flex justify-between items-center text-[12px] md:text-xl font-black italic uppercase tracking-widest opacity-60">
-                                <div className="flex items-center gap-4"><span className="text-red-600">{veh.icon}</span><span>{veh.type}</span></div>
-                                <div className="text-red-600 text-2xl">{isAnimating ? veh.count.toLocaleString() : 0}</div>
-                            </div>
-                            <div className={`h-2 md:h-6 w-full rounded-full overflow-hidden ${darkMode ? 'bg-white/10' : 'bg-black/10'}`}><div className={`h-full rounded-full transition-all duration-[1500ms] ${veh.color}`} style={{ width: isAnimating ? `${(veh.count / 13500) * 100}%` : '0%' }} /></div>
-                        </div>
-                    ))}
-                </div>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-8 mb-8">
-                    {criticalStats.map((stat, i) => (
-                        <div key={i} className={`p-4 md:p-8 rounded-[2rem] border-2 transition-all duration-500 group cursor-default relative overflow-hidden ${darkMode ? 'hyper-glass border-white/10 hover:border-red-600/50 hover:shadow-[0_0_30px_rgba(220,38,38,0.15)]' : 'bg-white border-black/5 shadow-md hover:shadow-xl'}`}>
-                            <div className="absolute inset-0 bg-gradient-to-tr from-red-600/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-                            <div className="text-red-600 mb-6 opacity-80 scale-150 origin-right transition-transform duration-500 group-hover:scale-[1.8] group-hover:rotate-12">{stat.icon}</div>
-                            <div className="text-[9px] md:text-lg font-black uppercase tracking-widest opacity-40 mb-2 transition-opacity group-hover:opacity-100">{stat.label}</div>
-                            <div className="text-xl md:text-5xl font-black italic text-red-600 leading-none">{stat.val}</div>
-                        </div>
-                    ))}
-                </div>
-                <p className="text-[10px] md:text-xl font-bold italic opacity-40 text-right pr-2">* (נתונים מאומתים: כ-25% מהתאונות הקטלניות בדרכים בין-עירוניות מתרחשות בשולי הכביש עקב עצירה לא בטוחה)</p>
-            </section>
-        );
-    };
-
-    const CrisisProtocolSection = () => (
-        <section id="crisis-protocol" className="relative z-10 py-8 md:py-24 px-6 max-w-7xl mx-auto text-right">
-            <ThinMotion>
-                <div className="mb-6">
-                    <div className="flex flex-col md:flex-row items-start md:items-end gap-2 md:gap-4 mb-8 leading-none">
-                        <span className="text-xl md:text-5xl font-black italic uppercase text-red-600 tracking-tighter">מעבר לסיכון חיים עצום,</span>
-                        <span className={`text-xl md:text-5xl font-black italic uppercase tracking-tighter ${darkMode ? 'text-white' : 'text-black'}`}>זה גם עולה לך ביוקר.</span>
-                    </div>
-                    <h2 className="text-3xl md:text-8xl font-black italic uppercase tracking-tighter leading-none mb-4 flex flex-wrap items-center justify-start gap-x-2 md:gap-x-6"><span className="text-red-600">המשבר</span><span className="opacity-40">VS</span><span className="text-orange-600">CARVO</span></h2>
-                    <div className="text-[10px] font-black uppercase tracking-[0.5em] opacity-30 italic">ANALYSIS_PROTOCOL_2026</div>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
-                    <div className={`p-6 md:p-10 rounded-[2.5rem] border transition-all duration-500 group relative overflow-hidden ${darkMode ? 'bg-red-950/20 border-red-900/40 hover:border-red-600/60 hover:shadow-[0_0_50px_rgba(220,38,38,0.1)]' : 'bg-red-50 border-red-200 shadow-xl hover:shadow-2xl'}`}>
-                        <div className="absolute inset-0 bg-red-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-                        <div className="flex items-center gap-3 mb-6"><div className="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center text-black"><AlertTriangle size={18} /></div><h3 className="text-xl md:text-3xl font-black italic uppercase tracking-tighter">כשנתקעים... (הסיוט)</h3></div>
-                        <ul className="space-y-4 mb-8">
-                            {[{ label: "3.5 שעות המתנה", detail: "סיכון MAX!", icon: <Clock size={16} /> }, { label: "₪500", detail: "אובדן יום עבודה", icon: <Briefcase size={16} /> }, { label: "₪500", detail: "עלות גרירה ממוצעת", icon: <Truck size={16} /> }, { label: "₪500 - ₪4,000", detail: "עלויות תיקון במוסך", icon: <Wrench size={16} /> }].map((item, i) => (
-                                <li key={i} className="flex items-center justify-between border-b border-red-600/10 pb-6"><div className="flex items-center gap-4"><span className="text-red-600 opacity-60 scale-125">{item.icon}</span><span className="text-sm md:text-2xl font-black italic uppercase">{item.label}</span></div><span className="text-[11px] md:text-lg font-black uppercase opacity-40">{item.detail}</span></li>
-                            ))}
-                        </ul>
-                        <div className="pt-6 border-t border-red-600/20 flex justify-between items-end"><div className="text-xl font-black uppercase italic text-red-600">עלות לאירוע_</div><div className="text-2xl md:text-4xl font-black italic text-red-600 tracking-tighter">₪1,500 - ₪5,000</div></div>
-                    </div>
-                    <div className={`p-6 md:p-10 rounded-[2.5rem] border transition-all duration-500 group relative overflow-hidden ${darkMode ? 'hyper-glass border-orange-600/30 hover:border-orange-600 hover:shadow-[0_0_50px_rgba(234,88,12,0.2)]' : 'bg-white border-orange-200 shadow-2xl hover:shadow-[0_0_40px_rgba(234,88,12,0.15)]'}`}>
-                        <div className="absolute inset-0 bg-orange-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-                        <div className="flex items-center gap-3 mb-6"><div className="w-8 h-8 bg-orange-600 rounded-full flex items-center justify-center text-black group-hover:scale-110 transition-transform duration-500"><Zap size={18} /></div><h3 className="text-xl md:text-3xl font-black italic uppercase tracking-tighter">פרוטוקול CARVO</h3></div>
-                        <ul className="space-y-4 mb-8">
-                            {[{ label: "4 דקות", detail: "וחזרת לכביש בבטחה", icon: <Zap size={16} /> }, { label: "אין זמן אבוד", detail: "המשך יום כרגיל", icon: <Sun size={16} /> }, { label: "עצמאות מלאה", detail: "הפתרון תמיד בבגאז'", icon: <ShieldCheck size={16} /> }, { label: "אפס הפתעות", detail: "מערכת מוכנה לכל תרחיש", icon: <CheckCircle2 size={16} /> }].map((item, i) => (
-                                <li key={i} className="flex items-center justify-between border-b border-orange-600/10 pb-6"><div className="flex items-center gap-4"><span className="text-orange-600 opacity-60 scale-125">{item.icon}</span><span className="text-sm md:text-2xl font-black italic uppercase">{item.label}</span></div><span className="text-[11px] md:text-lg font-black uppercase opacity-40">{item.detail}</span></li>
-                            ))}
-                        </ul>
-                    </div>
-                </div>
-                <div className="mt-8 flex justify-center"><button onClick={() => document.getElementById('bundles')?.scrollIntoView({ behavior: 'smooth' })} className="flex items-center gap-4 px-12 py-5 bg-orange-600 text-black rounded-2xl font-black italic uppercase tracking-widest text-sm hover:scale-105 active:scale-95 shadow-2xl shadow-orange-600/20 transition-all"><span>גש לחבילה משתלמת</span><ChevronLeft size={20} /></button></div>
-            </ThinMotion>
-        </section>
-    );
-
-    const TestimonialsSection = () => (
-        <section id="testimonials" className="relative z-10 py-10 md:py-16 px-6 max-w-7xl mx-auto text-right">
-            <ThinMotion>
-                <div className="mb-8">
-                    <div className="text-[11px] font-black uppercase text-orange-600 tracking-[0.4em] mb-1 italic flex items-center justify-start gap-2">
-                        <Users size={18} /> COMMUNITY_VOICE
-                    </div>
-                    <h2 className="text-3xl md:text-6xl font-black italic uppercase tracking-tighter leading-none">תגובות מהשטח</h2>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-                    {[
-                        { name: "יוסי מזרחי", rating: 5, text: "בתור אחד שעבד שנים בתחום הרכב וההובלות, חיכיתי לפתרון כזה נגיש לכולם." },
-                        { name: "איתן כ.", rating: 3.5, text: "המשאבה עושה קצת רעש, אבל בסוף זה פתרון זול וחכם שעושה את העבודה." },
-                        { name: "מירב דהן", rating: 5, text: "זה מסוג המוצרים שקונים פעם אחת ומתפללים לא להשתמש – אבל כשצריך, הוא מציל." },
-                        { name: "דניאל לוי", rating: 4.5, text: "קניתי 3 ערכות ושמתי לכל הילדים ברכב. אין מצב שהם נוסעים בלי זה." },
-                        { name: "קובי אברהם", rating: 4, text: "כלי ב-600 ש״ח שחסך לי כבר אלפי שקלים. לא מבין איך לא כולם מכירים את זה." },
-                        { name: "רוני שפירא", rating: 4, text: "פתר לנו לא מעט בעיות בדרך וחסך לי בענק את הגרר ותיקון ." }
-                    ].map((item, i) => (
-                        <div key={i} className={`p-6 md:p-8 rounded-[2rem] border transition-all duration-500 group hover:-translate-y-1 ${darkMode ? 'hyper-glass border-white/10 hover:border-orange-600/30 hover:shadow-[0_0_30px_rgba(234,88,12,0.1)]' : 'bg-white border-black/5 shadow-md hover:shadow-xl'}`}>
-                            <div className="flex justify-between items-center mb-4">
-                                <div className="flex gap-0.5">
-                                    {[...Array(5)].map((_, starI) => {
-                                        const starValue = starI + 1;
-                                        if (item.rating >= starValue) {
-                                            return <Star key={starI} size={14} className="fill-orange-600 text-orange-600" />;
-                                        } else if (item.rating >= starValue - 0.5) {
-                                            return (
-                                                <div key={starI} className="relative">
-                                                    <Star size={14} className="text-orange-600 opacity-20" />
-                                                    <div className="absolute inset-0 overflow-hidden w-[50%] pointer-events-none">
-                                                        <Star size={14} className="fill-orange-600 text-orange-600" />
-                                                    </div>
-                                                </div>
-                                            );
-                                        } else {
-                                            return <Star key={starI} size={14} className="text-orange-600 opacity-20" />;
-                                        }
-                                    })}
-                                </div>
-                                <div className="text-[10px] font-black uppercase opacity-40 tracking-widest italic">{item.name}</div>
-                            </div>
-                            <p className="font-bold italic text-sm md:text-base leading-relaxed opacity-80">{item.text}</p>
-                        </div>
-                    ))}
-                </div>
-            </ThinMotion>
-        </section>
-    );
-
-    // Assuming `view` state is declared here, e.g.:
-    // const [view, setView] = useState('home');
 
     if (view === 'checkout') {
         return (
@@ -443,9 +223,7 @@ export const App: React.FC = () => {
                 total={cart.reduce((sum, item) => sum + (item.product.price * item.quantity), 0)}
                 onBack={() => setView('home')}
                 onProceed={(formData) => {
-                    // Construct Shopify Cart URL with Pre-filled checkout params
                     const cartString = cart.map(item => `${item.product.id.split('/').pop()}:${item.quantity}`).join(',');
-
                     const params = new URLSearchParams();
                     if (formData.email) params.append('checkout[email]', formData.email);
                     if (formData.firstName) params.append('checkout[shipping_address][first_name]', formData.firstName);
@@ -465,6 +243,7 @@ export const App: React.FC = () => {
 
     return (
         <div className={`min-h-screen transition-all duration-1000 relative overflow-x-hidden pb-8 md:pb-12 ${darkMode ? 'text-white' : 'text-black'}`} dir="rtl">
+            <SEO />
             <BlueprintBackground darkMode={darkMode} />
             <DesktopNavigation
                 darkMode={darkMode}
@@ -492,7 +271,7 @@ export const App: React.FC = () => {
                 </div>
             </nav>
 
-            <HeroSection />
+            <HeroSection darkMode={darkMode} />
 
             <main className="relative z-10">
                 <div className={`relative z-20 w-full py-3 overflow-hidden border-y-2 ${darkMode ? 'border-white/10 bg-black/40' : 'border-black/5 bg-white/40'}`}>
@@ -519,11 +298,7 @@ export const App: React.FC = () => {
                 ) : (
                     <section id="showroom" className="relative py-8 md:py-20 px-4 max-w-7xl mx-auto">
                         <div className="text-right mb-10 px-6"><h2 className="text-3xl md:text-8xl font-black italic uppercase tracking-tighter">THE_SHOWROOM</h2></div>
-                        {/* Showroom Logic */}
-                        <div className="relative mx-auto max-w-[90vw] md:max-w-[90rem]"> {/* Increased max-w for massive feel */}
-
-                            {/* Central Architectural Axis Line REMOVED for Single Row Layout */}
-
+                        <div className="relative mx-auto max-w-[90vw] md:max-w-[90rem]">
                             {/* MOBILE ONLY: Swipe Carousel */}
                             <div className="md:hidden w-full h-[450px] overflow-hidden rounded-[35px] relative shadow-2xl touch-pan-y select-none" onTouchStart={handleTouchStart} onTouchEnd={(e) => handleTouchEnd('products', e.changedTouches[0].clientX)}>
                                 <div className="flex h-full w-full transition-transform duration-500 ease-out" style={{ transform: `translateX(${activeProdIdx * 100}%)` }}>
@@ -551,7 +326,6 @@ export const App: React.FC = () => {
                                         </div>
                                     ))}
                                 </div>
-                                {/* Mobile Arrows */}
                                 {products.length > 1 && (
                                     <>
                                         <button onClick={() => activeProdIdx > 0 && setActiveProdIdx(p => p - 1)} className="absolute -right-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 bg-black text-white rounded-xl border border-orange-600/40 flex items-center justify-center hover:bg-orange-600 hover:text-black transition-all active:scale-90"><ChevronRight size={20} /></button>
@@ -560,7 +334,6 @@ export const App: React.FC = () => {
                                 )}
                             </div>
 
-                            {/* DESKTOP ONLY: Horizontal Scroll Rail */}
                             {/* DESKTOP ONLY: Grid Layout */}
                             <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full relative z-10" dir="rtl">
                                 {products.map((p) => (
@@ -584,8 +357,8 @@ export const App: React.FC = () => {
                     </section>
                 )}
 
-                <RALBADSection />
-                <CrisisProtocolSection />
+                <RALBADSection darkMode={darkMode} />
+                <CrisisProtocolSection darkMode={darkMode} />
 
                 <section id="bundles" className="relative z-10 py-8 md:py-20 px-4 max-w-7xl mx-auto">
                     <div className="text-center mb-12">
@@ -647,28 +420,8 @@ export const App: React.FC = () => {
                     </div>
                 </section>
 
-                <TestimonialsSection />
-
-                <section id="faq" className="relative z-10 py-8 md:py-12 px-6 max-w-5xl mx-auto text-right">
-                    <h2 className="text-3xl md:text-6xl font-black italic uppercase tracking-tighter mb-8">שאלות נפוצות <span className="text-orange-600">.FAQ</span></h2>
-                    <div className="space-y-4">
-                        {[
-                            { q: "1. למה לבחור ב-CARVO?", a: "אנחנו כאן כדי לשדרג את תרבות הנהיגה בישראל ולמנוע אסונות בעזרת מוצרים חכמים. להנגיש לקהל הרחב את הידע הפשוט בתפעול הרכב ויציאה ממצבי מצוקה כי אי אפשר לדעת איפה נהיה מחר" },
-                            { q: "2. האם השימוש במוצרים מצריך ידע טכני?", a: "בכלל לא. כל הכלים באתר נבחרו כדי לספק פתרון מקצועי במינימום מאמץ. ובמיוחד לשאלה כזאת בנינו את carvo ai הבוט החכם שאומן לכל שאלה ובעיה שנתקלם בה בדרך לנסיעה הוא אומן לתת פתרון מהיר ולמנוע ממכם הוצאות נוספות מיותרת" },
-                            { q: "3. מהם זמני ועלויות המשלוח?", a: "משלוח חינם לכל ההזמנות. זמן אספקה: 5–12 ימי עסקים. ייתכנו עיכובים חריגים עקב מצב ביטחוני או תנאי מזג אוויר חריגים, אנו פועלים עם חברת משלוחים מהירה ועושים כל מאמץ לספק את ההזמנה בזמן הקצר ביותר." },
-                            { q: "4. מה זה Carvo AI ואיך הוא עובד?", a: "Carvo AI הוא בוט חכם הזמין 24/7, שנועד לתת הכוונה מיידית במצבי חירום ברכב. הוא אומן במיוחד למקרים שכיחים של תקיעות או תקלות, מכיר את כל כלי החירום של Carvo, ומדריך את המשתמש בצורה ברורה ובטוחה כיצד להשתמש בהם בהתאם לסוג הרכב ולבעיה." },
-                            { q: "5. האם הערכה באמת עוזרת במצבי חירום?", a: "ברור. אם מעולם לא השתמשתם בכלים כאלה, עכשיו זה הזמן להשקיע בביטחון שלכם ולשפר את איכות החוויה שלכם בכביש." }
-                        ].map((faq, i) => (
-                            <div key={i} className={`rounded-[1.5rem] border-2 overflow-hidden transition-all duration-300 group hover:scale-[1.02] ${darkMode ? 'hyper-glass border-white/10 hover:border-orange-600/40 hover:shadow-[0_0_25px_rgba(234,88,12,0.15)]' : 'bg-white border-black/10 shadow-md hover:shadow-xl hover:border-orange-600/30'}`}>
-                                <details className="group">
-                                    <summary className="w-full p-6 flex items-center justify-between text-right cursor-pointer list-none"><ChevronDown className="shrink-0 text-orange-600 transition-transform group-open:rotate-180 duration-300" size={24} /><span className="text-lg md:text-xl font-black italic tracking-tighter group-hover:text-orange-600 transition-colors">{faq.q}</span></summary>
-                                    <div className="p-6 pt-0"><p className={`font-bold italic leading-relaxed text-base opacity-70 ${darkMode ? 'text-white' : 'text-black'}`}>{faq.a}</p></div>
-                                </details>
-                            </div>
-                        ))}
-                    </div>
-                </section>
-
+                <TestimonialsSection darkMode={darkMode} />
+                <FAQSection darkMode={darkMode} />
                 <FloatingBottomBar darkMode={darkMode} onOpenInfo={setInfoModalType} />
             </main>
 
