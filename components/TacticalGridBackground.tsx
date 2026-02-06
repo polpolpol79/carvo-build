@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef } from 'react';
 
 interface TacticalGridBackgroundProps {
@@ -7,6 +6,12 @@ interface TacticalGridBackgroundProps {
 
 export const TacticalGridBackground: React.FC<TacticalGridBackgroundProps> = ({ darkMode }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const darkModeRef = useRef(darkMode);
+
+  // Update ref when prop changes without triggering re-render of effect
+  useEffect(() => {
+    darkModeRef.current = darkMode;
+  }, [darkMode]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -18,6 +23,10 @@ export const TacticalGridBackground: React.FC<TacticalGridBackgroundProps> = ({ 
     let width: number;
     let height: number;
     let dots: { x: number; y: number; baseOpacity: number; phase: number; offset: number }[] = [];
+    
+    // Internal color state for smooth transition
+    // 0 = Dark dots (Light Mode), 1 = Light dots (Dark Mode)
+    let colorState = darkModeRef.current ? 1 : 0; 
     
     // Density balanced for performance and visual clarity
     const spacing = 10; 
@@ -53,6 +62,19 @@ export const TacticalGridBackground: React.FC<TacticalGridBackgroundProps> = ({ 
     const draw = () => {
       time += 0.025; // Slightly faster for more "live" feel
       
+      // Update color state smoothly
+      const targetState = darkModeRef.current ? 1 : 0;
+      // Lerp factor - adjust 0.05 for faster/slower color transition
+      colorState += (targetState - colorState) * 0.05; 
+
+      // Interpolate RGB values
+      // Light Mode (Target 0): 0,0,0 (Black)
+      // Dark Mode (Target 1): 255,255,255 (White)
+      const r = Math.round(colorState * 255);
+      const g = Math.round(colorState * 255);
+      const b = Math.round(colorState * 255);
+      const currentDotColor = `${r}, ${g}, ${b}`;
+
       // TRAIL EFFECT: Instead of full clear, we partially erase the previous frame
       // This creates the "fade out" sensation the user requested
       ctx.globalCompositeOperation = 'destination-out';
@@ -92,8 +114,6 @@ export const TacticalGridBackground: React.FC<TacticalGridBackgroundProps> = ({ 
         const finalAlpha = patternIntensity * breathing * dot.baseOpacity * heightFactor * 1.2;
 
         if (finalAlpha > 0.02) {
-          const dotColor = "0, 0, 0"; 
-          
           // Perspective projection simulation
           // Points move based on their height (zOffset)
           const renderX = dot.x + (zOffset * 0.4);
@@ -104,7 +124,7 @@ export const TacticalGridBackground: React.FC<TacticalGridBackgroundProps> = ({ 
 
           ctx.beginPath();
           ctx.arc(renderX, renderY, radius, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(${dotColor}, ${finalAlpha})`;
+          ctx.fillStyle = `rgba(${currentDotColor}, ${finalAlpha})`;
           ctx.fill();
         }
       });
@@ -124,13 +144,13 @@ export const TacticalGridBackground: React.FC<TacticalGridBackgroundProps> = ({ 
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener('resize', handleResize);
     };
-  }, [darkMode]);
+  }, []); // Empty dependency array ensures effect runs only once
 
   return (
     <canvas
       ref={canvasRef}
       className="absolute inset-0 z-0 w-full h-full pointer-events-none opacity-80"
-      style={{ mixBlendMode: 'multiply' }} // Ensures black dots blend perfectly with the background
+      // Removed mix-blend-mode multiply to allow white dots to show
     />
   );
 };
