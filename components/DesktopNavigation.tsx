@@ -66,42 +66,44 @@ export const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
 
     return (
         <header
-            className={`hidden md:flex fixed top-0 left-0 right-0 z-[100] transition-all duration-700 ease-out px-8 py-4 items-center justify-between pointer-events-none
-        ${scrolled ? 'py-3 backdrop-blur-xl' : 'bg-transparent'}`}
+            className={`hidden md:flex fixed top-0 left-0 right-0 z-[100] transition-all duration-700 ease-out py-4 justify-center pointer-events-none
+        ${scrolled ? 'py-3' : ''}`}
         >
-            {/* Left: Logo - Scaled Down */}
-            <div className="flex items-center pointer-events-auto cursor-pointer scale-75 origin-left" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-                <CarvoLogo size="lg" />
-            </div>
+            <div className="w-full max-w-[95rem] px-8 flex items-center justify-between">
+                {/* Left: Logo - Scaled Down */}
+                <div className="flex items-center pointer-events-auto cursor-pointer scale-75 origin-left" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+                    <CarvoLogo size="lg" />
+                </div>
 
-            {/* Center: Navigation Links - Compact */}
-            <nav className={`pointer-events-auto flex items-center gap-6 px-8 py-3 rounded-full transition-all duration-500 ${scrolled ? 'bg-black/80 backdrop-blur-md text-white' : ''}`}>
-                {allLinks.map((link) => (
-                    <button
-                        key={link.id}
-                        onClick={() => handleInteraction(link)}
-                        className={`text-sm md:text-base font-black italic uppercase tracking-widest hover:text-orange-600 transition-all relative group ${activeCategory === link.id ? 'text-orange-600 opacity-100' : 'opacity-60 hover:opacity-100'}`}
-                    >
-                        {link.label}
-                        <span className={`absolute -bottom-1 left-0 h-[2px] bg-orange-600 transition-all duration-300 ${activeCategory === link.id ? 'w-full' : 'w-0 group-hover:w-full'}`} />
+                {/* Center: Navigation Links - Compact */}
+                <nav className={`pointer-events-auto flex items-center gap-6 px-8 py-3 rounded-full transition-all duration-500 ${scrolled ? 'bg-black/80 backdrop-blur-md text-white' : ''}`}>
+                    {allLinks.map((link) => (
+                        <button
+                            key={link.id}
+                            onClick={() => handleInteraction(link)}
+                            className={`text-sm md:text-base font-black italic uppercase tracking-widest hover:text-orange-600 transition-all relative group ${activeCategory === link.id ? 'text-orange-600 opacity-100' : 'opacity-60 hover:opacity-100'}`}
+                        >
+                            {link.label}
+                            <span className={`absolute -bottom-1 left-0 h-[2px] bg-orange-600 transition-all duration-300 ${activeCategory === link.id ? 'w-full' : 'w-0 group-hover:w-full'}`} />
+                        </button>
+                    ))}
+                </nav>
+
+                {/* Right: Actions - Scaled Up */}
+                <div className="pointer-events-auto flex items-center gap-8">
+                    <button onClick={toggleDarkMode} className="opacity-60 hover:opacity-100 transition-all hover:text-orange-600">
+                        {darkMode ? <Sun size={28} /> : <Moon size={28} />}
                     </button>
-                ))}
-            </nav>
-
-            {/* Right: Actions - Scaled Up */}
-            <div className="pointer-events-auto flex items-center gap-8">
-                <button onClick={toggleDarkMode} className="opacity-60 hover:opacity-100 transition-all hover:text-orange-600">
-                    {darkMode ? <Sun size={28} /> : <Moon size={28} />}
-                </button>
-                <div className="h-8 w-px bg-current opacity-20" />
-                <button onClick={openCart} className="relative opacity-60 hover:opacity-100 transition-all hover:text-orange-600 group">
-                    <ShoppingBag size={28} />
-                    {cartCount > 0 && (
-                        <span className="absolute -top-2 -right-2 w-6 h-6 bg-orange-600 text-black text-xs font-bold flex items-center justify-center rounded-full border-2 border-black">
-                            {cartCount}
-                        </span>
-                    )}
-                </button>
+                    <div className="h-8 w-px bg-current opacity-20" />
+                    <button onClick={openCart} className="relative opacity-60 hover:opacity-100 transition-all hover:text-orange-600 group">
+                        <ShoppingBag size={28} />
+                        {cartCount > 0 && (
+                            <span className="absolute -top-2 -right-2 w-6 h-6 bg-orange-600 text-black text-xs font-bold flex items-center justify-center rounded-full border-2 border-black">
+                                {cartCount}
+                            </span>
+                        )}
+                    </button>
+                </div>
             </div>
         </header>
     );
