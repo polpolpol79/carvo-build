@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { X, ShoppingBag, ShieldCheck, Zap, Wind, Wrench, ChevronLeft, ChevronRight, ZoomIn, Truck, Info } from 'lucide-react';
 import { Product } from '../types';
+import { SEO } from './SEO';
 
 interface ProductModalProps {
   product: Product | null;
@@ -150,6 +151,13 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onC
       <div
         className={`fixed inset-0 z-[250] transition-all duration-500 flex items-center justify-center ${isOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`}
       >
+        {isOpen && product && (
+          <SEO
+            title={product.name}
+            description={product.description?.substring(0, 160)}
+            image={product.img}
+          />
+        )}
         {/* Backdrop */}
         <div className="absolute inset-0 bg-black/60 backdrop-blur-md touch-none" onClick={onClose} />
 
