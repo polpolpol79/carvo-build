@@ -77,7 +77,7 @@ export const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
 
                 {/* Center: Navigation Links - Floating Pill Style */}
                 <nav className={`pointer-events-auto flex items-center gap-8 px-10 py-4 rounded-full transition-all duration-500 shadow-2xl
-                    ${!darkMode ? 'hyper-glass border-white/10 bg-white/50 backdrop-blur-xl text-black border border-white/40' : (scrolled ? 'bg-black/80 backdrop-blur-md text-white border border-white/5' : 'bg-transparent text-white')}
+                    ${!darkMode ? 'hyper-glass border-white/10 bg-white/50 backdrop-blur-2xl saturate-150 text-black border border-white/40' : (scrolled ? 'bg-black/80 backdrop-blur-2xl saturate-150 text-white border border-white/5' : 'bg-transparent text-white')}
                 `}>
                     {allLinks.map((link) => (
                         <button
