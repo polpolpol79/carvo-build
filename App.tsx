@@ -335,7 +335,7 @@ export const App: React.FC = () => {
                             </div>
 
                             {/* DESKTOP ONLY: Grid Layout */}
-                            <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full relative z-10" dir="rtl">
+                            <div className="hidden md:grid grid-cols-1 md:grid-cols-3 gap-8 w-full relative z-10" dir="rtl">
                                 {products.map((p) => (
                                     <div key={p.id} onClick={() => openProduct(p)} className={`relative group w-full aspect-[4/5] flex flex-col rounded-[2.5rem] overflow-hidden cursor-pointer transition-all hover:-translate-y-2 duration-500 border-2 ${darkMode ? 'border-white/5 bg-white/[0.03] hover:border-orange-600/40 hover:shadow-[0_0_30px_rgba(234,88,12,0.15)]' : 'border-black/5 bg-white shadow-xl hover:shadow-2xl'}`}>
                                         <div className="absolute inset-0 bg-gradient-to-t from-orange-600/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-10" />
@@ -398,7 +398,7 @@ export const App: React.FC = () => {
                                 </div>
                             </div>
                             {/* DESKTOP ONLY: Grid Layout */}
-                            <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full relative z-10" dir="rtl">
+                            <div className="hidden md:grid grid-cols-1 md:grid-cols-3 gap-8 w-full relative z-10" dir="rtl">
                                 {bundleProducts.map((bundle) => (
                                     <div key={bundle.id} onClick={() => openProduct(bundle)} className={`relative group w-full aspect-[4/5] flex flex-col rounded-[2.5rem] overflow-hidden cursor-pointer transition-all hover:-translate-y-2 duration-500 border-2 ${darkMode ? 'border-white/5 bg-white/[0.03] hover:border-orange-600/40 hover:shadow-[0_0_30px_rgba(234,88,12,0.15)]' : 'border-black/5 bg-white shadow-xl hover:shadow-2xl'}`}>
                                         <div className="absolute inset-0 bg-gradient-to-t from-orange-600/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-10" />
