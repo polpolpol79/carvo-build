@@ -30,7 +30,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ darkMode }) => {
                         <ChevronLeft size={20} className="md:w-6 md:h-6 group-hover:-translate-x-2 transition-transform duration-300" />
                     </button>
                     <button onClick={() => document.getElementById('ralbad-stats')?.scrollIntoView({ behavior: 'smooth' })} className={`w-full md:w-auto justify-center flex items-center gap-4 md:gap-6 px-8 md:px-12 py-4 md:py-6 hyper-glass border border-red-600/30 text-red-600 font-black italic uppercase tracking-widest text-base md:text-xl rounded-full shadow-[0_0_40px_rgba(220,38,38,0.1)] active:scale-95 hover:scale-105 hover:shadow-[0_0_60px_rgba(220,38,38,0.3)] hover:border-red-600 transition-all duration-300 group`}>
-                        <span>למה CARVO?</span>
+                        <span>גלה את הנתונים</span>
                         <ArrowDown size={20} className="md:w-6 md:h-6 group-hover:translate-y-2 transition-transform duration-500 ease-out" />
                     </button>
                 </div>
