@@ -268,6 +268,16 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onC
                     </div>
                   ))}
                 </div>
+
+                {/* Mobile Extra Add to Cart Button (at bottom of info) */}
+                <button
+                  disabled={!product.available}
+                  onClick={(e) => { e.stopPropagation(); onAddToCart(product); onClose(); }}
+                  className={`w-full py-5 rounded-2xl font-black italic text-xl uppercase tracking-widest shadow-xl transition-all flex items-center justify-center gap-4 active:scale-95 mt-8 mb-4 ${product.available ? 'bg-orange-600 text-black shadow-orange-600/20' : 'bg-white/10 text-white/20'}`}
+                >
+                  <ShoppingBag size={24} />
+                  <span>הוסף לעגלה_</span>
+                </button>
               </div>
             </div>
 
