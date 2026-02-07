@@ -247,10 +247,10 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onC
           <div className="flex-1 md:hidden flex flex-col justify-between p-6 pt-0 bg-transparent order-2 relative">
 
             {/* Mobile Details Overlay */}
-            <div className={`absolute inset-0 z-50 bg-[#0f0f0f] p-8 overflow-y-auto transition-all duration-500 ease-out ${isInfoOpen ? 'translate-y-0 opacity-100' : 'translate-y-[110%] opacity-0 pointer-events-none'} md:hidden rounded-t-[2.5rem] border-t border-white/10 shadow-[0_-10px_40px_rgba(0,0,0,0.5)]`}>
-              <div className="flex justify-between items-center mb-8 border-b border-white/10 pb-4">
+            <div className={`absolute inset-0 z-50 p-8 overflow-y-auto transition-all duration-500 ease-out ${isInfoOpen ? 'translate-y-0 opacity-100' : 'translate-y-[110%] opacity-0 pointer-events-none'} md:hidden rounded-t-[2.5rem] border-t shadow-[0_-10px_40px_rgba(0,0,0,0.5)] ${darkMode ? 'bg-[#0f0f0f] text-white border-white/10' : 'bg-[#f5f5f7] text-black border-black/10'}`}>
+              <div className={`flex justify-between items-center mb-8 border-b pb-4 ${darkMode ? 'border-white/10' : 'border-black/10'}`}>
                 <h3 className="text-2xl font-black italic uppercase text-orange-600 tracking-widest">מפרט טכני_</h3>
-                <button onClick={() => setIsInfoOpen(false)} className="p-2 bg-white/10 rounded-full hover:bg-white/20"><X size={20} /></button>
+                <button onClick={() => setIsInfoOpen(false)} className={`p-2 rounded-full transition-all ${darkMode ? 'bg-white/10 hover:bg-white/20 text-white' : 'bg-black/5 hover:bg-black/10 text-black'}`}><X size={20} /></button>
               </div>
               <div className="space-y-8">
                 <p className="text-lg leading-relaxed font-bold italic opacity-80" dir="rtl">{product.description}</p>
@@ -261,7 +261,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onC
                     { label: "אחריות", val: "שנה מלאה", icon: <Wrench className="w-5 h-5" /> },
                     { label: "משלוח", val: "חינם", icon: <Truck className="w-5 h-5" /> },
                   ].map((spec, i) => (
-                    <div key={i} className="p-4 rounded-2xl bg-white/5 border border-white/5 text-center">
+                    <div key={i} className={`p-4 rounded-2xl border text-center ${darkMode ? 'bg-white/5 border-white/5' : 'bg-white border-black/5 shadow-sm'}`}>
                       <div className="text-orange-600 opacity-60 mb-1 flex justify-center">{spec.icon}</div>
                       <div className="text-[10px] font-black uppercase opacity-40 tracking-wider">{spec.label}</div>
                       <div className="text-sm font-black italic">{spec.val}</div>
