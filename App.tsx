@@ -328,11 +328,23 @@ export const App: React.FC = () => {
                                 </div>
                                 {products.length > 1 && (
                                     <>
-                                        <button onClick={() => activeProdIdx > 0 && setActiveProdIdx(p => p - 1)} className="absolute -right-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 bg-black text-white rounded-xl border border-orange-600/40 flex items-center justify-center hover:bg-orange-600 hover:text-black transition-all active:scale-90"><ChevronRight size={20} /></button>
-                                        <button onClick={() => activeProdIdx < products.length - 1 && setActiveProdIdx(p => p + 1)} className="absolute -left-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 bg-black text-white rounded-xl border border-orange-600/40 flex items-center justify-center hover:bg-orange-600 hover:text-black transition-all active:scale-90"><ChevronLeft size={20} /></button>
+                                        <button onClick={() => activeProdIdx > 0 && setActiveProdIdx(p => p - 1)} className="absolute right-3 top-1/2 -translate-y-1/2 z-30 w-11 h-11 bg-white/10 backdrop-blur-md border border-white/10 text-white rounded-full shadow-2xl flex items-center justify-center transition-all active:scale-90"><ChevronRight size={22} strokeWidth={2.5} /></button>
+                                        <button onClick={() => activeProdIdx < products.length - 1 && setActiveProdIdx(p => p + 1)} className="absolute left-3 top-1/2 -translate-y-1/2 z-30 w-11 h-11 bg-white/10 backdrop-blur-md border border-white/10 text-white rounded-full shadow-2xl flex items-center justify-center transition-all active:scale-90"><ChevronLeft size={22} strokeWidth={2.5} /></button>
                                     </>
                                 )}
                             </div>
+                            {/* Mobile Dots Indicator */}
+                            {products.length > 1 && (
+                                <div className="md:hidden flex justify-center gap-2 mt-4">
+                                    {products.map((_, idx) => (
+                                        <button
+                                            key={idx}
+                                            onClick={() => setActiveProdIdx(idx)}
+                                            className={`transition-all duration-300 rounded-full ${activeProdIdx === idx ? 'w-6 h-2 bg-orange-600' : 'w-2 h-2 bg-white/30 hover:bg-white/50'}`}
+                                        />
+                                    ))}
+                                </div>
+                            )}
 
                             {/* DESKTOP ONLY: Grid Layout */}
                             <div className="hidden md:grid grid-cols-1 md:grid-cols-3 gap-8 w-full relative z-10" dir="rtl">
@@ -396,11 +408,23 @@ export const App: React.FC = () => {
                                         </div>
                                     ))}
                                 </div>
+                                {bundleProducts.length > 1 && (
+                                    <>
+                                        <button onClick={() => activeBundleIdx > 0 && setActiveBundleIdx(p => p - 1)} className="absolute right-3 top-1/2 -translate-y-1/2 z-30 w-11 h-11 bg-white/10 backdrop-blur-md border border-white/10 text-white rounded-full shadow-2xl flex items-center justify-center transition-all active:scale-90"><ChevronRight size={22} strokeWidth={2.5} /></button>
+                                        <button onClick={() => activeBundleIdx < bundleProducts.length - 1 && setActiveBundleIdx(p => p + 1)} className="absolute left-3 top-1/2 -translate-y-1/2 z-30 w-11 h-11 bg-white/10 backdrop-blur-md border border-white/10 text-white rounded-full shadow-2xl flex items-center justify-center transition-all active:scale-90"><ChevronLeft size={22} strokeWidth={2.5} /></button>
+                                    </>
+                                )}
                             </div>
+                            {/* Mobile Dots Indicator */}
                             {bundleProducts.length > 1 && (
-                                <div className="md:hidden">
-                                    <button onClick={() => activeBundleIdx > 0 && setActiveBundleIdx(p => p - 1)} className="absolute right-2 top-1/2 -translate-y-1/2 z-30 w-10 h-10 bg-black text-white rounded-xl border border-orange-600/40 flex items-center justify-center hover:bg-orange-600 hover:text-black transition-all active:scale-90"><ChevronRight size={20} /></button>
-                                    <button onClick={() => activeBundleIdx < bundleProducts.length - 1 && setActiveBundleIdx(p => p + 1)} className="absolute left-2 top-1/2 -translate-y-1/2 z-30 w-10 h-10 bg-black text-white rounded-xl border border-orange-600/40 flex items-center justify-center hover:bg-orange-600 hover:text-black transition-all active:scale-90"><ChevronLeft size={20} /></button>
+                                <div className="md:hidden flex justify-center gap-2 mt-4">
+                                    {bundleProducts.map((_, idx) => (
+                                        <button
+                                            key={idx}
+                                            onClick={() => setActiveBundleIdx(idx)}
+                                            className={`transition-all duration-300 rounded-full ${activeBundleIdx === idx ? 'w-6 h-2 bg-orange-600' : 'w-2 h-2 bg-white/30 hover:bg-white/50'}`}
+                                        />
+                                    ))}
                                 </div>
                             )}
                             {/* DESKTOP ONLY: Grid Layout */}
