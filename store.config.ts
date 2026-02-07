@@ -2,7 +2,7 @@
 export const STORE_CONFIG = {
   name: 'Carvo',
   domain: 'carvo.co.il',
-  idNumber: 'בתהליך רישום',
+  idNumber: '327-4480/56',
   year: '2026',
   locale: 'he-IL',
   currency: 'ILS',
@@ -213,7 +213,7 @@ Microsoft Edge
 14. יצירת קשר
 אם יש לך שאלות, בקשות או תלונות בנוגע למדיניות הפרטיות שלנו או לאופן שבו אנו מטפלים במידע האישי שלך, נא ליצור קשר:
 Carvo
-עוסק פרטי (בתהליך רישום)
+עוסק מורשה 327-4480/56
 כתובת: יבנה 5, אשקלון, ישראל
 דרכי התקשרות:
 legal@carvo.co.il
