@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import {
     ShoppingBag, Sun, Moon,
     Loader2, ChevronRight, ChevronLeft,
-    Menu, ShieldAlert, Layers, RefreshCcw, Home
+    Menu, ShieldAlert, Layers, RefreshCcw, Home, MessageCircle
 } from 'lucide-react';
 import { BlueprintBackground } from './components/BlueprintBackground';
 import { SafetyAssistant } from './components/SafetyAssistant';
@@ -431,6 +431,17 @@ export const App: React.FC = () => {
             </footer>
 
             <SafetyAssistant darkMode={darkMode} />
+            
+            {/* WhatsApp Floating Button */}
+            <a
+                href="https://wa.me/972534547036"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="fixed bottom-24 left-4 z-[190] p-4 bg-[#25D366] text-white rounded-full shadow-2xl hover:scale-110 transition-all duration-300 hover:shadow-[0_0_20px_rgba(37,211,102,0.5)] flex items-center justify-center"
+            >
+                <MessageCircle size={28} fill="white" className="text-white" />
+            </a>
+
             <div className="z-[200] relative">
                 <MenuDrawer
                     isOpen={isMenuOpen}
