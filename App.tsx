@@ -397,6 +397,12 @@ export const App: React.FC = () => {
                                     ))}
                                 </div>
                             </div>
+                            {bundleProducts.length > 1 && (
+                                <div className="md:hidden">
+                                    <button onClick={() => activeBundleIdx > 0 && setActiveBundleIdx(p => p - 1)} className="absolute right-2 top-1/2 -translate-y-1/2 z-30 w-10 h-10 bg-black text-white rounded-xl border border-orange-600/40 flex items-center justify-center hover:bg-orange-600 hover:text-black transition-all active:scale-90"><ChevronRight size={20} /></button>
+                                    <button onClick={() => activeBundleIdx < bundleProducts.length - 1 && setActiveBundleIdx(p => p + 1)} className="absolute left-2 top-1/2 -translate-y-1/2 z-30 w-10 h-10 bg-black text-white rounded-xl border border-orange-600/40 flex items-center justify-center hover:bg-orange-600 hover:text-black transition-all active:scale-90"><ChevronLeft size={20} /></button>
+                                </div>
+                            )}
                             {/* DESKTOP ONLY: Grid Layout */}
                             <div className="hidden md:grid grid-cols-1 md:grid-cols-3 gap-8 w-full relative z-10" dir="rtl">
                                 {bundleProducts.map((bundle) => (
@@ -431,7 +437,7 @@ export const App: React.FC = () => {
             </footer>
 
             <SafetyAssistant darkMode={darkMode} />
-            
+
             {/* WhatsApp Floating Button */}
             <a
                 href="https://wa.me/972534547036"
