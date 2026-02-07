@@ -464,7 +464,7 @@ export const App: React.FC = () => {
 
             {/* WhatsApp Floating Button */}
             <a
-                href="https://wa.me/972534547036"
+                href="https://wa.me/972553087708"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="fixed bottom-24 left-4 z-[190] p-4 bg-[#25D366] text-white rounded-full shadow-2xl hover:scale-110 transition-all duration-300 hover:shadow-[0_0_30px_rgba(37,211,102,0.8)] flex items-center justify-center animate-pulse"
