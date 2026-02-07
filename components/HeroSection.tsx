@@ -21,7 +21,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ darkMode }) => {
 
                 <h1 className="text-4xl md:text-[6rem] font-black italic uppercase leading-[0.9] tracking-[-0.04em] mb-10 md:mb-12 max-w-4xl">
                     מתקדמים<br /> <span className="text-orange-600">ל-CARVO</span> לעתיד <br />
-                    <span className="opacity-40 text-3xl md:text-[3.5rem] tracking-tight">חסכוני ובטוח יותר_</span>
+                    <span className="opacity-80 text-3xl md:text-[3.5rem] tracking-tight font-bold">חסכוני ובטוח יותר_</span>
                 </h1>
 
                 <div className="flex flex-col md:flex-row gap-4 md:gap-6 items-center w-full md:w-auto px-4 md:px-0">
