@@ -328,8 +328,8 @@ export const App: React.FC = () => {
                                 </div>
                                 {products.length > 1 && (
                                     <>
-                                        <button onClick={() => activeProdIdx > 0 && setActiveProdIdx(p => p - 1)} className="absolute right-3 top-1/2 -translate-y-1/2 z-30 w-11 h-11 bg-white/10 backdrop-blur-md border border-white/10 text-white rounded-full shadow-2xl flex items-center justify-center transition-all active:scale-90"><ChevronRight size={22} strokeWidth={2.5} /></button>
-                                        <button onClick={() => activeProdIdx < products.length - 1 && setActiveProdIdx(p => p + 1)} className="absolute left-3 top-1/2 -translate-y-1/2 z-30 w-11 h-11 bg-white/10 backdrop-blur-md border border-white/10 text-white rounded-full shadow-2xl flex items-center justify-center transition-all active:scale-90"><ChevronLeft size={22} strokeWidth={2.5} /></button>
+                                        <button onClick={() => activeProdIdx > 0 && setActiveProdIdx(p => p - 1)} className="absolute right-3 top-[22%] -translate-y-1/2 z-30 w-11 h-11 bg-black/40 backdrop-blur-md border border-white/20 text-white rounded-full shadow-2xl flex items-center justify-center transition-all active:scale-90 hover:bg-orange-600"><ChevronRight size={22} strokeWidth={2.5} /></button>
+                                        <button onClick={() => activeProdIdx < products.length - 1 && setActiveProdIdx(p => p + 1)} className="absolute left-3 top-[22%] -translate-y-1/2 z-30 w-11 h-11 bg-black/40 backdrop-blur-md border border-white/20 text-white rounded-full shadow-2xl flex items-center justify-center transition-all active:scale-90 hover:bg-orange-600"><ChevronLeft size={22} strokeWidth={2.5} /></button>
                                     </>
                                 )}
                             </div>
@@ -410,8 +410,8 @@ export const App: React.FC = () => {
                                 </div>
                                 {bundleProducts.length > 1 && (
                                     <>
-                                        <button onClick={() => activeBundleIdx > 0 && setActiveBundleIdx(p => p - 1)} className="absolute right-3 top-1/2 -translate-y-1/2 z-30 w-11 h-11 bg-white/10 backdrop-blur-md border border-white/10 text-white rounded-full shadow-2xl flex items-center justify-center transition-all active:scale-90"><ChevronRight size={22} strokeWidth={2.5} /></button>
-                                        <button onClick={() => activeBundleIdx < bundleProducts.length - 1 && setActiveBundleIdx(p => p + 1)} className="absolute left-3 top-1/2 -translate-y-1/2 z-30 w-11 h-11 bg-white/10 backdrop-blur-md border border-white/10 text-white rounded-full shadow-2xl flex items-center justify-center transition-all active:scale-90"><ChevronLeft size={22} strokeWidth={2.5} /></button>
+                                        <button onClick={() => activeBundleIdx > 0 && setActiveBundleIdx(p => p - 1)} className="absolute right-3 top-[22%] -translate-y-1/2 z-30 w-11 h-11 bg-black/40 backdrop-blur-md border border-white/20 text-white rounded-full shadow-2xl flex items-center justify-center transition-all active:scale-90 hover:bg-orange-600"><ChevronRight size={22} strokeWidth={2.5} /></button>
+                                        <button onClick={() => activeBundleIdx < bundleProducts.length - 1 && setActiveBundleIdx(p => p + 1)} className="absolute left-3 top-[22%] -translate-y-1/2 z-30 w-11 h-11 bg-black/40 backdrop-blur-md border border-white/20 text-white rounded-full shadow-2xl flex items-center justify-center transition-all active:scale-90 hover:bg-orange-600"><ChevronLeft size={22} strokeWidth={2.5} /></button>
                                     </>
                                 )}
                             </div>
