@@ -56,7 +56,7 @@ const CardSkeleton = ({ darkMode }: { darkMode: boolean }) => (
 
 export const App: React.FC = () => {
     const [view, setView] = useState<'home' | 'checkout'>('home');
-    const [darkMode, setDarkMode] = useState(true);
+    const [darkMode, setDarkMode] = useState(false);
     const [categories, setCategories] = useState<Category[]>([]);
     const [activeCategoryHandle, setActiveCategoryHandle] = useState<string>('');
     const [products, setProducts] = useState<Product[]>([]);
