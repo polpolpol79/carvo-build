@@ -443,7 +443,8 @@ export const App: React.FC = () => {
                 href="https://wa.me/972534547036"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="fixed bottom-24 left-4 z-[190] p-4 bg-[#25D366] text-white rounded-full shadow-2xl hover:scale-110 transition-all duration-300 hover:shadow-[0_0_20px_rgba(37,211,102,0.5)] flex items-center justify-center"
+                className="fixed bottom-24 left-4 z-[190] p-4 bg-[#25D366] text-white rounded-full shadow-2xl hover:scale-110 transition-all duration-300 hover:shadow-[0_0_30px_rgba(37,211,102,0.8)] flex items-center justify-center animate-pulse"
+                style={{ boxShadow: '0 0 20px rgba(37, 211, 102, 0.6)' }}
             >
                 <MessageCircle size={28} fill="white" className="text-white" />
             </a>
