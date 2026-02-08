@@ -249,7 +249,7 @@ export const App: React.FC = () => {
 
             <main className="relative z-10">
                 <div className={`relative z-20 w-full py-3 overflow-hidden border-y-2 ${darkMode ? 'border-white/10 bg-black/40' : 'border-black/5 bg-white/40'}`}>
-                    <div className="flex items-center whitespace-nowrap animate-[marquee_30s_linear_infinite]">{[...Array(10)].map((_, i) => (<div key={i} className="flex items-center"><span className="text-lg md:text-3xl font-black italic uppercase tracking-tighter text-orange-600 px-6">משלוחים חינם לכל הארץ</span><span className="text-orange-600/30 text-xl md:text-4xl">•</span></div>))}</div>
+                    <div className="flex items-center whitespace-nowrap animate-[marquee_30s_linear_infinite]">{[...Array(10)].map((_, i) => (<div key={i} className="flex items-center"><span className="text-lg md:text-3xl font-black italic uppercase tracking-tighter text-orange-600 px-6">משלוח חינם בהזמנות מעל ₪200</span><span className="text-orange-600/30 text-xl md:text-4xl">•</span></div>))}</div>
                 </div>
 
                 {apiError ? (
