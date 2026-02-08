@@ -98,7 +98,7 @@ export const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
                     </button>
 
                     <a
-                        href="https://account.carvo.co.il?locale=he"
+                        href="https://shop.carvo.co.il/account/login?locale=he"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="p-3 bg-white/5 rounded-full hover:bg-orange-600/20 backdrop-blur-sm transition-all text-current hover:text-orange-600 hover:scale-110 shadow-lg group relative"
