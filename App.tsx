@@ -233,7 +233,7 @@ export const App: React.FC = () => {
                     if (formData.street) params.append('checkout[shipping_address][address1]', `${formData.street} ${formData.floor ? `קומה ${formData.floor}` : ''} ${formData.apt ? `דירה ${formData.apt}` : ''}`);
                     if (formData.notes) params.append('checkout[note]', formData.notes);
 
-                    window.location.href = `https://carvo.co.il/cart/${cartString}?${params.toString()}`;
+                    window.location.href = `https://shop.carvo.co.il/cart/${cartString}?${params.toString()}`;
                 }}
                 darkMode={darkMode}
                 onOpenTerms={() => setInfoModalType('terms')}
