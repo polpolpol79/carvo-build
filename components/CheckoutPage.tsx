@@ -9,9 +9,10 @@ interface CheckoutPageProps {
     onProceed: (formData: any) => void;
     darkMode: boolean;
     onOpenTerms: () => void;
+    isLoading?: boolean;
 }
 
-export const CheckoutPage: React.FC<CheckoutPageProps> = ({ cart, total, onBack, onProceed, darkMode, onOpenTerms }) => {
+export const CheckoutPage: React.FC<CheckoutPageProps> = ({ cart, total, onBack, onProceed, darkMode, onOpenTerms, isLoading }) => {
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -253,11 +254,17 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({ cart, total, onBack,
 
                                 <button
                                     type="submit"
-                                    disabled={!isTermsAccepted}
-                                    className={`w-full py-5 rounded-2xl font-black italic uppercase text-xl tracking-widest shadow-xl flex items-center justify-center gap-4 transition-all ${isTermsAccepted ? 'bg-orange-600 text-black hover:bg-orange-500 hover:scale-[1.01] active:scale-95' : 'bg-gray-500/20 text-gray-500 cursor-not-allowed opacity-50'}`}
+                                    disabled={!isTermsAccepted || isLoading}
+                                    className={`w-full py-5 rounded-2xl font-black italic uppercase text-xl tracking-widest shadow-xl flex items-center justify-center gap-4 transition-all ${isTermsAccepted && !isLoading ? 'bg-orange-600 text-black hover:bg-orange-500 hover:scale-[1.01] active:scale-95' : 'bg-gray-500/20 text-gray-500 cursor-not-allowed opacity-50'}`}
                                 >
-                                    <CreditCard size={24} />
-                                    המשך לתשלום מאובטח
+                                    {isLoading ? (
+                                        <div className="w-6 h-6 border-2 border-black/20 border-t-black rounded-full animate-spin" />
+                                    ) : (
+                                        <>
+                                            <CreditCard size={24} />
+                                            המשך לתשלום מאובטח
+                                        </>
+                                    )}
                                 </button>
 
                                 <div className="flex justify-center gap-4 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
