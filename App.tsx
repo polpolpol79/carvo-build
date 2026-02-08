@@ -15,7 +15,7 @@ import { CookieBanner } from './components/CookieBanner';
 import { Product, Category, CartItem } from './types';
 import { DesktopNavigation } from './components/DesktopNavigation';
 import { shopifyFetch, GET_COLLECTIONS_QUERY, GET_COLLECTION_PRODUCTS_QUERY, CREATE_CART_MUTATION } from './lib/shopify';
-import { trackAddToCart } from './lib/analytics';
+import { trackAddToCart, trackBeginCheckout } from './lib/analytics';
 import { CheckoutPage } from './components/CheckoutPage';
 
 // Extracted Components
@@ -226,6 +226,11 @@ export const App: React.FC = () => {
                 isLoading={isCheckingOut}
                 onProceed={async (formData) => {
                     setIsCheckingOut(true);
+
+                    // Track analytics for marketing (facebook/google ads)
+                    const currentTotal = cart.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
+                    trackBeginCheckout(cart, currentTotal);
+
                     try {
                         const lines = cart.map(item => ({
                             merchandiseId: item.product.id,
@@ -259,6 +264,7 @@ export const App: React.FC = () => {
                                 url.searchParams.append('checkout[shipping_address][address1]', fullAddress);
                             }
                             if (formData.notes) url.searchParams.append('checkout[note]', formData.notes);
+                            if (formData.acceptsMarketing) url.searchParams.append('checkout[buyer_accepts_marketing]', 'true');
 
                             window.location.href = url.toString();
                         } else {
