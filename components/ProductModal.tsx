@@ -259,7 +259,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onC
                     { label: "עמידות", val: "MIL-STD", icon: <ShieldCheck className="w-5 h-5" /> },
                     { label: "אספקה", val: "מיידית", icon: <Zap className="w-5 h-5" /> },
                     { label: "אחריות", val: "שנה מלאה", icon: <Wrench className="w-5 h-5" /> },
-                    { label: "משלוח", val: "חינם", icon: <Truck className="w-5 h-5" /> },
+                    { label: "משלוח", val: "חינם מעל ₪200", icon: <Truck className="w-5 h-5" /> },
                   ].map((spec, i) => (
                     <div key={i} className={`p-4 rounded-2xl border text-center ${darkMode ? 'bg-white/5 border-white/5' : 'bg-white border-black/5 shadow-sm'}`}>
                       <div className="text-orange-600 opacity-60 mb-1 flex justify-center">{spec.icon}</div>
@@ -334,7 +334,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onC
               { label: "עמידות", val: "MIL-STD", icon: <ShieldCheck className="w-5 h-5" /> },
               { label: "אספקה", val: "מיידית", icon: <Zap className="w-5 h-5" /> },
               { label: "אחריות", val: "שנה מלאה", icon: <Wrench className="w-5 h-5" /> },
-              { label: "משלוח", val: "חינם", icon: <Truck className="w-5 h-5" /> },
+              { label: "משלוח", val: "חינם מעל ₪200", icon: <Truck className="w-5 h-5" /> },
             ].map((spec, i) => (
               <div key={i} className={`p-5 rounded-[2rem] flex flex-col items-center justify-center gap-2 text-center transition-all hover:scale-[1.02] ${darkMode ? 'bg-white/[0.03] border border-white/5 hover:bg-white/[0.05]' : 'bg-white border border-black/5 shadow-sm hover:shadow-md'}`}>
                 <div className="text-orange-600 opacity-60 mb-1">{spec.icon}</div>
