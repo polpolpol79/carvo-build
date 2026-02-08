@@ -13,6 +13,7 @@ interface CartDrawerProps {
   darkMode: boolean;
   onOpenTerms: () => void;
   onCheckout: () => void;
+  isLoading?: boolean;
 }
 
 const PaymentIcons = ({ darkMode }: { darkMode: boolean }) => (
@@ -25,7 +26,7 @@ const PaymentIcons = ({ darkMode }: { darkMode: boolean }) => (
   </div>
 );
 
-export const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose, items, onUpdateQuantity, onRemove, darkMode, onOpenTerms, onCheckout }) => {
+export const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose, items, onUpdateQuantity, onRemove, darkMode, onOpenTerms, onCheckout, isLoading }) => {
   const total = items.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
 
   return (
@@ -91,10 +92,17 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose, items, 
             <div className="space-y-4">
               <button
                 onClick={onCheckout}
-                className="w-full py-3.5 md:py-4 font-black italic text-sm uppercase rounded-xl shadow-xl transition-all flex items-center justify-center gap-3 bg-orange-600 text-black shadow-orange-600/20 hover:scale-[1.02] active:scale-95"
+                disabled={isLoading}
+                className={`w-full py-3.5 md:py-4 font-black italic text-sm uppercase rounded-xl shadow-xl transition-all flex items-center justify-center gap-3 ${isLoading ? 'bg-gray-500/20 text-gray-500 cursor-not-allowed' : 'bg-orange-600 text-black shadow-orange-600/20 hover:scale-[1.02] active:scale-95'}`}
               >
-                <span>מעבר לתשלום מאובטח</span>
-                <ExternalLink className="w-4 h-4" />
+                {isLoading ? (
+                  <div className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                ) : (
+                  <>
+                    <span>מעבר לתשלום מאובטח</span>
+                    <ExternalLink className="w-4 h-4" />
+                  </>
+                )}
               </button>
 
               <PaymentIcons darkMode={darkMode} />
