@@ -24,8 +24,8 @@ export const MenuDrawer: React.FC<MenuDrawerProps> = ({
     { id: 'crisis-protocol', label: 'פרוטוקול המשבר_', icon: <AlertCircle className="w-5 h-5" /> },
     { id: 'bundles', label: 'חבילות עלית_', icon: <Package className="w-5 h-5" /> },
     { id: 'faq', label: 'שאלות ותשובות_', icon: <Info className="w-5 h-5" /> },
-    { id: 'account', label: 'החשבון שלי_', icon: <User className="w-5 h-5" />, isExternal: true, link: 'https://account.carvo.co.il?locale=he' },
-    { id: 'orders', label: 'מעקב הזמנות_', icon: <Truck className="w-5 h-5" />, isExternal: true, link: 'https://account.carvo.co.il/orders?locale=he' },
+    { id: 'account', label: 'החשבון שלי_', icon: <User className="w-5 h-5" />, isExternal: true, link: 'https://shop.carvo.co.il/account/login?locale=he' },
+    { id: 'orders', label: 'מעקב הזמנות_', icon: <Truck className="w-5 h-5" />, isExternal: true, link: 'https://shop.carvo.co.il/account/orders?locale=he' },
   ];
 
   const handleNav = (item: { id: string, link?: string, isExternal?: boolean }) => {
