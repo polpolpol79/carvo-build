@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ShoppingBag, Sun, Moon, Search, Menu, X, ChevronDown } from 'lucide-react';
+import { ShoppingBag, Sun, Moon, Search, Menu, X, ChevronDown, User } from 'lucide-react';
 import { Category } from '../types';
 
 interface DesktopNavigationProps {
@@ -96,6 +96,16 @@ export const DesktopNavigation: React.FC<DesktopNavigationProps> = ({
                     <button onClick={toggleDarkMode} className="p-3 bg-white/5 rounded-full hover:bg-orange-600/20 backdrop-blur-sm transition-all text-current hover:text-orange-600 hover:scale-110 shadow-lg">
                         {darkMode ? <Sun size={32} /> : <Moon size={32} />}
                     </button>
+
+                    <a
+                        href="https://account.carvo.co.il"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-3 bg-white/5 rounded-full hover:bg-orange-600/20 backdrop-blur-sm transition-all text-current hover:text-orange-600 hover:scale-110 shadow-lg group relative"
+                        title="התחברות / אזור אישי"
+                    >
+                        <User size={32} />
+                    </a>
 
                     <button onClick={openCart} className="p-3 bg-white/5 rounded-full hover:bg-orange-600/20 backdrop-blur-sm transition-all text-current hover:text-orange-600 hover:scale-110 shadow-lg group relative">
                         <ShoppingBag size={32} />
