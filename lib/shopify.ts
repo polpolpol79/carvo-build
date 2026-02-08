@@ -112,6 +112,21 @@ export const GET_COLLECTION_PRODUCTS_QUERY = `
   }
 `;
 
+export const CREATE_CART_MUTATION = `
+  mutation cartCreate($input: CartInput) {
+    cartCreate(input: $input) {
+      cart {
+        id
+        checkoutUrl
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
 export function getCheckoutUrl(variantId: string) {
   const cleanId = variantId.split('/').pop();
   return `https://${CHECKOUT_DOMAIN}/cart/${cleanId}:1`;
