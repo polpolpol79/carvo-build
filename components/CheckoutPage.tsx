@@ -25,6 +25,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({ cart, total, onBack,
         notes: ''
     });
     const [isTermsAccepted, setIsTermsAccepted] = useState(false);
+    const [isMarketingAccepted, setIsMarketingAccepted] = useState(true); // Default to true for better opt-in rates
     const [errors, setErrors] = useState<Record<string, string>>({});
 
     const validateForm = () => {
@@ -44,7 +45,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({ cart, total, onBack,
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (validateForm() && isTermsAccepted) {
-            onProceed(formData);
+            onProceed({ ...formData, acceptsMarketing: isMarketingAccepted });
         }
     };
 
@@ -249,6 +250,15 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({ cart, total, onBack,
                                     </div>
                                     <span className="text-sm font-bold">
                                         אני מאשר את <span className="underline text-orange-600 hover:text-orange-500 z-10 relative" onClick={(e) => { e.stopPropagation(); onOpenTerms(); }}>תנאי השימוש</span> וקראתי את מדיניות הפרטיות.
+                                    </span>
+                                </div>
+
+                                <div className="flex items-center gap-3 cursor-pointer group" onClick={() => setIsMarketingAccepted(!isMarketingAccepted)}>
+                                    <div className={`w-6 h-6 rounded border-2 flex items-center justify-center transition-all ${isMarketingAccepted ? 'bg-orange-600 border-orange-600' : 'border-gray-500 group-hover:border-orange-600'}`}>
+                                        {isMarketingAccepted && <CheckCircle size={16} className="text-black" />}
+                                    </div>
+                                    <span className="text-sm font-bold opacity-80">
+                                        אני מאשר קבלת עדכונים ותוכן שיווקי מ-Carvo.
                                     </span>
                                 </div>
 
