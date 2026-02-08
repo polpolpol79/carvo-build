@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { X, ChevronLeft, LayoutGrid, AlertCircle, Package, MessageCircle, Info, Layers } from 'lucide-react';
+import { X, ChevronLeft, LayoutGrid, AlertCircle, Package, MessageCircle, Info, Layers, User, Truck } from 'lucide-react';
 import { Category } from '../types';
 
 interface MenuDrawerProps {
@@ -24,12 +24,19 @@ export const MenuDrawer: React.FC<MenuDrawerProps> = ({
     { id: 'crisis-protocol', label: 'פרוטוקול המשבר_', icon: <AlertCircle className="w-5 h-5" /> },
     { id: 'bundles', label: 'חבילות עלית_', icon: <Package className="w-5 h-5" /> },
     { id: 'faq', label: 'שאלות ותשובות_', icon: <Info className="w-5 h-5" /> },
+    { id: 'account', label: 'החשבון שלי_', icon: <User className="w-5 h-5" />, isExternal: true, link: 'https://account.carvo.co.il' },
+    { id: 'orders', label: 'מעקב הזמנות_', icon: <Truck className="w-5 h-5" />, isExternal: true, link: 'https://account.carvo.co.il/orders' },
   ];
 
-  const handleNav = (id: string) => {
+  const handleNav = (item: { id: string, link?: string, isExternal?: boolean }) => {
+    if (item.isExternal && item.link) {
+      window.open(item.link, '_blank');
+      onClose();
+      return;
+    }
     onClose();
     setTimeout(() => {
-      const el = document.getElementById(id);
+      const el = document.getElementById(item.id);
       if (el) el.scrollIntoView({ behavior: 'smooth' });
     }, 300);
   };
@@ -71,8 +78,8 @@ export const MenuDrawer: React.FC<MenuDrawerProps> = ({
                 key={cat.id}
                 onClick={() => handleCategoryClick(cat.id)}
                 className={`w-full group flex items-center justify-between p-4 rounded-2xl transition-all border ${activeCategoryHandle === cat.id
-                    ? 'bg-orange-600/15 border-orange-600/30'
-                    : 'bg-white/5 border-transparent hover:border-white/10'
+                  ? 'bg-orange-600/15 border-orange-600/30'
+                  : 'bg-white/5 border-transparent hover:border-white/10'
                   } text-right`}
               >
                 <ChevronLeft className={`w-4 h-4 text-orange-600 ${activeCategoryHandle === cat.id ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0'} transition-all`} />
@@ -92,7 +99,7 @@ export const MenuDrawer: React.FC<MenuDrawerProps> = ({
             {staticMenuItems.map((item) => (
               <button
                 key={item.id}
-                onClick={() => handleNav(item.id)}
+                onClick={() => handleNav(item)}
                 className="w-full group flex items-center justify-between p-4 rounded-2xl transition-all hover:bg-white/5 border border-transparent hover:border-white/10 text-right"
               >
                 <ChevronLeft className="w-4 h-4 text-orange-600 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all" />
