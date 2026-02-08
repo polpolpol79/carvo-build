@@ -26,7 +26,6 @@ const PaymentIcons = ({ darkMode }: { darkMode: boolean }) => (
 );
 
 export const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose, items, onUpdateQuantity, onRemove, darkMode, onOpenTerms, onCheckout }) => {
-  const [isTermsAccepted, setIsTermsAccepted] = React.useState(false);
   const total = items.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
 
   return (
@@ -90,22 +89,9 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose, items, 
             </div>
 
             <div className="space-y-4">
-              {/* Terms Checkbox */}
-              <div className="flex items-center gap-3 pr-1">
-                <div onClick={() => setIsTermsAccepted(!isTermsAccepted)} className={`w-5 h-5 rounded border cursor-pointer flex items-center justify-center transition-all ${isTermsAccepted ? 'bg-orange-600 border-orange-600' : (darkMode ? 'border-white/30 hover:border-white/60' : 'border-black/30 hover:border-black/60')}`}>
-                  {isTermsAccepted && <div className="w-4 h-4 text-black"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4"><polyline points="20 6 9 17 4 12"></polyline></svg></div>}
-                </div>
-                <div className={`text-[11px] font-bold ${darkMode ? 'text-white/70' : 'text-black/70'}`}>
-                  אני מאשר את <button onClick={(e) => { e.preventDefault(); onOpenTerms(); }} className="underline hover:text-orange-600 transition-colors">תנאי השימוש</button>
-                </div>
-              </div>
-
               <button
-                onClick={() => {
-                  if (isTermsAccepted) onCheckout();
-                }}
-                disabled={!isTermsAccepted}
-                className={`w-full py-3.5 md:py-4 font-black italic text-sm uppercase rounded-xl shadow-xl transition-all flex items-center justify-center gap-3 ${isTermsAccepted ? 'bg-orange-600 text-black shadow-orange-600/20 hover:scale-[1.02] active:scale-95' : 'bg-gray-500/20 text-gray-500 cursor-not-allowed opacity-50'}`}
+                onClick={onCheckout}
+                className="w-full py-3.5 md:py-4 font-black italic text-sm uppercase rounded-xl shadow-xl transition-all flex items-center justify-center gap-3 bg-orange-600 text-black shadow-orange-600/20 hover:scale-[1.02] active:scale-95"
               >
                 <span>מעבר לתשלום מאובטח</span>
                 <ExternalLink className="w-4 h-4" />
