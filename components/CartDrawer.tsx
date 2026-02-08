@@ -36,7 +36,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose, items, 
     trackBeginCheckout(items, total);
 
     const cartString = items.map(item => `${item.product.id.split('/').pop()}:${item.quantity}`).join(',');
-    window.location.href = `https://carvo.co.il/cart/${cartString}`;
+    window.location.href = `https://shop.carvo.co.il/cart/${cartString}`;
   };
 
   return (
