@@ -2,6 +2,8 @@
 export const STORE_CONFIG = {
   name: 'Carvo',
   domain: 'carvo.co.il',
+  shopDomain: 'shop.carvo.co.il',
+  accountDomain: 'account.carvo.co.il',
   idNumber: '327-4480/56',
   year: '2026',
   locale: 'he-IL',
