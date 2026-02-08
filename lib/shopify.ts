@@ -5,11 +5,12 @@
  * Optimized for Storefront API access with robust error handling.
  */
 
-// שימוש בכתובת המקורית של שופיפי (myshopify.com) הוא קריטי למניעת שגיאות CORS/Fetch ב-Headless.
-// ודא שהדומיין שבו האתר רץ מופיע ב-"Allowed Origins" בהגדרות ה-Storefront API בשופיפי.
-const SHOPIFY_STORE_DOMAIN = 'p55ixb-xx.myshopify.com';
-const STOREFRONT_ACCESS_TOKEN = '2db8822e9e37450609fba3b4ccd73a74';
+// שימוש בסאב-דומיין ייעודי (shop.carvo.co.il) במקום ה-myshopify הישן.
+// מומלץ לוודא שהדומיין מוגדר כ-Primary בשופיפי תחת Settings > Domains.
+const SHOPIFY_STORE_DOMAIN = import.meta.env.VITE_SHOPIFY_STORE_DOMAIN || 'shop.carvo.co.il';
+const STOREFRONT_ACCESS_TOKEN = import.meta.env.VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN || '2db8822e9e37450609fba3b4ccd73a74';
 const API_VERSION = '2024-10';
+const CHECKOUT_DOMAIN = 'shop.carvo.co.il';
 
 export async function shopifyFetch({ query, variables = {} }: { query: string, variables?: any }) {
   if (!SHOPIFY_STORE_DOMAIN || !STOREFRONT_ACCESS_TOKEN) {
@@ -113,5 +114,5 @@ export const GET_COLLECTION_PRODUCTS_QUERY = `
 
 export function getCheckoutUrl(variantId: string) {
   const cleanId = variantId.split('/').pop();
-  return `https://carvo.co.il/cart/${cleanId}:1`;
+  return `https://${CHECKOUT_DOMAIN}/cart/${cleanId}:1`;
 }
