@@ -29,16 +29,6 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose, items, 
   const [isTermsAccepted, setIsTermsAccepted] = React.useState(false);
   const total = items.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
 
-  const handleCheckout = () => {
-    if (items.length === 0) return;
-
-    // Track analytics
-    trackBeginCheckout(items, total);
-
-    const cartString = items.map(item => `${item.product.id.split('/').pop()}:${item.quantity}`).join(',');
-    window.location.href = `https://shop.carvo.co.il/cart/${cartString}`;
-  };
-
   return (
     <>
       <div
