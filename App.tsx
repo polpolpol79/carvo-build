@@ -14,7 +14,7 @@ import { FloatingBottomBar } from './components/FloatingBottomBar';
 import { CookieBanner } from './components/CookieBanner';
 import { Product, Category, CartItem } from './types';
 import { DesktopNavigation } from './components/DesktopNavigation';
-import { shopifyFetch, GET_COLLECTIONS_QUERY, GET_COLLECTION_PRODUCTS_QUERY } from './lib/shopify';
+import { shopifyFetch, GET_COLLECTIONS_QUERY, GET_COLLECTION_PRODUCTS_QUERY, CREATE_CART_MUTATION } from './lib/shopify';
 import { trackAddToCart } from './lib/analytics';
 import { CheckoutPage } from './components/CheckoutPage';
 
@@ -63,6 +63,7 @@ export const App: React.FC = () => {
     const [bundleProducts, setBundleProducts] = useState<Product[]>([]);
     const [isProductsLoading, setIsProductsLoading] = useState(false);
     const [isBundlesLoading, setIsBundlesLoading] = useState(false);
+    const [isCheckingOut, setIsCheckingOut] = useState(false);
     const [apiError, setApiError] = useState<string | null>(null);
 
     const [cart, setCart] = useState<CartItem[]>(() => {
@@ -222,18 +223,55 @@ export const App: React.FC = () => {
                 cart={cart}
                 total={cart.reduce((sum, item) => sum + (item.product.price * item.quantity), 0)}
                 onBack={() => setView('home')}
-                onProceed={(formData) => {
-                    const cartString = cart.map(item => `${item.product.id.split('/').pop()}:${item.quantity}`).join(',');
-                    const params = new URLSearchParams();
-                    if (formData.email) params.append('checkout[email]', formData.email);
-                    if (formData.firstName) params.append('checkout[shipping_address][first_name]', formData.firstName);
-                    if (formData.lastName) params.append('checkout[shipping_address][last_name]', formData.lastName);
-                    if (formData.phone) params.append('checkout[shipping_address][phone]', formData.phone);
-                    if (formData.city) params.append('checkout[shipping_address][city]', formData.city);
-                    if (formData.street) params.append('checkout[shipping_address][address1]', `${formData.street} ${formData.floor ? `קומה ${formData.floor}` : ''} ${formData.apt ? `דירה ${formData.apt}` : ''}`);
-                    if (formData.notes) params.append('checkout[note]', formData.notes);
+                isLoading={isCheckingOut}
+                onProceed={async (formData) => {
+                    setIsCheckingOut(true);
+                    try {
+                        const lines = cart.map(item => ({
+                            merchandiseId: item.product.id,
+                            quantity: item.quantity
+                        }));
 
-                    window.location.href = `https://shop.carvo.co.il/cart/${cartString}?${params.toString()}`;
+                        const response = await shopifyFetch({
+                            query: CREATE_CART_MUTATION,
+                            variables: {
+                                input: { lines }
+                            }
+                        });
+
+                        if (response.data?.cartCreate?.cart?.checkoutUrl) {
+                            let checkoutUrl = response.data.cartCreate.cart.checkoutUrl;
+
+                            // Ensure it uses the shop sub-domain for consistent branding
+                            if (checkoutUrl.includes('myshopify.com')) {
+                                checkoutUrl = checkoutUrl.replace(/[a-zA-Z0-9-]+\.myshopify\.com/, 'shop.carvo.co.il');
+                            }
+
+                            // Append pre-fill parameters from form
+                            const url = new URL(checkoutUrl);
+                            if (formData.email) url.searchParams.append('checkout[email]', formData.email);
+                            if (formData.firstName) url.searchParams.append('checkout[shipping_address][first_name]', formData.firstName);
+                            if (formData.lastName) url.searchParams.append('checkout[shipping_address][last_name]', formData.lastName);
+                            if (formData.phone) url.searchParams.append('checkout[shipping_address][phone]', formData.phone);
+                            if (formData.city) url.searchParams.append('checkout[shipping_address][city]', formData.city);
+                            if (formData.street) {
+                                const fullAddress = `${formData.street}${formData.floor ? `, קומה ${formData.floor}` : ''}${formData.apt ? `, דירה ${formData.apt}` : ''}`;
+                                url.searchParams.append('checkout[shipping_address][address1]', fullAddress);
+                            }
+                            if (formData.notes) url.searchParams.append('checkout[note]', formData.notes);
+
+                            window.location.href = url.toString();
+                        } else {
+                            const errors = response.data?.cartCreate?.userErrors;
+                            console.error('Checkout error:', errors || response);
+                            alert('חלה שגיאה ביצירת התשלום. אנא נסה שוב או צור קשר עם התמיכה.');
+                        }
+                    } catch (err) {
+                        console.error('Checkout transition failed:', err);
+                        alert('שגיאת תקשורת. אנא בדוק את החיבור לאינטרנט ונסה שוב.');
+                    } finally {
+                        setIsCheckingOut(false);
+                    }
                 }}
                 darkMode={darkMode}
                 onOpenTerms={() => setInfoModalType('terms')}
